@@ -1,0 +1,106 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Final Project: Implementation Prototype</title>
+	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+  <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+  
+  <style type="text/css">
+    #myCanvas {
+      border: 1px solid black;
+    }
+  </style>
+  
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="row">
+      <div class="col-12">
+
+        <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py -->
+        <h4>Drawing by <span id="authorname">{{ author.name }}</span></h4>
+        <canvas id="myCanvas" width="350px" height="350px"></canvas>
+        
+        <br></br>
+        
+        <h4><label for="myTitle">Drawing Title</label></h4>
+        <textarea id="myTitle"></textarea>
+
+        <br></br>
+        
+        <button class="btn btn-primary btn-large" id="save">Save</button>
+        <button class="btn btn-danger btn-large" id="reset">Reset</button>
+        
+    </div>
+  </div>
+  <script>
+    
+    window.onload = function() {
+
+      var points = []; 
+
+      $('#save').on("click", function(){
+
+        // send title, points, and author name to the server
+        var data_to_send = {
+          "title": $("#myTitle").val()
+        };
+
+        // This ajax request sends a POST request to the server
+        // https://api.jquery.com/jquery.ajax/
+        $.ajax({
+          type: "POST",
+          url: "/coloring/" + $('#authorname').text() + "/",
+          data: JSON.stringify(data_to_send),
+          success: function (response) {
+            // prints the response from the server
+            console.log(response); 
+          }
+        });
+        
+      });
+
+      $("#reset").on("click", function(){
+        paper.project.activeLayer.removeChildren();
+        paper.view.draw();
+        points = []; 
+      });
+      
+      // click and drag to draw
+      function basicDrawingTool(){
+        
+    		var tool = new paper.Tool();
+    		var path;
+    
+    		// Define a mousedown and mousedrag handler
+    		tool.onMouseDown = function(event) {
+    			path = new paper.Path();
+    			path.strokeColor = 'black';
+    			path.add(event.point);
+          points.push([event.point.x, event.point.y]); 
+    		}
+    
+    		tool.onMouseDrag = function(event) {
+    			path.add(event.point);
+          points.push([event.point.x, event.point.y]); 
+    		}      
+      }
+
+      function init(){
+        // setup paper.js
+        paper.setup('myCanvas');
+        basicDrawingTool();
+      }
+
+      init();
+  }
+
+</script>
+</body>
+</html>
