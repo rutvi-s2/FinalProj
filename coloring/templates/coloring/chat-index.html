@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Chat Tool</title>
+	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+  <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+  
+  <style type="text/css">
+    #myCanvas {
+      border: 1px solid black;
+    }
+  </style>
+  
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="row">
+      <div class="col-12">
+
+        <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py -->
+        <h4>Chat Tool</h4>
+        <div id="chat-bar" width="350px" height="350px"></div>
+
+        <button class="btn btn-primary btn-large" id="send">Send</button>
+        
+        <br></br>
+        
+        
+
+        
+        <button class="btn btn-primary btn-large" id="close">Close</button>
+        <button class="btn btn-danger btn-large" id="block">Block</button>
+        
+    </div>
+  </div>
+  <script>
+    
+    window.onload = function() {
+
+      var points = []; 
+
+      
+      function init(){
+        // setup paper.js
+        paper.setup('myCanvas');
+        basicDrawingTool();
+      }
+
+      init();
+  }
+
+</script>
+</body>
+</html>
