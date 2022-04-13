@@ -8,9 +8,35 @@
 	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
   <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
+ 
+
+  
+<!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
   
   
   <style type="text/css">
+    body {
+      background-color: white;
+    }
+    
+    #title {
+      color: white;
+      font-size: 44px;
+      font-family: 'Shrikhand', cursive;
+    }
+
+    #nav-items {
+      color: white;
+      font-size: 24px;
+      font-family: 'Lora', serif;
+    }
+    
     #myCanvas {
       border: 1px solid black;
     }
@@ -41,7 +67,7 @@
 <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
  
     <div class="mx-auto order-0">
-        <a class="navbar-brand mx-auto" href="#">Wasteless</a>
+        <a id="title" class="navbar-brand mx-auto" href="#">Wasteless</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -49,13 +75,13 @@
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">Home</a>
+                <a id="nav-items" class="nav-link" href="#">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Profile</a>
+                <a id="nav-items" class="nav-link" href="#">Profile</a>
             </li>
            <li class="nav-item">
-                <a class="nav-link" href="#">New Listing</a>
+                <a id="nav-items" class="nav-link" href="#">New Listing</a>
             </li>
         </ul>
     </div>
