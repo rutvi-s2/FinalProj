@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
   <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
   
+  
   <style type="text/css">
     #myCanvas {
       border: 1px solid black;
@@ -17,8 +18,52 @@
   
 </head>
 <body>
+  <!--
+  <nav class="navbar navbar-dark  navbar-fixed-top" style="background-color: #3e8369;">
+  <!-- Navbar content 
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Wasteless</a>
+      </div>
+  
+        <a class="nav-item nav-link" href="#"> Home</a>
+        <a class="nav-item nav-link" href="#"> Profile</a>  
+        <a class="nav-item nav-link" href="#"> New Listing</a>  
+     
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#about">Right</a></li>
+      <li><a href="#contact">Right</a></li>
+    </ul>
+  </div>
+  </nav>
+  -->
 
+<nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
+ 
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#">Wasteless</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Profile</a>
+            </li>
+           <li class="nav-item">
+                <a class="nav-link" href="#">New Listing</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+  
   <div class="container">
+    
     
     <div class="row">
       <div class="col-12">
