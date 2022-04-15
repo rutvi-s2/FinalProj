@@ -4,6 +4,9 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+def newlisting(request):
+  return render(request, 'coloring/newlisting.html')
+
 def get_author_by_name(authorname): 
   author = None
   
