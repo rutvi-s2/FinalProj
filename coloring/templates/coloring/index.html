@@ -69,14 +69,14 @@
     </div>
 </nav>
 
-  
+  <!--
   <div class="container">
     
     
     <div class="row">
       <div class="col-12">
 
-        <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py -->
+        <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py 
         <h4>Drawing by <span id="authorname">{{ author.name }}</span></h4>
         <canvas id="myCanvas" width="350px" height="350px"></canvas>
         
@@ -92,68 +92,69 @@
         
     </div>
   </div>
+  -->
   <script>
     
-    window.onload = function() {
+  //   window.onload = function() {
 
-      var points = []; 
+  //     var points = []; 
 
-      $('#save').on("click", function(){
+  //     $('#save').on("click", function(){
 
-        // send title, points, and author name to the server
-        var data_to_send = {
-          "title": $("#myTitle").val()
-        };
+  //       // send title, points, and author name to the server
+  //       var data_to_send = {
+  //         "title": $("#myTitle").val()
+  //       };
 
-        // This ajax request sends a POST request to the server
-        // https://api.jquery.com/jquery.ajax/
-        $.ajax({
-          type: "POST",
-          url: "/coloring/" + $('#authorname').text() + "/",
-          data: JSON.stringify(data_to_send),
-          success: function (response) {
-            // prints the response from the server
-            console.log(response); 
-          }
-        });
+  //       // This ajax request sends a POST request to the server
+  //       // https://api.jquery.com/jquery.ajax/
+  //       $.ajax({
+  //         type: "POST",
+  //         url: "/coloring/" + $('#authorname').text() + "/",
+  //         data: JSON.stringify(data_to_send),
+  //         success: function (response) {
+  //           // prints the response from the server
+  //           console.log(response); 
+  //         }
+  //       });
         
-      });
+  //     });
 
-      $("#reset").on("click", function(){
-        paper.project.activeLayer.removeChildren();
-        paper.view.draw();
-        points = []; 
-      });
+  //     $("#reset").on("click", function(){
+  //       paper.project.activeLayer.removeChildren();
+  //       paper.view.draw();
+  //       points = []; 
+  //     });
       
-      // click and drag to draw
-      function basicDrawingTool(){
+  //     // click and drag to draw
+  //     function basicDrawingTool(){
         
-    		var tool = new paper.Tool();
-    		var path;
+  //   		var tool = new paper.Tool();
+  //   		var path;
     
-    		// Define a mousedown and mousedrag handler
-    		tool.onMouseDown = function(event) {
-    			path = new paper.Path();
-    			path.strokeColor = 'black';
-    			path.add(event.point);
-          points.push([event.point.x, event.point.y]); 
-    		}
+  //   		// Define a mousedown and mousedrag handler
+  //   		tool.onMouseDown = function(event) {
+  //   			path = new paper.Path();
+  //   			path.strokeColor = 'black';
+  //   			path.add(event.point);
+  //         points.push([event.point.x, event.point.y]); 
+  //   		}
     
-    		tool.onMouseDrag = function(event) {
-    			path.add(event.point);
-          points.push([event.point.x, event.point.y]); 
-    		}      
-      }
+  //   		tool.onMouseDrag = function(event) {
+  //   			path.add(event.point);
+  //         points.push([event.point.x, event.point.y]); 
+  //   		}      
+  //     }
 
-      function init(){
-        // setup paper.js
-        paper.setup('myCanvas');
-        basicDrawingTool();
-        //caomment
-      }
+  //     function init(){
+  //       // setup paper.js
+  //       paper.setup('myCanvas');
+  //       basicDrawingTool();
+  //       //caomment
+  //     }
 
-      init();
-  }
+  //     init();
+  // }
 
 </script>
 </body>
