@@ -41,6 +41,16 @@
       font-size: 24px;
       font-family: 'Lora', serif;
     }
+
+    input,
+    select {
+        width: 200px;
+        height: 25px;
+        margin: 2px;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
     
 /*     #myCanvas {
       border: 1px solid black;
@@ -75,9 +85,40 @@
 </nav>
 
 <nav style="background-color: #D3D3D3;">
-  <b><h id="subheading">New Listing</h></b>
-  
+  <b><h id="subheading">New Listing</h></b> 
 </nav>
+
+<div class="row">
+  <div class="col-4">
+    <h4><label for="input_Element">Item</label></h4>
+    <input type="text" 
+           id="input_Element" >
+  </div>
+  <div class="col-4" >
+    <h4><label for="select_qty">Quantity</label></h4>
+    <select id="select_qty" style="display:inline;">
+        <option value="">Select an option</option>
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+    </select>
+    <h4><label for="select_un">Units</label></h4>
+    <select id="select_un" style="display:inline;">
+        <option value="">Select an option</option>
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+    </select>
+  </div>
+  <div class="col-4">
+    <h4><label for="input_exp">Best By</label></h4>
+    <input type="date" 
+           id="input_exp">
+  </div>
+</div>
+
+  <div class = "row" style="background-color:red">
+    asdfaksdfjasdjfksa
+  </div>
+  
 
   <!--
   <div class="container">
