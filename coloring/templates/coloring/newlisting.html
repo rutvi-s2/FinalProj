@@ -1,0 +1,268 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+      <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
+      <!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
+      <style type="text/css">
+         body {
+         background-color: white;
+         }
+         #title {
+         color: white;
+         font-size: 44px;
+         font-family: 'Shrikhand', cursive;
+         }
+         #subheading {
+         color: black;
+         font-size: 30px;
+         font-family: 'Helvetica', serif;
+         }
+         #nav-items {
+         color: white;
+         font-size: 24px;
+         font-family: 'Lora', serif;
+         }
+         input,
+         select {
+         width: 200px;
+         height: 25px;
+         -moz-box-sizing: border-box;
+         -webkit-box-sizing: border-box;
+         box-sizing: border-box;
+         }
+         .checkbox-wrapper {
+         white-space: nowrap
+         }
+         .checkbox {
+         vertical-align: top;
+         display:inline
+         }
+         .checkbox-label {
+         white-space: normal;
+         display:inline;
+         margin-left:-80px;
+         vertical-align: top;
+         }
+         }
+         /*     #myCanvas {
+         border: 1px solid black;
+         } */
+      </style>
+   </head>
+   <body>
+      <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
+         <div class="mx-auto order-0">
+            <a id="title" class="navbar-brand mx-auto" href="#">Wasteless</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+         </div>
+         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+               <li class="nav-item">
+                  <a id="nav-items" class="nav-link" href="#">Home</a>
+               </li>
+               <li class="nav-item">
+                  <a id="nav-items" class="nav-link" href="#">Profile</a>
+               </li>
+               <li class="nav-item">
+                  <a id="nav-items" class="nav-link" href="#">New Listing</a>
+               </li>
+            </ul>
+         </div>
+      </nav>
+      <nav style="background-color: #D3D3D3;">
+         <b>
+            <h id="subheading" style="margin:9px;">New Listing</h>
+         </b>
+      </nav>
+      <div class="container" style="margin:5px">
+         <div class="row">
+            <div class="col">
+               <h4><label for="item_name">Item</label></h4>
+               <input type="text" 
+                  id="item_name" >
+            </div>
+            <div class="col">
+               <h4><label for="select_qty">Quantity</label></h4>
+               <input type="number" id="select_qty" >
+            </div>
+            <div class="col">
+               <h4><label for="select_un">Units</label></h4>
+               <select id="select_un">
+                  <option value="">Select an option</option>
+                  <option value="UN">Units</option>
+                  <option value="LB">Pounds</option>
+                  <option value="OZ">Ounces</option>
+                  <option value="PT">Pints</option>
+                  <option value="GL">Gallons</option>
+               </select>
+            </div>
+            <div class="col">
+               <h4><label for="input_exp">Best By</label></h4>
+               <input type="date" 
+                  id="input_exp">
+            </div>
+         </div>
+         <hr>
+         </hr>
+         <h5><label for="description">Description</label></h5>
+         <textarea id="description" style="width:95%; height: 110px"></textarea>
+         <hr>
+         </hr>
+         <h4>Tags</h4>
+         <div class="container" style="margin-left:-80px;">
+            <div class="col">
+               <div class="text-left checkbox-wrapper">
+                  <input type="checkbox" id="storebought" class="checkbox">
+                  <label class="checkbox-label" for="storebought">Storebought</label>
+               </div>
+            </div>
+            <div class="col">
+               <div class="text-left checkbox-wrapper">
+                  <input type="checkbox" id="homemade" class="checkbox">
+                  <label class="checkbox-label" for="homemade">Homemade/Homegrown</label>
+               </div>
+            </div>
+            <div class="col">
+               <div class="text-left checkbox-wrapper">
+                  <input type="checkbox" id="unopened" class="checkbox">
+                  <label class="checkbox-label" for="unopened">Unopened</label>
+               </div>
+            </div>
+            <div class="col">
+               <div class="text-left checkbox-wrapper">
+                  <input type="checkbox" id="og_packaging" class="checkbox">
+                  <label class="checkbox-label" for="og_packaging">Original Packaging</label>
+               </div>
+            </div>
+         </div>
+         <button class="btn btn-primary btn-large" id="post" style="float: right; background-color:#3e8369;width:15%; ">
+            <h4>POST</h4>
+         </button>
+      </div>
+      <!--
+         <div class="container">
+           
+           
+           <div class="row">
+             <div class="col-12">
+         
+               <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py 
+               <h4>Drawing by <span id="authorname">{{ author.name }}</span></h4>
+               <canvas id="myCanvas" width="350px" height="350px"></canvas>
+               
+               <br></br>
+               
+               <h4><label for="myTitle">Drawing Title</label></h4>
+               <textarea id="myTitle"></textarea>
+         
+               <br></br>
+               
+               <button class="btn btn-primary btn-large" id="save">Save</button>
+               <button class="btn btn-danger btn-large" id="reset">Reset</button>
+               
+           </div>
+         </div>
+         -->
+      <script>
+         window.onload = function(){
+           $('#post').on("click", function(){
+             // send everything needed to make a listing
+             var data_to_send = {
+               "item": $("#item_name").val(),
+               "quantity": $("#select_qty").val(),
+               "units": $("#select_un").val(),
+               "exp_date": $("#input_exp").val(),
+               "description": $("#description").val(),
+               "storebought": $("#storebought").is(":checked"),
+               "homemade": $("#homemade").is(":checked"),
+               "og_packaging": $("#og_packaging").is(":checked"),
+               "unopened": $("#unopened").is(":checked"),
+             };
+             console.log(data_to_send);
+         
+             $.ajax({
+                  type: "POST",
+               // not too sure what to put for url
+                  url: "/newlisting/",
+                  data: JSON.stringify(data_to_send),
+                  success: function (response) {
+                    // prints the response from the server
+                    console.log(response); 
+                  }
+                });
+           });
+         }
+          //   window.onload = function() {
+          
+          //     var points = []; 
+          
+          //     $('#save').on("click", function(){
+          
+          //       // send title, points, and author name to the server
+          //       var data_to_send = {
+          //         "title": $("#myTitle").val()
+          //       };
+          
+          //       // This ajax request sends a POST request to the server
+          //       // https://api.jquery.com/jquery.ajax/
+          //       $.ajax({
+          //         type: "POST",
+          //         url: "/coloring/" + $('#authorname').text() + "/",
+          //         data: JSON.stringify(data_to_send),
+          //         success: function (response) {
+          //           // prints the response from the server
+          //           console.log(response); 
+          //         }
+          //       });
+                
+          //     });
+          
+          //     $("#reset").on("click", function(){
+          //       paper.project.activeLayer.removeChildren();
+          //       paper.view.draw();
+          //       points = []; 
+          //     });
+              
+          //     // click and drag to draw
+          //     function basicDrawingTool(){
+                
+          //   		var tool = new paper.Tool();
+          //   		var path;
+            
+          //   		// Define a mousedown and mousedrag handler
+          //   		tool.onMouseDown = function(event) {
+          //   			path = new paper.Path();
+          //   			path.strokeColor = 'black';
+          //   			path.add(event.point);
+          //         points.push([event.point.x, event.point.y]); 
+          //   		}
+            
+          //   		tool.onMouseDrag = function(event) {
+          //   			path.add(event.point);
+          //         points.push([event.point.x, event.point.y]); 
+          //   		}      
+          //     }
+          
+          //     function init(){
+          //       // setup paper.js
+          //       paper.setup('myCanvas');
+          //       basicDrawingTool();
+          //       //caomment
+          //     }
+          
+          //     init();
+          // }
+          
+      </script>
+   </body>
+</html>
