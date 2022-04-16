@@ -46,7 +46,7 @@
     select {
         width: 200px;
         height: 25px;
-        margin: 2px;
+        margin: 3px;
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
@@ -89,36 +89,60 @@
 </nav>
 
 <div class="row">
-  <div class="col-4">
-    <h4><label for="input_Element">Item</label></h4>
+  <div class="col">
+    <h4><label for="item_name">Item</label></h4>
     <input type="text" 
-           id="input_Element" >
+           id="item_name" >
   </div>
-  <div class="col-4" >
+  <div class="col">
     <h4><label for="select_qty">Quantity</label></h4>
-    <select id="select_qty" style="display:inline;">
-        <option value="">Select an option</option>
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-    </select>
+    <input type="number" id="select_qty" >
+  </div>
+  <div class="col">
     <h4><label for="select_un">Units</label></h4>
-    <select id="select_un" style="display:inline;">
+    <select id="select_un">
         <option value="">Select an option</option>
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
+        <option value="option1">Units</option>
+        <option value="option2">Pounds</option>
+        <option value="option3">Ounces</option>
+        <option value="option4">Pints</option>
+        <option value="option4">Gallons</option>
     </select>
   </div>
-  <div class="col-4">
+  <div class="col">
     <h4><label for="input_exp">Best By</label></h4>
     <input type="date" 
            id="input_exp">
   </div>
 </div>
-
-  <div class = "row" style="background-color:red">
-    asdfaksdfjasdjfksa
-  </div>
+<hr></hr>
   
+ <h5><label for="description">Description</label></h5>
+        <textarea id="description" style="width:95%; height: 110px"></textarea>
+
+  <h4>Tags</h4> 
+
+  <div class="row">
+    <div class="col-3">
+      <input type="checkbox" id="storebought" ><h5><label for="storebought">Storebought</label>
+      </h5>
+    </div>
+    <div class="col-3">
+      <h5><input type="checkbox" id="homemade">
+        <label for="homemade">Homemade/Homegrown</label>
+      </h5>
+    </div>
+    <div class="col-3">
+      <h5><input type="checkbox" id="unopened">
+        <label for="unopened">Unopened</label>
+      </h5>
+    </div>
+    <div class="col-3">
+      <h5><input type="checkbox" id="og_packaging">
+        <label for="og_packaging">Original Packaging</label>
+      </h5>
+    </div>
+  </div>
 
   <!--
   <div class="container">
