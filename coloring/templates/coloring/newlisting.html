@@ -99,11 +99,11 @@
                <h4><label for="select_un">Units</label></h4>
                <select id="select_un">
                   <option value="">Select an option</option>
-                  <option value="option1">Units</option>
-                  <option value="option2">Pounds</option>
-                  <option value="option3">Ounces</option>
-                  <option value="option4">Pints</option>
-                  <option value="option4">Gallons</option>
+                  <option value="un">Units</option>
+                  <option value="lb">Pounds</option>
+                  <option value="oz">Ounces</option>
+                  <option value="pt">Pints</option>
+                  <option value="gl">Gallons</option>
                </select>
             </div>
             <div class="col">
@@ -145,8 +145,11 @@
                </div>
             </div>
          </div>
-        <button class="btn btn-primary btn-large" id="save" style="float: right; background-color:#3e8369;width:15%; ">Post</button>
+        <button class="btn btn-primary btn-large" id="post" style="float: right; background-color:#3e8369;width:15%; "><h4>POST</h4></button>
       </div>
+
+
+     
       <!--
          <div class="container">
            
@@ -172,6 +175,23 @@
          </div>
          -->
       <script>
+        window.onload = function(){
+          $('#post').on("click", function(){
+            // send everything needed to make a listing
+            var data_to_send = {
+              "item": $("#item_name").val(),
+              "quantity": $("#select_qty").val(),
+              "units": $("#select_un").val(),
+              "exp_date": $("#input_exp").val(),
+              "description": $("#description").val(),
+              "storebought": $("#storebought").is(":checked"),
+              "homemade": $("#homemade").is(":checked"),
+              "og_packaging": $("#og_packaging").is(":checked"),
+              "unopened": $("#unopened").is(":checked"),
+            };
+            console.log(data_to_send);
+          });
+        }
          //   window.onload = function() {
          
          //     var points = []; 
