@@ -73,35 +73,14 @@ def newlisting(request):
 
     # creating a new listing
     item = data.get('item')
-    print('+++++++++')
-    print(item)
-    print('+++++++++')
-
     quantity = data.get('quantity')
-    print('+++++++++')
-    print(quantity)
-    print('+++++++++')
-
     units = data.get('units')
-    print('+++++++++')
-    print(units)
-    print('+++++++++')
-
     exp_date = data.get('exp_date')
-    print('+++++++++')
-    print(exp_date)
-    print('+++++++++')
-
     dscrpt = data.get('description')
-    print('+++++++++')
-    print(dscrpt)
-    print('+++++++++')
-
     uno = data.get('unopened')
     sb = data.get('storebought')
     hm = data.get('homemade')
     op = data.get('og_packaging')
-    
     
     posting = Posting(item_name = item, qty = quantity, qty_units = units, best_by = exp_date, description = dscrpt, unopened = uno, og_packaging = op, store_bought = sb, homemade = hm)
     posting.save()
