@@ -4,9 +4,6 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-def newlisting(request):
-  return render(request, 'coloring/newlisting.html')
-
 def get_author_by_name(authorname): 
   author = None
   
@@ -60,3 +57,76 @@ def index(request, authorname="DefaultAuthor"):
     }
     
     return render(request, 'coloring/index.html', data)
+    
+@csrf_exempt
+def newlisting(request):
+  # print("The authorname is:", authorname)
+  # author = get_author_by_name(authorname)
+  
+  if request.POST: 
+    # POST request received
+    
+    # demonstrating printing out the POST request & data
+    print("Received POST request with data:")
+    data = json.loads(request.body.decode('UTF-8'))
+    print(data)
+
+    # creating a new listing
+    item = data.get('item')
+    print('+++++++++')
+    print(item)
+    print('+++++++++')
+
+    quantity = data.get('quantity')
+    print('+++++++++')
+    print(quantity)
+    print('+++++++++')
+
+    units = data.get('units')
+    print('+++++++++')
+    print(units)
+    print('+++++++++')
+
+    exp_date = data.get('exp_date')
+    print('+++++++++')
+    print(exp_date)
+    print('+++++++++')
+
+    dscrpt = data.get('description')
+    print('+++++++++')
+    print(dscrpt)
+    print('+++++++++')
+
+    uno = data.get('unopened')
+    sb = data.get('storebought')
+    hm = data.get('homemade')
+    op = data.get('og_packaging')
+    
+    
+    posting = Posting(item_name = item, qty = quantity, qty_units = units, best_by = exp_date, description = dscrpt, unopened = uno, og_packaging = op, store_bought = sb, homemade = hm)
+    posting.save()
+    # itemName = data.get('item')
+    
+    
+    
+
+    # find out if a Drawing with the Author and Title already exists?
+    # if it doesn't exist, you may create a new Drawing object
+    # if it does exist, you may update an existing Drawing object
+    
+    # make sure to save your object after creating or updating 
+    # for more information, see get_author_by_name() and reference below
+    # https://docs.djangoproject.com/en/4.0/ref/models/instances/#saving-objects
+    
+    return HttpResponse(True)
+
+  else: 
+    # GET request received
+
+    # if a drawing by the author already exists,
+    # send the drawing conent and title with the data below
+    
+    data = {
+      "item": "shouldnt get here"
+    }
+  return render(request, 'coloring/newlisting.html')

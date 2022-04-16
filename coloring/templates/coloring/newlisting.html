@@ -99,11 +99,11 @@
                <h4><label for="select_un">Units</label></h4>
                <select id="select_un">
                   <option value="">Select an option</option>
-                  <option value="un">Units</option>
-                  <option value="lb">Pounds</option>
-                  <option value="oz">Ounces</option>
-                  <option value="pt">Pints</option>
-                  <option value="gl">Gallons</option>
+                  <option value="UN">Units</option>
+                  <option value="LB">Pounds</option>
+                  <option value="OZ">Ounces</option>
+                  <option value="PT">Pints</option>
+                  <option value="GL">Gallons</option>
                </select>
             </div>
             <div class="col">
@@ -190,6 +190,17 @@
               "unopened": $("#unopened").is(":checked"),
             };
             console.log(data_to_send);
+
+            $.ajax({
+                 type: "POST",
+              // not too sure what to put for url
+                 url: "/newlisting/",
+                 data: JSON.stringify(data_to_send),
+                 success: function (response) {
+                   // prints the response from the server
+                   console.log(response); 
+                 }
+               });
           });
         }
          //   window.onload = function() {
