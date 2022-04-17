@@ -25,18 +25,15 @@
 
         <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py -->
         <h4>Chat Tool</h4>
-        <div id="chat-bar" width="350px" height="350px"></div>
-
+        <div id="chat-area" width="350px" height="350px"></div>
+        <input id="user">
+        <input id="textMsg">
         <button class="btn btn-primary btn-large" id="send">Send</button>
         
         <br></br>
         
         
-
-        
-        <button class="btn btn-primary btn-large" id="close">Close</button>
-        <button class="btn btn-danger btn-large" id="block">Block</button>
-        
+    </div>
     </div>
   </div>
   <script>
@@ -44,23 +41,50 @@
     window.onload = function() {
 
       var points = []; 
-      $( "#send" ).click(function() {
-      alert( "Handler for .click() called." );
-      });
-      $( "#close" ).click(function() {
-      alert( "Handler for .close() called." );
-      });
+      
+      
+        
+     
+        // Establish websocket connection
+        var socket = new WebSocket("wss://ws-server-template.ashriftman.repl.co", "very-good-protocol");
+
+        socket.onopen = function(){
+
+          
+ 
+        }
+        socket.onmessage = function(message){
+          
+         // Receive a message from websocket server
+          var msg = message.data.text;
+          var usr = message.data.user;
+          var chatArea = $("#chat-area")
+          var textNode = document.createElement("div");
+          textNode.id = "chat-msg";
+          textNode.innerHTML = msg + "  ";
+          chatArea.append(textNode);
+         
+        }
+        
+        socket.onclose = function(){
+        
+        }
+        
+        
+       $( "#send" ).click(function() {
+      alert( "Handler for send called." );
+      var msg = $('#textMsg').innerHTML;
+         var usr = $('#user').innerHTML;
+      socket.send({text: msg, user:usr});
+       });
+        
+
+      }
 
 
       
-      function init(){
-        // setup paper.js
-        paper.setup('myCanvas');
-        basicDrawingTool();
-      }
-
-      init();
-  }
+      
+  
 
 </script>
 </body>
