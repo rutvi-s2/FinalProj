@@ -72,10 +72,23 @@
     </div>
 </nav>
 
+  <h1>Friends</h1>
+  <input type="text" id="username" name="username">
+  <button class="btn btn-large" style="background-color: #3e8369;" id="add">Add Friend</button>
+
 
   <script>
-    
+  window.onload = function() {
 
+    
+    $("#add").on("click", function(){
+         console.log("DEBUG: add friend clicked");
+    });
+  }
+
+  //TODO: populate page with list of current friends
+  //TODO: verify that the friend exists when 'add friend clicked', prompt error if not
+  //TODO: create a post request to send data (new friend) to server
 
 </script>
 </body>
