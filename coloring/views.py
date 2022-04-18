@@ -133,13 +133,19 @@ def friends(request, username =""):
     data = json.loads(request.body.decode('UTF-8'))
     print("Data recieved", data)
 
-    #a = User.objects.get(username=user.username)
-    #trying to update the friend list (doesnt work in database)
-    friend_list = user.friends
-    print("the curr friend list is ", friend_list)
-    user.friends = data['friend-name']
-    user.save() #doesnt actually save in data base :(
-    print("the updated friend list is ", user.friends)
+  
+    if user.friends == None:
+      user.friends = {}
+
+    #check if user exists
+    if User.objects.filter(username = data['friends']).exists():
+  
+      list_len = len(user.friends)
+      user.friends[list_len] = data['friends']
+      user.save() 
+      print("DEBUG views.py, friends: the updated friend list is ", user.friends)
+    else:
+      print("DEBUG views.py, friends: the user does not exist")
     
     return HttpResponse(True)
   else:

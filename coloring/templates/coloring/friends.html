@@ -79,12 +79,13 @@
 
   <script>
   window.onload = function() {
-
+    
     
     $("#add").on("click", function(){
-         console.log("DEBUG: add friend clicked");
+         
+         
          var data_to_send = {
-              "friend-name": $("#friend").val()
+              "friends": $("#friend").val()
             };
          console.log("DEBUG: friends POST req data", data_to_send);
          $.ajax({
