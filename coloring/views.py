@@ -110,6 +110,7 @@ def chatindex(request):
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
     return HttpResponse(True)
+  return render(request, 'coloring/chat-index.html')
 
     # creating a new listing
     
