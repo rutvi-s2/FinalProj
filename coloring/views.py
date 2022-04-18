@@ -124,15 +124,23 @@ def newlisting(request, username =""):
     }
   return render(request, 'coloring/newlisting.html')
 
+@csrf_exempt
 def friends(request, username =""):
   user = get_user_by_name(username)
   print("DEBUG: friends-profile, The username is ", user.username)
   if request.POST: 
-    #get_name = User.objects.get(name=user.username)
-    print("DEBUG: post request!")
-    friend_list = user['friends']
-    print("the curr friend lisst is ", friend_list)
-    #user.save()
+    #get the data from the post request
+    data = json.loads(request.body.decode('UTF-8'))
+    print("Data recieved", data)
+
+    #a = User.objects.get(username=user.username)
+    #trying to update the friend list (doesnt work in database)
+    friend_list = user.friends
+    print("the curr friend list is ", friend_list)
+    user.friends = data['friend-name']
+    user.save() #doesnt actually save in data base :(
+    print("the updated friend list is ", user.friends)
+    
     return HttpResponse(True)
   else:
     data = {
