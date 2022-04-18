@@ -128,5 +128,8 @@ def newlisting(request, username =""):
 
 def friends(request, username =""):
   return render(request, 'coloring/friends.html')
+
+def profile(request, username =""):
+  return render(request, 'coloring/profile.html')
   
   
