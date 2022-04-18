@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
   path('newlisting/', views.newlisting),
+  path('friends/', views.friends),
   path('coloring/<slug:authorname>/', views.index),
   path('coloring/', views.index),
   path('', views.index),
