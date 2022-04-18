@@ -119,7 +119,7 @@
 
      
 
-      <h4><center>@USERNAME</center></h4>
+      <h4><center><span id="username">@{{ user.username }}</span></center></h4>
      
       <h5><center><img src="/static/location.png" alt="location" style="width:50px"> 2005 University Ave, Austin Texas</center></h5>
      
@@ -164,32 +164,7 @@
 
       <script>
          window.onload = function(){
-           $('#post').on("click", function(){
-             // send everything needed to make a listing
-             var data_to_send = {
-               "item": $("#item_name").val(),
-               "quantity": $("#select_qty").val(),
-               "units": $("#select_un").val(),
-               "exp_date": $("#input_exp").val(),
-               "description": $("#description").val(),
-               "storebought": $("#storebought").is(":checked"),
-               "homemade": $("#homemade").is(":checked"),
-               "og_packaging": $("#og_packaging").is(":checked"),
-               "unopened": $("#unopened").is(":checked"),
-             };
-             console.log(data_to_send);
-         
-             $.ajax({
-                  type: "POST",
-               // not too sure what to put for url
-                  url: "/newlisting/",
-                  data: JSON.stringify(data_to_send),
-                  success: function (response) {
-                    // prints the response from the server
-                    console.log(response); 
-                  }
-                });
-           });
+          console.log(user.username);
          }
 
           

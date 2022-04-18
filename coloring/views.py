@@ -28,8 +28,11 @@ def get_user_by_name(name):
   
   # check if an User with name 'username' already exists
   if User.objects.filter(username = name).exists():
+    print("DEBUG: views.py: username exists")
+    
     # if so, fetch that object from the database
     user = User.objects.get(username=name)
+    #print("DEBUG: views.py: username is", user)
     
   else: 
     # otherwise, create a new User with the name name
@@ -43,6 +46,8 @@ def index(request, authorname="DefaultAuthor", username =""):
 
   print("The authorname is:", authorname)
   author = get_author_by_name(authorname)
+  user = get_user_by_name(username)
+  print("The username is ", user.username)
   
   if request.POST: 
     # POST request received
@@ -52,13 +57,7 @@ def index(request, authorname="DefaultAuthor", username =""):
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
 
-    # find out if a Drawing with the Author and Title already exists?
-    # if it doesn't exist, you may create a new Drawing object
-    # if it does exist, you may update an existing Drawing object
-    
-    # make sure to save your object after creating or updating 
-    # for more information, see get_author_by_name() and reference below
-    # https://docs.djangoproject.com/en/4.0/ref/models/instances/#saving-objects
+
     
     return HttpResponse(True)
 
@@ -130,6 +129,18 @@ def friends(request, username =""):
   return render(request, 'coloring/friends.html')
 
 def profile(request, username =""):
-  return render(request, 'coloring/profile.html')
+  user = get_user_by_name(username)
+  print("DEBUG: views-profile, The username is ", user.username)
+
+  if request.POST: 
+    return HttpResponse(True)
+  else:
+    data = {
+      "user": user
+    }
+    
+    
+  
+    return render(request, 'coloring/profile.html', data)
   
   
