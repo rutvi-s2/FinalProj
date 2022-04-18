@@ -28,11 +28,10 @@ def get_user_by_name(name):
   
   # check if an User with name 'username' already exists
   if User.objects.filter(username = name).exists():
-    print("DEBUG: views.py: username exists")
-    
+  
     # if so, fetch that object from the database
     user = User.objects.get(username=name)
-    #print("DEBUG: views.py: username is", user)
+    print("DEBUG: get_user_by_name: username exists: ", user.username)
     
   else: 
     # otherwise, create a new User with the name name
@@ -47,7 +46,7 @@ def index(request, authorname="DefaultAuthor", username =""):
   print("The authorname is:", authorname)
   author = get_author_by_name(authorname)
   user = get_user_by_name(username)
-  print("The username is ", user.username)
+ # print("DEBUG: view.py- index, The username is ", user.username)
   
   if request.POST: 
     # POST request received
@@ -126,13 +125,29 @@ def newlisting(request, username =""):
   return render(request, 'coloring/newlisting.html')
 
 def friends(request, username =""):
-  return render(request, 'coloring/friends.html')
+  user = get_user_by_name(username)
+  print("DEBUG: friends-profile, The username is ", user.username)
+  if request.POST: 
+    #get_name = User.objects.get(name=user.username)
+    print("DEBUG: post request!")
+    friend_list = user['friends']
+    print("the curr friend lisst is ", friend_list)
+    #user.save()
+    return HttpResponse(True)
+  else:
+    data = {
+      "user": user
+    }
+    return render(request, 'coloring/friends.html', data)
 
 def profile(request, username =""):
   user = get_user_by_name(username)
   print("DEBUG: views-profile, The username is ", user.username)
 
   if request.POST: 
+    print("Received POST request with data:")
+    data = json.loads(request.body.decode('UTF-8'))
+    print(data)
     return HttpResponse(True)
   else:
     data = {

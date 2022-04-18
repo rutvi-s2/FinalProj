@@ -72,8 +72,8 @@
     </div>
 </nav>
 
-  <h1>Friends</h1>
-  <input type="text" id="username" name="username">
+  <h1>Friends of <span id="username">{{ user.username }}</span></h1>
+  <input type="text" id="friend" name="username">
   <button class="btn btn-large" style="background-color: #3e8369;" id="add">Add Friend</button>
 
 
@@ -83,6 +83,19 @@
     
     $("#add").on("click", function(){
          console.log("DEBUG: add friend clicked");
+         var data_to_send = {
+              "friend-name": $("#friend").val()
+            };
+         console.log("DEBUG: friends POST req data", data_to_send);
+         $.ajax({
+          type: "POST",
+          url: "/wasteless/" + $('#username').text() + "/friends/",
+          data: JSON.stringify(data_to_send),
+          success: function (response) {
+            // prints the response from the server
+            console.log(response); 
+          }
+        });
     });
   }
 
