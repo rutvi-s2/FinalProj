@@ -25,7 +25,6 @@ def get_author_by_name(authorname):
 
 def get_user_by_name(name): 
   user = None
-  
   # check if an User with name 'username' already exists
   if User.objects.filter(username = name).exists():
   
