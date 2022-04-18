@@ -22,8 +22,24 @@ def get_author_by_name(authorname):
 
 
 
+
+def get_user_by_name(name): 
+  user = None
+  
+  # check if an User with name 'username' already exists
+  if User.objects.filter(username = name).exists():
+    # if so, fetch that object from the database
+    user = User.objects.get(username=name)
+    
+  else: 
+    # otherwise, create a new User with the name name
+    user = User(username = name)
+    # save the created object
+    user.save()
+
+  return user
 @csrf_exempt
-def index(request, authorname="DefaultAuthor"):
+def index(request, authorname="DefaultAuthor", username =""):
 
   print("The authorname is:", authorname)
   author = get_author_by_name(authorname)
@@ -59,9 +75,9 @@ def index(request, authorname="DefaultAuthor"):
     return render(request, 'coloring/index.html', data)
     
 @csrf_exempt
-def newlisting(request):
+def newlisting(request, username =""):
   # print("The authorname is:", authorname)
-  # author = get_author_by_name(authorname)
+  user = get_user_by_name(username)
   
   if request.POST: 
     # POST request received
@@ -110,7 +126,7 @@ def newlisting(request):
     }
   return render(request, 'coloring/newlisting.html')
 
-def friends(request):
+def friends(request, username =""):
   return render(request, 'coloring/friends.html')
   
   
