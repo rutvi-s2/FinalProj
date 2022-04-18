@@ -72,92 +72,23 @@
     </div>
 </nav>
 
-  <!--
-  <div class="container">
-    
-    
-    <div class="row">
-      <div class="col-12">
+  <h1>Friends</h1>
+  <input type="text" id="username" name="username">
+  <button class="btn btn-large" style="background-color: #3e8369;" id="add">Add Friend</button>
 
-        <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py 
-        <h4>Drawing by <span id="authorname">{{ author.name }}</span></h4>
-        <canvas id="myCanvas" width="350px" height="350px"></canvas>
-        
-        <br></br>
-        
-        <h4><label for="myTitle">Drawing Title</label></h4>
-        <textarea id="myTitle"></textarea>
 
-        <br></br>
-        
-        <button class="btn btn-primary btn-large" id="save">Save</button>
-        <button class="btn btn-danger btn-large" id="reset">Reset</button>
-        
-    </div>
-  </div>
-  -->
   <script>
+  window.onload = function() {
+
     
-  //   window.onload = function() {
+    $("#add").on("click", function(){
+         console.log("DEBUG: add friend clicked");
+    });
+  }
 
-  //     var points = []; 
-
-  //     $('#save').on("click", function(){
-
-  //       // send title, points, and author name to the server
-  //       var data_to_send = {
-  //         "title": $("#myTitle").val()
-  //       };
-
-  //       // This ajax request sends a POST request to the server
-  //       // https://api.jquery.com/jquery.ajax/
-  //       $.ajax({
-  //         type: "POST",
-  //         url: "/coloring/" + $('#authorname').text() + "/",
-  //         data: JSON.stringify(data_to_send),
-  //         success: function (response) {
-  //           // prints the response from the server
-  //           console.log(response); 
-  //         }
-  //       });
-        
-  //     });
-
-  //     $("#reset").on("click", function(){
-  //       paper.project.activeLayer.removeChildren();
-  //       paper.view.draw();
-  //       points = []; 
-  //     });
-      
-  //     // click and drag to draw
-  //     function basicDrawingTool(){
-        
-  //   		var tool = new paper.Tool();
-  //   		var path;
-    
-  //   		// Define a mousedown and mousedrag handler
-  //   		tool.onMouseDown = function(event) {
-  //   			path = new paper.Path();
-  //   			path.strokeColor = 'black';
-  //   			path.add(event.point);
-  //         points.push([event.point.x, event.point.y]); 
-  //   		}
-    
-  //   		tool.onMouseDrag = function(event) {
-  //   			path.add(event.point);
-  //         points.push([event.point.x, event.point.y]); 
-  //   		}      
-  //     }
-
-  //     function init(){
-  //       // setup paper.js
-  //       paper.setup('myCanvas');
-  //       basicDrawingTool();
-  //       //caomment
-  //     }
-
-  //     init();
-  // }
+  //TODO: populate page with list of current friends
+  //TODO: verify that the friend exists when 'add friend clicked', prompt error if not
+  //TODO: create a post request to send data (new friend) to server
 
 </script>
 </body>

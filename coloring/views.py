@@ -109,3 +109,8 @@ def newlisting(request):
       "item": "shouldnt get here"
     }
   return render(request, 'coloring/newlisting.html')
+
+def friends(request):
+  return render(request, 'coloring/friends.html')
+  
+  
