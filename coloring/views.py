@@ -56,17 +56,24 @@ def index(request, authorname="DefaultAuthor", username =""):
 
     return HttpResponse(True)
 
-  else: 
-    # GET request received
+  else:  
+    all_postings = []
+    postings = Posting.objects.all()
+    for post in postings:
+      post_info = [post.item_name, post.description]
+      all_postings.append(post_info)
+      
     if User.objects.filter(username = username).exists():
       data = {
-        "user": user
+        "user": user,
+        "all_postings": all_postings
       }
     else:
       print("DEBUG: user doesnt yet exist")
       data = {
         "user": user,
-        "friends": []
+        "friends": [],
+        "all_postings": all_postings
       }
     
     return render(request, 'coloring/index.html', data)
