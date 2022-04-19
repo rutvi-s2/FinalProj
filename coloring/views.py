@@ -53,9 +53,20 @@ def index(request, authorname="DefaultAuthor", username =""):
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
+
+    #need to update listing as claimed
+    claimed_post = Posting.objects.filter(item_name = data['claimed_post'])
+    print("DEBUG: views post request, the claimed post is ", claimed_post)
+    claimed_post[0].active = False
+    claimed_post[0].claimed = True
+    claimed_post[0].save()
+    claimed_post[0].save()
+    print("DEBUG view post req, active = ", claimed_post[0].active)
+    print("DEBUG view post req, claimed = ", claimed_post[0].claimed)
+    #need to update user's claimed list 
     return HttpResponse(True)
 
-  else:  
+  else:  #GET Request
     all_postings = []
     postings = Posting.objects.all()
     for post in postings:
