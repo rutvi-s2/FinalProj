@@ -199,7 +199,7 @@
   const curr_cards = document.querySelector(".row");
   // const pickup_cards = document.querySelector(".pickup");
   
-  function createCard([title, text, group]){
+  function createCard([title, text]){
     let code = `
   <div class="col-md-4">
   	<div class="card">
@@ -222,7 +222,7 @@
   	</div>
   </div>
   `;
-    ${group}.innerHTML += code;
+    curr_cards.innerHTML += code;
   }
 
   // function createHeader(text){
@@ -237,7 +237,7 @@
   // createHeader("Active Listings")
   for (var i = 0; i < {{my_curr | safe}}.length; i++){
     var post = ({{my_curr | safe}})[i];
-    var item1 = [post[0], post[1], "curr_cards"];
+    var item1 = [post[0], post[1]];
     createCard(item1);
   }
   

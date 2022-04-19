@@ -208,6 +208,10 @@
   					<div class="card__body">
   						<h3>${title}</h3>
   						<p>${text}</p>
+                <p>more text</p>
+                        <button class="btn btn-primary btn-large" id="claim" style="float: right; background-color:#EEEEEE;width:30%; ">
+            <h5 style="color:black;">Claim! </h5>
+          </button>
   					</div>
   				</div>
   			</div>
@@ -232,6 +236,24 @@
       card.classList.toggle('is-flipped');
     });
   });
+
+   $("#claim").on("click", function(){
+         console.log("claimed");
+         
+        //  var data_to_send = {
+        //       "friends": $("#friend").val()
+        //     };
+        //  console.log("DEBUG: friends POST req data", data_to_send);
+        //  $.ajax({
+        //   type: "POST",
+        //   url: "/wasteless/" + $('#username').text() + "/friends/",
+        //   data: JSON.stringify(data_to_send),
+        //   success: function (response) {
+        //     // prints the response from the server
+        //     console.log(response); 
+        //   }
+        // });
+    });
     
 </script>
 </body>

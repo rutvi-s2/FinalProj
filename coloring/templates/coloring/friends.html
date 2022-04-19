@@ -37,10 +37,33 @@
       font-size: 24px;
       font-family: 'Lora', serif;
     }
+
+    #list-text {
+      color: black;
+      font-size: 35px;
+      background-color: white;
+      border: 4px solid #3e8369;
+      border-radius: 15px;
+    }
+
+    #title-text {
+      text-align: center;
+    }
+
+    .input-field {
+      text-align: center;
+      border-radius: 15px;
+      font-size: 25px;
+    }
+
+    .add-button {
+      color: white;
+    }
     
     #myCanvas {
       border: 1px solid black;
     }
+    
   </style>
   
 </head>
@@ -73,25 +96,51 @@
     </div>
 </nav>
 
-  <h1>Friends of <span id="username">{{ user.username }}</span></h1>
-  <input type="text" id="friend" name="username">
-  <button class="btn btn-large" style="background-color: #3e8369;" id="add">Add Friend</button>
-  <h2 id="friend-list">Friends: </h2>
+  <h1 id="title-text">Friends of @<span id="username">{{ user.username }}</span></h1>
+  <div class="input-field">
+    <input height="40" size="25" type="text" class="input-field" id="friend" name="username">
+    <button class="btn btn-large input-field add-button" style="background-color: #3e8369;" 
+    id="add">Add Friend</button>
+  </div>
+<!--   <h2 id="friend-list">Friends: </h2> -->
+  <ul id="dynamic-list" style="list-style: none;"></ul>
+  
 
 
   <script>
 
+    const all_rows = document.querySelector(".row");
+    function createRow(text){
+      var ul = document.getElementById("dynamic-list");
+      var div = document.createElement("div");
+      div.setAttribute('id', 'list-text');
+      div.setAttribute('class', 'p-3');
+      div.setAttribute('class', 'm-2');
+      div.appendChild(document.createTextNode('@'+ text));
+      ul.appendChild(div);
+      // let code = `<div class="col-md-1 m-2 shadow p-3 mb-5 bg-white rounded ">${text}</div>`;
+      // all_rows.innerHTML += code;
+    }
+    
+
   function getFriends(friends_list){
-    //console.log(parseJSON(friends_list));
-     for (var key in friends_list) {
-         console.log("testing");
-         console.log(key + " -> " + friends_list[key]); 
-         const element = document.getElementById("friend-list");
-    const node = document.createTextNode(friends_list[key]);
-    element.appendChild(node);
-     }
-   
+    console.log(friends_list);
+    for (var i = 0; i < friends_list.length; i++){
+      var friend_name = friends_list[i];
+      console.log("DEBUG: getFriends: friend name", friend_name);
+
+      createRow(friend_name);
   }
+    // //console.log(parseJSON(friends_list));
+    //  for (var key in friends_list) {
+    //      console.log("testing");
+    //      console.log(key + " -> " + friends_list[key]); 
+    //      const element = document.getElementById("row");
+    // const node = document.createTextNode(friends_list[key]);
+    // element.appendChild(node);
+  }
+   
+  
   window.onload = function() {
     console.log({{ user.friends|safe }});
     var friends_list = {{ user.friends|safe }};
