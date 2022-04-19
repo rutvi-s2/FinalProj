@@ -75,9 +75,10 @@ def index(request, authorname="DefaultAuthor", username =""):
 def newlisting(request, username =""):
   
   user = get_user_by_name(username)
+  print(user.username)
   if request.POST: 
     # POST request received
-
+ 
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
@@ -102,7 +103,7 @@ def newlisting(request, username =""):
   else: 
     # GET request received
     if User.objects.filter(username = username).exists():
-      print("DEBUG: def freinds, inside get request user does exist")
+      print("DEBUG: def newlisting, inside get request user does exist")
       print("the user friends are ", user.friends)
       
       data = {
@@ -115,7 +116,7 @@ def newlisting(request, username =""):
         "user": user,
         "friends": []  
       }
-  return render(request, 'coloring/newlisting.html')
+  return render(request, 'coloring/newlisting.html', data)
 
 @csrf_exempt
 def friends(request, username =""):
