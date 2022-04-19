@@ -76,6 +76,50 @@
          /*     #myCanvas {
          border: 1px solid black;
          } */
+
+ #imageUpload
+{
+    display: none;
+}
+
+#profileImage
+{
+    cursor: pointer;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+        .profile-pic {
+         text-align: center;
+        }
+        .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+#profile-container {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+}
+
+#profile-container img {
+    width: 150px;
+    height: 150px;
+   
+}
+
+        
+
+
       </style>
    </head>
    <body>
@@ -113,13 +157,32 @@
       </nav>
 
      <!-- testing location things
+     
 
       <h3><center>your impact!</center></h3>
 <!--       <h3><center>impact bar here</center></h3> -->
      
-     <p><button onclick="getLocation()">Get My Location</button></p>
+<!--      <div>Click the upload icon below to upload a file.</div>
+   <div class="image-upload">
+    <label for="file-input">
+        <img src="/static/coloring/images/profilepic.jpg"/>
+    </label>
+
+    <input id="file-input" type="file"/>
+</div> -->
+<!--      <label for="fileField"><img src="/static/coloring/images/profilepic.jpg" height="100px" width="100px"></label>
+
+<input type="file" id="fileField" name="file" accept="image/*" hidden="true"> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- <div id="profile-container">
+   <image id="profileImage" src="/static/coloring/images/profilepic.jpg" />
+</div>
+<input id="imageUpload" type="file" 
+       name="profile_photo" placeholder="Photo" required="" capture> -->
+     
+<!--      <p><button onclick="getLocation()">Get My Location</button></p>
 <p id="demo"></p>
-<script src="https://maps.google.com/maps/api/js?key=AIzaSyCotBuEQ9RiD3kJg6II8gpONO37vLJThqQ"></script>
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyCotBuEQ9RiD3kJg6II8gpONO37vLJThqQ"></script> -->
 
      
      <center>
@@ -127,15 +190,20 @@
         <div class="w3-container w3-green w3-center" style="width:25%">10 points!</div>
       </div>
        </center>
-      <img src="/static/coloring/images/profilepic.jpg" alt="profilepic" style="width:250px" class="center">
-
-
+<!--       <img src="/static/coloring/images/profilepic.jpg" alt="profilepic" style="width:250px" class="center"> -->
+<div class="profile-pic">
+<div id="profile-container">
+   <image id="profileImage" src="/static/coloring/images/profilepic.jpg" />
+</div>
+<input id="imageUpload" type="file" 
+       name="profile_photo" placeholder="Photo" required="" capture>
+</div>
      
 
       <h4><center><span id="username">@{{ user.username }}</span></center></h4>
      
       <h5><center><img src="/static/coloring/images/location.png" alt="location" style="width:50px">Austin, Texas 78705</center></h5>
-     <button class="btn btn-large" style="background-color: #3e8369;" id="add">Edit Location</button>
+<!--      <button class="btn btn-large" style="background-color: #3e8369;" id="add">Edit Location</button> -->
      
     <div class="row">
       <span class="fa fa-star checked"></span>
@@ -177,6 +245,28 @@
               
 
       <script>
+$("#profileImage").click(function(e) {
+    $("#imageUpload").click();
+});
+
+function fasterPreview( uploader ) {
+    if ( uploader.files && uploader.files[0] ){
+          $('#profileImage').attr('src', 
+             window.URL.createObjectURL(uploader.files[0]) );
+    }
+}
+
+$("#imageUpload").change(function(){
+    fasterPreview( this );
+});
+
+    const fileSelector = document.getElementById('imageUpload');
+  fileSelector.addEventListener('change', (event) => {
+    const fileList = event.target.files;
+    console.log(fileList);
+  });
+
+        
         var x=document.getElementById("demo");
           function getLocation(){
     if (navigator.geolocation){
