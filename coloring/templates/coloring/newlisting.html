@@ -84,9 +84,10 @@
       </nav>
       <nav style="background-color: #D3D3D3;">
          <b>
-            <h id="subheading" style="margin:9px;">New Listing</h>
+            <h id="subheading" style="margin:9px;">New Listing </h>
          </b>
       </nav>
+    <span id="username">{{ user.username }}</span>
       <div class="container" style="margin:5px">
          <div class="row">
             <div class="col">
@@ -178,10 +179,12 @@
          -->
       <script>
          window.onload = function(){
+           console.log("USERNAME", $("#username").val());
            $('#post').on("click", function(){
              // send everything needed to make a listing
              var data_to_send = {
                "item": $("#item_name").val(),
+               "listing_user": $("#username").val(),
                "quantity": $("#select_qty").val(),
                "units": $("#select_un").val(),
                "exp_date": $("#input_exp").val(),
@@ -196,7 +199,7 @@
              $.ajax({
                   type: "POST",
                // not too sure what to put for url
-                  url: "/newlisting/",
+                  url: "/wasteless/" + $('#username').text() + "/newlisting/",
                   data: JSON.stringify(data_to_send),
                   success: function (response) {
                     // prints the response from the server
