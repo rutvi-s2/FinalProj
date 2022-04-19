@@ -53,7 +53,6 @@ def index(request, authorname="DefaultAuthor", username =""):
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
-
     return HttpResponse(True)
 
   else:  
@@ -204,24 +203,48 @@ def profile(request, username =""):
   
 def mylistings(request, username =""):
   user = get_user_by_name(username)
-
+ 
+  
   if request.POST: 
+    # POST request received
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
     return HttpResponse(True)
-  else:
+
+  else:  
+    # all_postings = []
+    # postings = Posting.objects.all()
+    # for post in postings:
+    #   post_info = [post.item_name, post.description]
+    #   all_postings.append(post_info)
+    my_active = []
+    my_archive = []
+    my_postings = Posting.objects.filter(listing_user=user)
+    for post in my_postings:
+      post_info = [post.item_name, post.description]
+      if(post.active == True):
+        # add to active
+        my_active.append(post_info)
+      else: 
+        # add to archive
+        my_archive.append(post_info)
+    print("my acrhive!!!!!!!!!!!!", my_archive)
+    print("my active!!!!!!!!!!!!!!", my_active)
     if User.objects.filter(username = username).exists():
-      
       data = {
-        "user": user
+        "user": user,
+        "archive": my_archive,
+        "actives": my_active
       }
     else:
       print("DEBUG: user doesnt yet exist")
       data = {
-        "user": user
+        "user": user,
+        "friends": [],
+        "all_postings": all_postings
       }
-  
+    
     return render(request, 'coloring/mylistings.html', data)
 
 def claimed(request, username =""):
