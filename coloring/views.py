@@ -62,6 +62,13 @@ def index(request, authorname="DefaultAuthor", username =""):
     
     print("DEBUG view post req, claimed = ", claimed_post[0].claimed)
     #need to update user's claimed list 
+    print(user.claimed)
+    current_claimed = user.claimed
+    if current_claimed == None:
+      current_claimed = []
+    current_claimed.append(str(claimed_post[0].item_name))
+    user.claimed = current_claimed
+    user.save()
     
     return HttpResponse(True)
 
