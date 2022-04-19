@@ -64,9 +64,10 @@ def index(request, authorname="DefaultAuthor", username =""):
 
     # if a drawing by the author already exists,
     # send the drawing conent and title with the data below
-    
+    user = get_user_by_name(username);
     data = {
-      "author": author
+      "user":user,
+      "username": user.username
     }
     
     return render(request, 'coloring/index.html', data)
