@@ -84,10 +84,10 @@
       </nav>
       <nav style="background-color: #D3D3D3;">
          <b>
-            <h id="subheading" style="margin:9px;">New Listing </h>
+            <h id="subheading" style="margin:9px;">New Listing by <span id="username">{{ user.username }}</span> </h>
          </b>
       </nav>
-    <span id="username">{{ user.username }}</span>
+    
       <div class="container" style="margin:5px">
          <div class="row">
             <div class="col">
@@ -179,7 +179,7 @@
          -->
       <script>
          window.onload = function(){
-           console.log("USERNAME", $("#username").val());
+           console.log($("#username").val());
            $('#post').on("click", function(){
              // send everything needed to make a listing
              var data_to_send = {

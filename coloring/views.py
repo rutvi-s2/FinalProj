@@ -116,7 +116,7 @@ def newlisting(request, username =""):
         "user": user,
         "friends": []  
       }
-  return render(request, 'coloring/newlisting.html')
+  return render(request, 'coloring/newlisting.html', data)
 
 @csrf_exempt
 def friends(request, username =""):
