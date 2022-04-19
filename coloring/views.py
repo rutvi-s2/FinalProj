@@ -222,7 +222,7 @@ def mylistings(request, username =""):
     my_archive = []
     my_postings = Posting.objects.filter(listing_user=user)
     for post in my_postings:
-      post_info = [post.item_name, post.description]
+      post_info = [post.item_name, post.qty, post.qty_units, post.best_by, post.description, post.unopened, post.og_packaging, post.store_bought, post.homemade]
       if(post.active == True):
         # add to active
         my_active.append(post_info)
