@@ -43,7 +43,6 @@ def get_user_by_name(name):
 @csrf_exempt
 def index(request, authorname="DefaultAuthor", username =""):
 
-  print("The authorname is:", authorname)
   author = get_author_by_name(authorname)
   user = get_user_by_name(username)
  
@@ -53,11 +52,29 @@ def index(request, authorname="DefaultAuthor", username =""):
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
+
+    #need to update listing as claimed
+    claimed_post = Posting.objects.filter(item_name = data['claimed_post'])
+    print("DEBUG: views post request, the claimed post is ", claimed_post)
+    
+    claimed_post[0].claimed = True
+    claimed_post[0].save()
+    
+    print("DEBUG view post req, claimed = ", claimed_post[0].claimed)
+    #need to update user's claimed list 
+    print(user.claimed)
+    current_claimed = user.claimed
+    if current_claimed == None:
+      current_claimed = []
+    current_claimed.append(str(claimed_post[0].item_name))
+    user.claimed = current_claimed
+    user.save()
+    
     return HttpResponse(True)
 
-  else:  
+  else:  #GET Request
     all_postings = []
-    postings = Posting.objects.all()
+    postings = Posting.objects.filter(active = True,claimed = False)
     for post in postings:
       post_info = [post.item_name, post.description]
       all_postings.append(post_info)
