@@ -259,25 +259,50 @@ def mylistings(request, username =""):
 
 def claimed(request, username =""):
   user = get_user_by_name(username)
-
+ 
+  
   if request.POST: 
+    # POST request received
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
     return HttpResponse(True)
-  else:
+
+  else:  #GET
+    my_claimed = []
+    my_postings = Posting.objects.filter(listing_user=user)
+    for post in my_postings:
+      # post_info = [post.item_name, post.qty, post.qty_units, post.best_by, post.description, post.unopened, post.og_packaging, post.store_bought, post.homemade]
+      post_info = [post.item_name, post.description]
+      if(post.active == True):
+        # add to my_curr or my_pickup
+        if(post.claimed == False):
+          my_curr.append(post_info)
+        else:
+          my_pickup.append(post_info)
+      else: 
+        # add to archive
+        my_archive.append(post_info)
+    print("my acrhive!!!!!!!!!!!!", my_archive)
+    print("my curr!!!!!!!!!!!!!!", my_curr)
+    print("my pickup!!!!!!!!!!!!!!", my_pickup)
     if User.objects.filter(username = username).exists():
-      
       data = {
-        "user": user
+        "user": user,
+        "my_archive": my_archive,
+        "my_curr": my_curr,
+        "my_pickup": my_pickup
       }
     else:
       print("DEBUG: user doesnt yet exist")
       data = {
-        "user": user
+        "user": user,
+        "my_archive": my_archive,
+        "my_curr": my_curr,
+        "my_pickup": my_pickup
       }
-  
-    return render(request, 'coloring/claimed.html', data)
+    
+    return render(request, 'coloring/mylistings.html', data)
 def saved(request, username =""):
   user = get_user_by_name(username)
 
