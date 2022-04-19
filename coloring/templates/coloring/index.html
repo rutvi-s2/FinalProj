@@ -40,6 +40,119 @@
     #myCanvas {
       border: 1px solid black;
     }
+    :root {
+  --primary: #3E8368;
+  --secondary: #EEEEEE;
+  --dark: #969696;
+  --light: #f8f7f7;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: montserrat, sans-serif;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.card {
+  margin: 100px auto 0;
+  width: 400px;
+  height: 400px;
+  perspective: 1000px;
+}
+
+.card__inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  position: relative;
+}
+
+.card__inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.card__face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
+}
+
+.card__face--front {
+  background-image: linear-gradient(to bottom right, var(--primary), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card__face--front h2 {
+  color: #FFF;
+  font-size: 32px;
+}
+
+.card__face--back {
+  background-color: var(--light);
+  transform: rotateY(180deg);
+}
+
+.card__content {
+  width: 100%;
+  height: 100%;
+}
+
+.card__header {
+  position: relative;
+  padding: 20px 20px 30px;
+}
+
+.card__header:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(to bottom left, var(--primary) 10%, var(--secondary) 115%);
+  z-index: -1;
+  border-radius: 0px 0px 50% 0px;
+}
+
+.card__header h2 {
+  color: #FFF;
+  font-size: 32px;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.card__body {
+  padding: 30px;
+}
+
+.card__body h3 {
+  color: var(--dark);
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.card__body p {
+  color: var(--dark);
+  font-size: 18px;
+  line-height: 1.4;
+}
   </style>
   
 </head>
@@ -71,93 +184,53 @@
         </ul>
     </div>
 </nav>
-
-  <!--
-  <div class="container">
+<div class="row">
+</div>
+<script>
     
-    
-    <div class="row">
-      <div class="col-12">
+const all_cards = document.querySelector(".row");
 
-        <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py 
-        <h4>Drawing by <span id="authorname">{{ author.name }}</span></h4>
-        <canvas id="myCanvas" width="350px" height="350px"></canvas>
-        
-        <br></br>
-        
-        <h4><label for="myTitle">Drawing Title</label></h4>
-        <textarea id="myTitle"></textarea>
+function createCard([title, text]){
+  let code = `
+<div class="col-md-4">
+	<div class="card">
+		<div class="card__inner">
+			<div class="card__face card__face--front">
+				<h2>Card Front3</h2>
+			</div>
+			<div class="card__face card__face--back">
+				<div class="card__content">
+					<div class="card__header">
+						<h2>Item</h2>
+					</div>
+					<div class="card__body">
+						<h3>${title}</h3>
+						<p>${text}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+`;
+  all_cards.innerHTML += code;
+}
 
-        <br></br>
-        
-        <button class="btn btn-primary btn-large" id="save">Save</button>
-        <button class="btn btn-danger btn-large" id="reset">Reset</button>
-        
-    </div>
-  </div>
-  -->
-  <script>
-    
-  //   window.onload = function() {
+for (var i = 0; i < {{all_postings | safe}}.length; i++){
+  var post = ({{all_postings | safe}})[i];
+  var item1 = [post[0], post[1]];
+  createCard(item1);
+}
 
-  //     var points = []; 
+const cards = document.querySelectorAll(".card__inner");
 
-  //     $('#save').on("click", function(){
-
-  //       // send title, points, and author name to the server
-  //       var data_to_send = {
-  //         "title": $("#myTitle").val()
-  //       };
-
-  //       // This ajax request sends a POST request to the server
-  //       // https://api.jquery.com/jquery.ajax/
-  //       $.ajax({
-  //         type: "POST",
-  //         url: "/coloring/" + $('#authorname').text() + "/",
-  //         data: JSON.stringify(data_to_send),
-  //         success: function (response) {
-  //           // prints the response from the server
-  //           console.log(response); 
-  //         }
-  //       });
-        
-  //     });
-
-  //     $("#reset").on("click", function(){
-  //       paper.project.activeLayer.removeChildren();
-  //       paper.view.draw();
-  //       points = []; 
-  //     });
-      
-  //     // click and drag to draw
-  //     function basicDrawingTool(){
-        
-  //   		var tool = new paper.Tool();
-  //   		var path;
-    
-  //   		// Define a mousedown and mousedrag handler
-  //   		tool.onMouseDown = function(event) {
-  //   			path = new paper.Path();
-  //   			path.strokeColor = 'black';
-  //   			path.add(event.point);
-  //         points.push([event.point.x, event.point.y]); 
-  //   		}
-    
-  //   		tool.onMouseDrag = function(event) {
-  //   			path.add(event.point);
-  //         points.push([event.point.x, event.point.y]); 
-  //   		}      
-  //     }
-
-  //     function init(){
-  //       // setup paper.js
-  //       paper.setup('myCanvas');
-  //       basicDrawingTool();
-  //       //caomment
-  //     }
-
-  //     init();
-  // }
+cards.forEach(card => {
+  card.addEventListener("click", function (e) {
+    console.log(card);
+    card.classList.toggle('is-flipped');
+  });
+});
+  
 
 </script>
 </body>

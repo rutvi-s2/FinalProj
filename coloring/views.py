@@ -64,12 +64,16 @@ def index(request, authorname="DefaultAuthor", username =""):
 
   else: 
     # GET request received
-
+    all_postings = []
+    postings = Posting.objects.all()
     # if a drawing by the author already exists,
     # send the drawing conent and title with the data below
-    
+    for post in postings:
+      post_info = [post.item_name, post.description]
+      all_postings.append(post_info)
+    print(all_postings);
     data = {
-      "author": author
+      "all_postings": all_postings
     }
     
     return render(request, 'coloring/index.html', data)
@@ -117,12 +121,11 @@ def newlisting(request, username =""):
 
   else: 
     # GET request received
-
     # if a drawing by the author already exists,
     # send the drawing conent and title with the data below
     
     data = {
-      "item": "shouldnt get here"
+      "item": "invalid"
     }
   return render(request, 'coloring/newlisting.html')
 
