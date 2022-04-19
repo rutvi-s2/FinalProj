@@ -185,21 +185,30 @@
 </nav>
 <nav style="background-color: #D3D3D3;">
          <b>
+           <h2>
             <h id="subheading" style="margin:9px;">My Listings <span hidden id="username">{{ user.username }}</span> </h>
+             </h2>
          </b>
 </nav>
-<!-- <h1>Active Listings</h1> -->
-<div class="row">
+<h4>Active Listings</h4>
+<div class="row1">
 </div>
+<hr></hr>
+<h4>Waiting for Pickup</h4>
+<div class="row2">
+</div>
+<!-- <h1>Waiting for Pickup</h1>
+<div class="row2">
+</div> -->
 <!-- <h3> Waiting for Pickup</h3> -->
 <!-- <div class="row">
 </div> -->
       <script>
 
-  const curr_cards = document.querySelector(".row");
-  // const pickup_cards = document.querySelector(".pickup");
+  const curr_cards = document.querySelector(".row1");
+  const pickup_cards = document.querySelector(".row2");
   
-  function createCard([title, text]){
+  function createCardActive([title, text]){
     let code = `
   <div class="col-md-4">
   	<div class="card">
@@ -224,21 +233,42 @@
   `;
     curr_cards.innerHTML += code;
   }
-
-  // function createHeader(text){
-  //   let code = `
-  //   <h3>
-  //   ${text}
-  //   </h3>
-  // `;
-  //   all_cards.innerHTML += code;
-  // }
-
-  // createHeader("Active Listings")
+  function createCardPickup([title, text]){
+    let code = `
+  <div class="col-md-4">
+  	<div class="card">
+  		<div class="card__inner">
+  			<div class="card__face card__face--front">
+  				<h2>Card Front3</h2>
+  			</div>
+  			<div class="card__face card__face--back">
+  				<div class="card__content">
+  					<div class="card__header">
+  						<h2>Item</h2>
+  					</div>
+  					<div class="card__body">
+  						<h3>${title}</h3>
+  						<p>${text}</p>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  </div>
+  `;
+    pickup_cards.innerHTML += code;
+  }
+  // Active Listings
   for (var i = 0; i < {{my_curr | safe}}.length; i++){
     var post = ({{my_curr | safe}})[i];
     var item1 = [post[0], post[1]];
-    createCard(item1);
+    createCardActive(item1);
+  }
+  // Waiting for pickup
+  for (var i = 0; i < {{my_pickup | safe}}.length; i++){
+    var post = ({{my_pickup | safe}})[i];
+    var item1 = [post[0], post[1]];
+    createCardPickup(item1);
   }
   
   
