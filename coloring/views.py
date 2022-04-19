@@ -94,7 +94,7 @@ def newlisting(request, username =""):
     hm = data.get('homemade')
     op = data.get('og_packaging')
     
-    posting = Posting(item_name = item, qty = quantity, qty_units = units, best_by = exp_date, description = dscrpt, unopened = uno, og_packaging = op, store_bought = sb, homemade = hm)
+    posting = Posting(item_name = item, qty = quantity, qty_units = units, best_by = exp_date, description = dscrpt, unopened = uno, og_packaging = op, store_bought = sb, homemade = hm, listing_user = user)
     posting.save()
     # itemName = data.get('item')
       
@@ -121,8 +121,8 @@ def newlisting(request, username =""):
 @csrf_exempt
 def friends(request, username =""):
   user = get_user_by_name(username)
-  print("DEBUG: friends-profile, The username is ", user.username)
-  print("friends are ", user.friends)
+  print("DEBUG views.py: friends, The username is ", user.username)
+  print("DEBUG views.py: friends, friends are ", user.friends)
   if request.POST: 
     data = json.loads(request.body.decode('UTF-8'))
     print("Data recieved", data)
@@ -135,7 +135,7 @@ def friends(request, username =""):
     if User.objects.filter(username = data['friends']).exists():
       friends_list = user.friends
       friends_list.append(str(data['friends']))
-      print("friends list update", friends_list)
+      print("DEGBUG views.py: friends list updated", friends_list)
       user.friends=friends_list
       user.save(update_fields=['friends'])
 

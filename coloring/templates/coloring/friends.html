@@ -83,22 +83,20 @@
 
   function getFriends(friends_list){
     //console.log(parseJSON(friends_list));
-    // for (var key in friends_list) {
-    //     console.log("testing");
-    //     console.log(key + " -> " + friends_list[key]); 
-    
-    // }
-    const element = document.getElementById("friend-list");
-    const node = document.createTextNode("hi");
+     for (var key in friends_list) {
+         console.log("testing");
+         console.log(key + " -> " + friends_list[key]); 
+         const element = document.getElementById("friend-list");
+    const node = document.createTextNode(friends_list[key]);
     element.appendChild(node);
+     }
+   
   }
   window.onload = function() {
-    //console.log({{friends}});
-    //var friends_list = {{user.friends}};
-    //friendStr = String({{friends}});
-    //friendStr.replace(/'/g,"&apos;");
-    //getFriends(friends_list);
-    //console.log(friends_list)
+    console.log({{ user.friends|safe }});
+    var friends_list = {{ user.friends|safe }};
+    
+    
     $("#add").on("click", function(){
          
          
@@ -118,9 +116,9 @@
     });
 
          function init(){
-        // setup paper.js
-        //getFriends(friends_list);
-        //caomment
+        
+        getFriends(friends_list);
+   
       }
 
       init();
