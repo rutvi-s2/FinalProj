@@ -2,82 +2,160 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
-      <script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
-     
-     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Final Project: Implementation Prototype - Food Waste</title>
+	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+  <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
 
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
 
-     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
+ 
 
+  
+<!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
+  
+  
+  <style type="text/css">
+    body {
+      background-color: white;
+    }
+    
+    #title {
+      color: white;
+      font-size: 44px;
+      font-family: 'Shrikhand', cursive;
+    }
 
-     
-      <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
-      <!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
-      <style type="text/css">
-         body {
-         background-color: white;
-         }
-         #title {
-         color: white;
-         font-size: 44px;
-         font-family: 'Shrikhand', cursive;
-         }
-         #subheading {
-         color: black;
-         font-size: 30px;
-         font-family: 'Helvetica', serif;
-         }
-         #nav-items {
-         color: white;
-         font-size: 24px;
-         font-family: 'Lora', serif;
-         }
-         input,
-         select {
-         width: 200px;
-         height: 25px;
-         -moz-box-sizing: border-box;
-         -webkit-box-sizing: border-box;
-         box-sizing: border-box;
-         }
-         .checkbox-wrapper {
-         white-space: nowrap
-         }
-         .checkbox {
-         vertical-align: top;
-         display:inline
-         }
-         .checkbox-label {
-         white-space: normal;
-         display:inline;
-         margin-left:-80px;
-         vertical-align: top;
-         }
-        .center {
-          display: block;
-          margin-left: auto;
-          margin-right: auto;
-          width: 50%;
-        }
-        .checked {
-          color: orange;
-        }
-        .row {
-          justify-content: center
-        }
-         }
-         /*     #myCanvas {
-         border: 1px solid black;
-         } */
-      </style>
-   </head>
+    #nav-items {
+      color: white;
+      font-size: 24px;
+      font-family: 'Lora', serif;
+    }
+    
+    #myCanvas {
+      border: 1px solid black;
+    }
+    :root {
+      --primary: #3E8368;
+      --secondary: #EEEEEE;
+      --dark: #969696;
+      --light: #f8f7f7;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: montserrat, sans-serif;
+      width: 100%;
+      min-height: 100vh;
+    }
+    
+    .card {
+      margin: 100px auto 0;
+      width: 400px;
+      height: 400px;
+      perspective: 1000px;
+    }
+    
+    .card__inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 1s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .card__inner.is-flipped {
+      transform: rotateY(180deg);
+    }
+    
+    .card__face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card__face--front {
+      background-image: linear-gradient(to bottom right, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .card__face--front h2 {
+      color: #FFF;
+      font-size: 32px;
+    }
+    
+    .card__face--back {
+      background-color: var(--light);
+      transform: rotateY(180deg);
+    }
+    
+    .card__content {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .card__header {
+      position: relative;
+      padding: 20px 20px 30px;
+    }
+    
+    .card__header:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(to bottom left, var(--primary) 10%, var(--secondary) 115%);
+      z-index: -1;
+      border-radius: 0px 0px 50% 0px;
+    }
+    
+    .card__header h2 {
+      color: #FFF;
+      font-size: 32px;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    
+    .card__body {
+      padding: 30px;
+    }
+    
+    .card__body h3 {
+      color: var(--dark);
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    
+    .card__body p {
+      color: var(--dark);
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+  </style>
+  
+</head>
    <body>
 
      <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
@@ -110,12 +188,69 @@
             <h id="subheading" style="margin:9px;">My Listings <span hidden id="username">{{ user.username }}</span> </h>
          </b>
 </nav>
-     
+<!-- <h1>Active Listings</h1> -->
+<div class="row">
+</div>
+<!-- <h3> Waiting for Pickup</h3> -->
+<!-- <div class="row">
+</div> -->
       <script>
-         window.onload = function(){   
 
+  const curr_cards = document.querySelector(".row");
+  // const pickup_cards = document.querySelector(".pickup");
+  
+  function createCard([title, text, group]){
+    let code = `
+  <div class="col-md-4">
+  	<div class="card">
+  		<div class="card__inner">
+  			<div class="card__face card__face--front">
+  				<h2>Card Front3</h2>
+  			</div>
+  			<div class="card__face card__face--back">
+  				<div class="card__content">
+  					<div class="card__header">
+  						<h2>Item</h2>
+  					</div>
+  					<div class="card__body">
+  						<h3>${title}</h3>
+  						<p>${text}</p>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  </div>
+  `;
+    ${group}.innerHTML += code;
+  }
+
+  // function createHeader(text){
+  //   let code = `
+  //   <h3>
+  //   ${text}
+  //   </h3>
+  // `;
+  //   all_cards.innerHTML += code;
+  // }
+
+  // createHeader("Active Listings")
+  for (var i = 0; i < {{my_curr | safe}}.length; i++){
+    var post = ({{my_curr | safe}})[i];
+    var item1 = [post[0], post[1], "curr_cards"];
+    createCard(item1);
+  }
+  
+  
+  const cards = document.querySelectorAll(".card__inner");
+  
+  cards.forEach(card => {
+    card.addEventListener("click", function (e) {
+      console.log(card);
+      card.classList.toggle('is-flipped');
+    });
+  });
     
-         }
-      </script>
+</script>
    </body>
 </html>
