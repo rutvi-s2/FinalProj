@@ -36,7 +36,7 @@ class Posting(models.Model):
   active = models.BooleanField(default = True)
   claimed = models.BooleanField(default = False)
   rating_lister = models.IntegerField(null=True)
-  rating_taker = models.IntegerField(null=True)
+  # rating_taker = models.IntegerField(null=True)
   # tags
   unopened = models.BooleanField(default = False)
   og_packaging = models.BooleanField(default = False)
