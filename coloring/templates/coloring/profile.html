@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+     
+     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+     
+      <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
+      <!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
+      <style type="text/css">
+         body {
+         background-color: white;
+         }
+         #title {
+         color: white;
+         font-size: 44px;
+         font-family: 'Shrikhand', cursive;
+         }
+         #subheading {
+         color: black;
+         font-size: 30px;
+         font-family: 'Helvetica', serif;
+         }
+         #nav-items {
+         color: white;
+         font-size: 24px;
+         font-family: 'Lora', serif;
+         }
+         input,
+         select {
+         width: 200px;
+         height: 25px;
+         -moz-box-sizing: border-box;
+         -webkit-box-sizing: border-box;
+         box-sizing: border-box;
+         }
+         .checkbox-wrapper {
+         white-space: nowrap
+         }
+         .checkbox {
+         vertical-align: top;
+         display:inline
+         }
+         .checkbox-label {
+         white-space: normal;
+         display:inline;
+         margin-left:-80px;
+         vertical-align: top;
+         }
+        .center {
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          width: 50%;
+        }
+        .checked {
+          color: orange;
+        }
+        .row {
+          justify-content: center
+        }
+         }
+         /*     #myCanvas {
+         border: 1px solid black;
+         } */
+      </style>
+   </head>
+   <body>
+
+     <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
+ 
+    <div class="mx-auto order-0">
+        <a id="title" class="navbar-brand mx-auto" href="../">Wasteless</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="../"<span id="nav-items"></span>Home&nbsp&nbsp&nbsp&nbsp</a>
+            </li>
+            <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="">Profile&nbsp&nbsp&nbsp&nbsp</a>
+            </li>
+          <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="../friends/">Friends&nbsp&nbsp&nbsp&nbsp</a>
+            </li>
+           <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="../newlisting/">New Listing</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!--      Profile page begins here -->
+      <nav style="background-color: #D3D3D3;">
+         <b>
+            <h id="subheading" style="margin:9px;">Profile</h>
+         </b>
+      </nav>
+
+     <!-- testing location things
+
+      <h3><center>your impact!</center></h3>
+<!--       <h3><center>impact bar here</center></h3> -->
+     
+     <p><button onclick="getLocation()">Get My Location</button></p>
+<p id="demo"></p>
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyCotBuEQ9RiD3kJg6II8gpONO37vLJThqQ"></script>
+
+     
+     <center>
+      <div class="w3-light-grey" style="width:50%">
+        <div class="w3-container w3-green w3-center" style="width:25%">10 points!</div>
+      </div>
+       </center>
+      <img src="/static/coloring/images/profilepic.jpg" alt="profilepic" style="width:250px" class="center">
+
+
+     
+
+      <h4><center><span id="username">@{{ user.username }}</span></center></h4>
+     
+      <h5><center><img src="/static/coloring/images/location.png" alt="location" style="width:50px">Austin, Texas 78705</center></h5>
+     <button class="btn btn-large" style="background-color: #3e8369;" id="add">Edit Location</button>
+     
+    <div class="row">
+      <span class="fa fa-star checked"></span>
+      <span class="fa fa-star checked"></span>
+      <span class="fa fa-star checked"></span>
+      <span class="fa fa-star"></span>
+      <span class="fa fa-star"></span>
+      <p>(31)</p>
+    </div>
+
+
+      <hr>
+      </hr>
+
+      
+        <div class="row" >
+          <button class="btn btn-primary btn-large" id="post" style="float: left; background-color:#EEEEEE;width:30%; ">
+            <h3 style="color:black;">Your Listings </h3>
+          </button>
+
+          <button class="btn btn-primary btn-large" id="post" style="float: right; background-color:#EEEEEE;width:30%; ">
+            <h3 style="color:black;">Claimed Listings </h3>
+          </button>
+
+        </div>
+      
+        <div class="row">
+
+          <button class="btn btn-primary btn-large" id="post" style="float: left; background-color:#EEEEEE;width:30%;">
+            <h3 style="color:black;">Saved Listings </h3>
+          </button>
+        
+      
+          <button class="btn btn-primary btn-large" id="post" style="float: right; background-color:#EEEEEE;width:30%; ">
+            <h3 style="color:black;">Friends </h3>
+          </button>
+        </div>
+
+              
+
+      <script>
+        var x=document.getElementById("demo");
+          function getLocation(){
+    if (navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(showPosition,showError);
+    }
+    else{
+        x.innerHTML="Geolocation is not supported by this browser.";
+    }
+}
+        function showPosition(position){
+    lat=position.coords.latitude;
+    lon=position.coords.longitude;
+    displayLocation(lat,lon);
+}
+        function showError(error){
+    switch(error.code){
+        case error.PERMISSION_DENIED:
+            x.innerHTML="User denied the request for Geolocation."
+        break;
+        case error.POSITION_UNAVAILABLE:
+            x.innerHTML="Location information is unavailable."
+        break;
+        case error.TIMEOUT:
+            x.innerHTML="The request to get user location timed out."
+        break;
+        case error.UNKNOWN_ERROR:
+            x.innerHTML="An unknown error occurred."
+        break;
+    }
+}
+
+function displayLocation(latitude,longitude){
+    var geocoder;
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(latitude, longitude);
+
+    geocoder.geocode(
+        {'latLng': latlng}, 
+        function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    var add= results[0].formatted_address ;
+                    var  value=add.split(",");
+
+                    count=value.length;
+                    country=value[count-1];
+                    state=value[count-2];
+                    city=value[count-3];
+                    x.innerHTML = "city name is: " + city;
+                }
+                else  {
+                    x.innerHTML = "address not found";
+                }
+            }
+            else {
+                x.innerHTML = "Geocoder failed due to: " + status;
+            }
+        }
+    );
+}
+         window.onload = function(){
+         
+
+
+
+
+
+         
+
+    
+         }
+      </script>
+   </body>
+</html>

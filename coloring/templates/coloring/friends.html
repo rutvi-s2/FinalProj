@@ -4,6 +4,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
   <title>Final Project: Implementation Prototype - Food Waste</title>
 	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
@@ -49,7 +50,7 @@
 <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
  
     <div class="mx-auto order-0">
-        <a id="title" class="navbar-brand mx-auto" href="#">Wasteless</a>
+        <a id="title" class="navbar-brand mx-auto" href="../">Wasteless</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -57,33 +58,72 @@
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a id="nav-items" class="nav-link" href="/">Home&nbsp&nbsp&nbsp&nbsp</a>
+                <a id="nav-items" class="nav-link" href="../">Home&nbsp&nbsp&nbsp&nbsp</a>
             </li>
             <li class="nav-item">
-                <a id="nav-items" class="nav-link" href="#">Profile&nbsp&nbsp&nbsp&nbsp</a>
+                <a id="nav-items" class="nav-link" href="../profile/">Profile&nbsp&nbsp&nbsp&nbsp</a>
             </li>
           <li class="nav-item">
-                <a id="nav-items" class="nav-link" href="/friends">Friends&nbsp&nbsp&nbsp&nbsp</a>
+                <a id="nav-items" class="nav-link" href="">Friends&nbsp&nbsp&nbsp&nbsp</a>
             </li>
            <li class="nav-item">
-                <a id="nav-items" class="nav-link" href="/newlisting">New Listing</a>
+                <a id="nav-items" class="nav-link" href="../newlisting/">New Listing</a>
             </li>
         </ul>
     </div>
 </nav>
 
-  <h1>Friends</h1>
-  <input type="text" id="username" name="username">
+  <h1>Friends of <span id="username">{{ user.username }}</span></h1>
+  <input type="text" id="friend" name="username">
   <button class="btn btn-large" style="background-color: #3e8369;" id="add">Add Friend</button>
+  <h2 id="friend-list">Friends: </h2>
 
 
   <script>
-  window.onload = function() {
 
+  function getFriends(friends_list){
+    //console.log(parseJSON(friends_list));
+    // for (var key in friends_list) {
+    //     console.log("testing");
+    //     console.log(key + " -> " + friends_list[key]); 
     
+    // }
+    const element = document.getElementById("friend-list");
+    const node = document.createTextNode("hi");
+    element.appendChild(node);
+  }
+  window.onload = function() {
+    console.log({{friends}});
+    //var friends_list = {{user.friends}};
+    //friendStr = String({{friends}});
+    //friendStr.replace(/'/g,"&apos;");
+    //getFriends(friends_list);
+    //console.log(friends_list)
     $("#add").on("click", function(){
-         console.log("DEBUG: add friend clicked");
+         
+         
+         var data_to_send = {
+              "friends": $("#friend").val()
+            };
+         console.log("DEBUG: friends POST req data", data_to_send);
+         $.ajax({
+          type: "POST",
+          url: "/wasteless/" + $('#username').text() + "/friends/",
+          data: JSON.stringify(data_to_send),
+          success: function (response) {
+            // prints the response from the server
+            console.log(response); 
+          }
+        });
     });
+
+         function init(){
+        // setup paper.js
+        //getFriends(friends_list);
+        //caomment
+      }
+
+      init();
   }
 
   //TODO: populate page with list of current friends
