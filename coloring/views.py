@@ -65,10 +65,18 @@ def index(request, authorname="DefaultAuthor", username =""):
 
     # if a drawing by the author already exists,
     # send the drawing conent and title with the data below
-    
-    data = {
-      "author": author
-    }
+    if User.objects.filter(username = username).exists():
+      
+      data = {
+        "user": user
+      }
+    else:
+      print("DEBUG: user doesnt yet exist")
+      data = {
+        "user": user,
+        "friends": []
+        
+      }
     
     return render(request, 'coloring/index.html', data)
     
@@ -128,30 +136,52 @@ def newlisting(request, username =""):
 def friends(request, username =""):
   user = get_user_by_name(username)
   print("DEBUG: friends-profile, The username is ", user.username)
+  print("friends are ", user.friends)
   if request.POST: 
     #get the data from the post request
     data = json.loads(request.body.decode('UTF-8'))
     print("Data recieved", data)
 
-  
+    
     if user.friends == None:
-      user.friends = {}
+      print("this shouldnt be happening")
+      user.friends = []
+      print(user.friends)
 
     #check if user exists
     if User.objects.filter(username = data['friends']).exists():
   
       list_len = len(user.friends)
-      user.friends[list_len] = data['friends']
-      user.save() 
+      friends_list = user.friends
+      friends_list.append(data['friends'])
+      print("friends list update", friends_list)
+      user.friends=friends_list
+      user.save(update_fields=['friends'])
+
+      
+      #user.friends = user.friends.append(data['friends'])
+      #user.save() 
+      print("friends list udpated: ", user.friends)
       print("DEBUG views.py, friends: the updated friend list is ", user.friends)
     else:
       print("DEBUG views.py, friends: the user does not exist")
     
     return HttpResponse(True)
-  else:
-    data = {
-      "user": user
-    }
+  else: #GET request
+    if User.objects.filter(username = username).exists():
+      print("DEBUG: def freinds, inside get request user does exist")
+      print("the user friends are ", user.friends)
+      data = {
+        "user": user,
+        "friends": user.friends
+      }
+    else:
+      print("DEBUG: user doesnt yet exist")
+      data = {
+        "user": user,
+        "friends": []
+        
+      }
     return render(request, 'coloring/friends.html', data)
 
 def profile(request, username =""):
