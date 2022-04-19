@@ -46,27 +46,19 @@ def index(request, authorname="DefaultAuthor", username =""):
   print("The authorname is:", authorname)
   author = get_author_by_name(authorname)
   user = get_user_by_name(username)
- # print("DEBUG: view.py- index, The username is ", user.username)
+ 
   
   if request.POST: 
     # POST request received
-    
-    # demonstrating printing out the POST request & data
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
 
-
-    
     return HttpResponse(True)
 
   else: 
     # GET request received
-
-    # if a drawing by the author already exists,
-    # send the drawing conent and title with the data below
     if User.objects.filter(username = username).exists():
-      
       data = {
         "user": user
       }
@@ -75,20 +67,17 @@ def index(request, authorname="DefaultAuthor", username =""):
       data = {
         "user": user,
         "friends": []
-        
       }
     
     return render(request, 'coloring/index.html', data)
     
 @csrf_exempt
 def newlisting(request, username =""):
-  # print("The authorname is:", authorname)
-  user = get_user_by_name(username)
   
+  user = get_user_by_name(username)
   if request.POST: 
     # POST request received
-    
-    # demonstrating printing out the POST request & data
+
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
@@ -107,29 +96,25 @@ def newlisting(request, username =""):
     posting = Posting(item_name = item, qty = quantity, qty_units = units, best_by = exp_date, description = dscrpt, unopened = uno, og_packaging = op, store_bought = sb, homemade = hm)
     posting.save()
     # itemName = data.get('item')
-    
-    
-    
-
-    # find out if a Drawing with the Author and Title already exists?
-    # if it doesn't exist, you may create a new Drawing object
-    # if it does exist, you may update an existing Drawing object
-    
-    # make sure to save your object after creating or updating 
-    # for more information, see get_author_by_name() and reference below
-    # https://docs.djangoproject.com/en/4.0/ref/models/instances/#saving-objects
-    
+      
     return HttpResponse(True)
 
   else: 
     # GET request received
-
-    # if a drawing by the author already exists,
-    # send the drawing conent and title with the data below
-    
-    data = {
-      "item": "shouldnt get here"
-    }
+    if User.objects.filter(username = username).exists():
+      print("DEBUG: def freinds, inside get request user does exist")
+      print("the user friends are ", user.friends)
+      
+      data = {
+        "user": user,
+        "friends": user.friends
+      }
+    else:
+      print("DEBUG: user doesnt yet exist")
+      data = {
+        "user": user,
+        "friends": []  
+      }
   return render(request, 'coloring/newlisting.html')
 
 @csrf_exempt
@@ -138,22 +123,17 @@ def friends(request, username =""):
   print("DEBUG: friends-profile, The username is ", user.username)
   print("friends are ", user.friends)
   if request.POST: 
-    #get the data from the post request
     data = json.loads(request.body.decode('UTF-8'))
     print("Data recieved", data)
 
-    
-    if user.friends == None:
-      print("this shouldnt be happening")
+    if user.friends == None: #this shouldn;t be happening, debug later
       user.friends = []
       print(user.friends)
 
-    #check if user exists
+    #check if user exists (can't add user that doesn't exist)
     if User.objects.filter(username = data['friends']).exists():
-  
-      list_len = len(user.friends)
       friends_list = user.friends
-      friends_list.append(data['friends'])
+      friends_list.append(str(data['friends']))
       print("friends list update", friends_list)
       user.friends=friends_list
       user.save(update_fields=['friends'])
@@ -171,6 +151,7 @@ def friends(request, username =""):
     if User.objects.filter(username = username).exists():
       print("DEBUG: def freinds, inside get request user does exist")
       print("the user friends are ", user.friends)
+      
       data = {
         "user": user,
         "friends": user.friends
@@ -180,7 +161,6 @@ def friends(request, username =""):
       data = {
         "user": user,
         "friends": []
-        
       }
     return render(request, 'coloring/friends.html', data)
 
@@ -194,11 +174,20 @@ def profile(request, username =""):
     print(data)
     return HttpResponse(True)
   else:
-    data = {
-      "user": user
-    }
-    
-    
+    if User.objects.filter(username = username).exists():
+      print("DEBUG: def freinds, inside get request user does exist")
+      print("the user friends are ", user.friends)
+      
+      data = {
+        "user": user,
+        "friends": user.friends
+      }
+    else:
+      print("DEBUG: user doesnt yet exist")
+      data = {
+        "user": user,
+        "friends": []
+      }
   
     return render(request, 'coloring/profile.html', data)
   
