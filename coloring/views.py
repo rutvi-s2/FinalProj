@@ -165,5 +165,22 @@ def profile(request, username =""):
     
   
     return render(request, 'coloring/profile.html', data)
+
+def mylistings(request, username =""):
+  user = get_user_by_name(username)
+
+  if request.POST: 
+    print("Received POST request with data:")
+    data = json.loads(request.body.decode('UTF-8'))
+    print(data)
+    return HttpResponse(True)
+  else:
+    data = {
+      "user": user
+    }
+    
+    
+  
+    return render(request, 'coloring/mylistings.html', data)
   
   
