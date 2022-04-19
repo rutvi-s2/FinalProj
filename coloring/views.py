@@ -133,8 +133,11 @@ def friends(request, username =""):
     data = json.loads(request.body.decode('UTF-8'))
     print("Data recieved", data)
 
-    if user.friends == None: #this shouldn;t be happening, debug later
+    if user.friends == None:
+      #this shouldn;t be happening, debug later
+      print("in a post req")
       user.friends = []
+      user.save(update_fields=['friends'])
       print(user.friends)
 
     #check if user exists (can't add user that doesn't exist)
@@ -156,6 +159,9 @@ def friends(request, username =""):
     return HttpResponse(True)
   else: #GET request
     if User.objects.filter(username = username).exists():
+      if user.friends == None:
+        user.friends = []
+        
       print("DEBUG: def freinds, inside get request user does exist")
       print("the user friends are ", user.friends)
       
@@ -169,6 +175,7 @@ def friends(request, username =""):
         "user": user,
         "friends": []
       }
+     
     return render(request, 'coloring/friends.html', data)
 
 def profile(request, username =""):

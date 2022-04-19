@@ -142,8 +142,9 @@
    
   
   window.onload = function() {
-    console.log({{ user.friends|safe }});
-    var friends_list = {{ user.friends|safe }};
+    
+    console.log({{ friends|safe }});
+    var friends_list = {{ friends|safe }};
     
     
     $("#add").on("click", function(){
