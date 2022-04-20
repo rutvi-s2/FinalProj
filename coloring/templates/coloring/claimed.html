@@ -223,14 +223,14 @@
   				</div>
   			</div>
   		</div>
-  	</div>
+  	</div>   
   </div>
   `;
     curr_cards.innerHTML += code;
   }
   // Active Listings
-  for (var i = 0; i < {{my_curr | safe}}.length; i++){
-    var post = ({{my_curr | safe}})[i];
+  for (var i = 0; i < {{claimed | safe}}.length; i++){
+    var post = ({{claimed | safe}})[i];
     var item1 = [post[0], post[1]];
     createCard(item1);
   }
