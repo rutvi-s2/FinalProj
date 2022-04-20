@@ -56,9 +56,12 @@ def index(request, authorname="DefaultAuthor", username =""):
     #need to update listing as claimed
     claimed_post = Posting.objects.filter(item_name = data['claimed_post'])
     print("DEBUG: views post request, the claimed post is ", claimed_post)
-    
-    claimed_post[0].claimed = True
-    claimed_post[0].save()
+
+    for object in claimed_post:
+      object.claimed = True
+      object.save()
+    #claimed_post.claimed = True
+    #claimed_post.save()
     
     print("DEBUG view post req, claimed = ", claimed_post[0].claimed)
     #need to update user's claimed list 
