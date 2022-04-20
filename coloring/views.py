@@ -301,6 +301,8 @@ def claimed(request, username =""):
   else: #GET request
     if User.objects.filter(username = username).exists():
       user_claimed = user.claimed
+      if user.claimed == None:
+        user_claimed = []
       my_claimed = []
       
       #claimed_postings = Posting.objects.filter(claimed=True)
@@ -319,7 +321,7 @@ def claimed(request, username =""):
       print("DEBUG: user doesnt yet exist")
       data = {
         "user": user,
-        "my_claimed": []
+        "my_claimed": my_claimed
       }
   
     return render(request, 'coloring/claimed.html', data)
