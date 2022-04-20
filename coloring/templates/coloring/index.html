@@ -187,6 +187,12 @@
       line-height: 1.4;
     }
 
+    .btn{
+      background-color: white;
+      color: black;
+      border: 2px solid #4CAF50; /* Green */
+    }
+
   </style>
   
 </head>
@@ -224,7 +230,6 @@
 <script>
 
   const all_cards = document.querySelector(".row");
-    // post.item_name, post.qty, post.qty_units, post.description, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade), post.listing_user.username, json.dumps(post.listing_user.verified)
   function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]){
     let code = `
   <div class="col-md-4">
@@ -243,7 +248,7 @@
   						<p><b> * Description: </b>${description}</p>
               <p><b> * Best Buy:</b> </p>
               <p><b> * Tags: </b> ${unopened} ${og} ${store} ${homemade}</p>
-              <button class="btn btn-primary btn-large" id="claim" style="float: right; background-color:#EEEEEE;width:30%; ">
+              <button class="btn" onclick="claimButton()" id="claim" style="float: right; background-color:#EEEEEE;width:30%; ">
             <h5 style="color:black;"><img src="{% static 'coloring/images/claim.png'%}" alt="" class="claim"/>Claim!</h5>
           </button>
   					</div>
@@ -318,25 +323,26 @@
     });
   });
 
-   $("#claim").on("click", function(){
-         console.log("claimed");
-         console.log($("#card-title").text());
-         
-         
-         var data_to_send = {
-              "claimed_post": $("#card-title").text()
-            };
-         console.log("DEBUG: index POST req data", data_to_send);
-         $.ajax({
-          type: "POST",
-          url: "/wasteless/" + $('#username').text() + "/",
-          data: JSON.stringify(data_to_send),
-          success: function (response) {
-            // prints the response from the server
-            console.log(response); 
-          }
-        });
+  function claimButton(){
+    console.log("ayoo");
+    console.log("claimed");
+    console.log($("#card-title").text());
+     
+     
+    var data_to_send = {
+      "claimed_post": $("#card-title").text()
+        };
+     console.log("DEBUG: index POST req data", data_to_send);
+     $.ajax({
+      type: "POST",
+      url: "/wasteless/" + $('#username').text() + "/",
+      data: JSON.stringify(data_to_send),
+      success: function (response) {
+        // prints the response from the server
+        console.log(response); 
+      }
     });
+  }
     
 </script>
 </body>
