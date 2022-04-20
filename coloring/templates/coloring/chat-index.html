@@ -9,14 +9,70 @@
 	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
   <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
   
-  <style type="text/css">
-    #myCanvas {
-      border: 1px solid black;
+
+      <style type="text/css">
+    body {
+      background-color: lightgray;
     }
+    
+    #title {
+      color: white;
+      font-size: 44px;
+      font-family: 'Shrikhand', cursive;
+    }
+
+    #nav-items {
+      color: white;
+      font-size: 24px;
+      font-family: 'Lora', serif;
+    }
+    #chat-msg {
+      background-color: #c2dbb6;
+      font-size: 24px;
+      font-family: 'Lora', serif;
+      margin-top: 2%;
+      margin-bottom: 2%;
+      word-break:break-all;
+      padding: 5px;
+    }
+    
+    #chat-area {
+      width: 100%;
+      height: 60vh;
+      padding-left: 20%;
+      padding-right: 20%;
+      overflow:scroll;
+      background:white;
+    }
+    
   </style>
   
 </head>
 <body>
+  <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
+         <div class="mx-auto order-0">
+            <a id="title" class="navbar-brand mx-auto" href="#">Wasteless</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+         </div>
+         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+               <li class="nav-item">
+                  <a id="nav-items" class="nav-link" href="/">Home</a>
+               </li>
+               <li class="nav-item">
+                  <a id="nav-items" class="nav-link" href="#">Profile</a>
+               </li>
+               <li class="nav-item">
+                  <a id="nav-items" class="nav-link" href="/newlisting">New Listing</a>
+               </li>
+              <li class="nav-item">
+                  <a id="nav-items" class="nav-link" href="/chat-index">Chat</a>
+               </li>
+            </ul>
+         </div>
+      </nav>
 
   <div class="container">
     
@@ -25,7 +81,7 @@
 
         <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py -->
         <h4>Chat Tool</h4>
-        <div id="chat-area" width="350px" height="350px"></div>
+        <div id="chat-area"></div>
         <input id="user">
         <input id="textMsg">
         <button class="btn btn-primary btn-large" id="send">Send</button>
@@ -53,16 +109,28 @@
           
  
         }
-        socket.onmessage = function(message){
+        socket.onmessage = function(rawMessage){
           
          // Receive a message from websocket server
-          var msg = message.data.text;
-          var usr = message.data.user;
+          var message = JSON.parse(rawMessage.data);
+          console.log(message);
+          var msg = message["text"];
+          var usr = message["user"];
           var chatArea = $("#chat-area")
           var textNode = document.createElement("div");
           textNode.id = "chat-msg";
+          
+          if(usr != $('#user').val()){
+            $(textNode).css("margin-left", "60%");
+          }
+          else{
+            $(textNode).css("margin-right", "60%");
+          }
+          $(textNode).css("width", "fit-content");
           textNode.innerHTML = msg + "  ";
           chatArea.append(textNode);
+          chatArea = document.getElementById("chat-area");
+          chatArea.scrollTop = chatArea.scrollHeight;
          
         }
         
@@ -73,9 +141,14 @@
         
        $( "#send" ).click(function() {
       alert( "Handler for send called." );
-      var msg = $('#textMsg').innerHTML;
-         var usr = $('#user').innerHTML;
-      socket.send({text: msg, user:usr});
+         
+      var msg = $('#textMsg').val();
+         console.log($("#textMsg").val());
+         var usr = $('#user').val();
+         var toSend = { text: msg, user: usr};
+                  console.log(toSend);
+      socket.send(JSON.stringify(toSend));
+
        });
         
 
