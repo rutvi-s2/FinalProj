@@ -285,19 +285,33 @@ def claimed(request, username =""):
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
     return HttpResponse(True)
-  else:
+  else: #GET request
     if User.objects.filter(username = username).exists():
+      user_claimed = user.claimed
+      my_claimed = []
+      
+      #claimed_postings = Posting.objects.filter(claimed=True)
+      for post in user_claimed:
+        print("CLAIMED POSTING", post)
+        post_details = Posting.objects.filter(item_name=post)
+        post_info = [post_details[0].item_name, post_details[0].description]
+        my_claimed.append(post_info)
+        print("DEBUG my_claimed", my_claimed)
       
       data = {
-        "user": user
+        "user": user,
+        "my_claimed": my_claimed
       }
     else:
       print("DEBUG: user doesnt yet exist")
       data = {
-        "user": user
+        "user": user,
+        "my_claimed": []
       }
   
     return render(request, 'coloring/claimed.html', data)
+
+    
 def saved(request, username =""):
   user = get_user_by_name(username)
 

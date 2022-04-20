@@ -238,6 +238,7 @@
   for (var i = 0; i < {{my_curr | safe}}.length; i++){
     var post = ({{my_curr | safe}})[i];
     var item1 = [post[0], post[1]];
+    console.log("item", item1);
     createCard(item1);
   }
   
