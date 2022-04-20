@@ -186,6 +186,7 @@
         </ul>
     </div>
 </nav>
+     <span hidden id="username">{{ user.username }}</span>
      <div class="row">
 </div>
 
@@ -208,8 +209,11 @@
   						<h2>Item</h2>
   					</div>
   					<div class="card__body">
-  						<h3>${title}</h3>
+  						<h3 id="card-title">${title}</h3>
   						<p>${text}</p>
+<button class="btn btn-primary btn-large" id="picked-up" style="float: right; background-color:#EEEEEE;width:30%; ">
+            <h5 style="color:black;">Picked Up </h5>
+          </button>
   					</div>
   				</div>
   			</div>
@@ -245,11 +249,35 @@
   const cards = document.querySelectorAll(".card__inner");
   
   cards.forEach(card => {
+    const btn = document.querySelector('.btn');
+    btn.addEventListener("click", function (e) {
+      console.log("button clicked");
+      
+    });
     card.addEventListener("click", function (e) {
       console.log(card);
       card.classList.toggle('is-flipped');
     });
   });
+
+     $("#picked-up").on("click", function(){
+         console.log("picked up clicked");
+         console.log($("#card-title").text());
+         
+         var data_to_send = {
+              "pickup_post": $("#card-title").text()
+            };
+         console.log("DEBUG: index POST req data", data_to_send);
+         $.ajax({
+          type: "POST",
+          url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
+          data: JSON.stringify(data_to_send),
+          success: function (response) {
+            // prints the response from the server
+            console.log(response); 
+          }
+        });
+    });
     
 </script>
    </body>
