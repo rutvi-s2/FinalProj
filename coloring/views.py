@@ -197,7 +197,7 @@ def friends(request, username =""):
       }
      
     return render(request, 'coloring/friends.html', data)
-
+@csrf_exempt
 def profile(request, username =""):
   user = get_user_by_name(username)
   print("DEBUG: views-profile, The username is ", user.username)
@@ -227,7 +227,7 @@ def profile(request, username =""):
 
 
 
-  
+@csrf_exempt  
 def mylistings(request, username =""):
   user = get_user_by_name(username)
  
@@ -276,7 +276,8 @@ def mylistings(request, username =""):
       }
     
     return render(request, 'coloring/mylistings.html', data)
-
+    
+@csrf_exempt
 def claimed(request, username =""):
   user = get_user_by_name(username)
 
@@ -284,6 +285,18 @@ def claimed(request, username =""):
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
+
+    pickedup_post = Posting.objects.filter(item_name=data["pickup_post"])
+    #need to update post.active = False
+    for object in pickedup_post:
+      object.active = False
+      object.save()
+    
+    #remove from user's claimed list
+    user.claimed.remove(pickedup_post[0].item_name)
+    user.save()
+    #pop up with rating
+    
     return HttpResponse(True)
   else: #GET request
     if User.objects.filter(username = username).exists():

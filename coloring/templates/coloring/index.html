@@ -230,6 +230,11 @@
   const cards = document.querySelectorAll(".card__inner");
   
   cards.forEach(card => {
+    const btn = document.querySelector('.btn');
+    btn.addEventListener("click", function (e) {
+      console.log("button clicked");
+      
+    });
     card.addEventListener("click", function (e) {
       console.log(card);
       card.classList.toggle('is-flipped');
