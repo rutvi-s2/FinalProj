@@ -79,9 +79,9 @@ def index(request, authorname="DefaultAuthor", username =""):
     all_postings = []
     postings = Posting.objects.filter(active = True,claimed = False)
     for post in postings:
-      post_info = [post.item_name, post.description]
+      post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
       all_postings.append(post_info)
-      
+    print(all_postings)
     if User.objects.filter(username = username).exists():
       data = {
         "user": user,

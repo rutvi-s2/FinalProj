@@ -101,6 +101,11 @@
       font-size: 32px;
     }
     
+    .card__face--front h3 {
+      color: #FFF;
+      font-size: 22px;
+    }
+    
     .card__face--back {
       background-color: var(--light);
       transform: rotateY(180deg);
@@ -128,10 +133,38 @@
       z-index: -1;
       border-radius: 0px 0px 50% 0px;
     }
+    .verified {
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 30px;
+      border-radius: 50%;
+      background-color: #FFF;
+      border: 5px solid #FFF;
+      object-fit: cover;
+    }
     
+    .claim {
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 0px;
+      border-radius: 20%;
+      background-color: #FFF;
+      border: 1px solid #FFF;
+      object-fit: cover;
+    }
     .card__header h2 {
       color: #FFF;
       font-size: 32px;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    
+    .card__header h3 {
+      color: #FFF;
+      font-size: 22px;
       font-weight: 900;
       text-transform: uppercase;
       text-align: center;
@@ -191,25 +224,27 @@
 <script>
 
   const all_cards = document.querySelector(".row");
-  
-  function createCard([title, text]){
+    // post.item_name, post.qty, post.qty_units, post.description, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade), post.listing_user.username, json.dumps(post.listing_user.verified)
+  function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]){
     let code = `
   <div class="col-md-4">
   	<div class="card">
   		<div class="card__inner">
   			<div class="card__face card__face--front">
-  				<h2>Card Front3</h2>
+  				<h2>${item_name} x ${qty} ${qty_units}</h2>
   			</div>
   			<div class="card__face card__face--back">
   				<div class="card__content">
   					<div class="card__header">
-  						<h2>Item</h2>
+  						<h2>@${username}<img src="${verified}" onerror="this.onerror=null; this.remove();" alt="" class="verified"/></h2>
   					</div>
   					<div class="card__body">
-  						<h3 id="card-title">${title}</h3>
-  						<p>${text}</p>
+  						<h3 id="card-title">${item_name}</h3>
+  						<p><b> * Description: </b>${description}</p>
+              <p><b> * Best Buy:</b> </p>
+              <p><b> * Tags: </b> ${unopened} ${og} ${store} ${homemade}</p>
               <button class="btn btn-primary btn-large" id="claim" style="float: right; background-color:#EEEEEE;width:30%; ">
-            <h5 style="color:black;">Claim! </h5>
+            <h5 style="color:black;"><img src="{% static 'coloring/images/claim.png'%}" alt="" class="claim"/>Claim!</h5>
           </button>
   					</div>
   				</div>
@@ -220,10 +255,52 @@
   `;
     all_cards.innerHTML += code;
   }
-  
+  //[item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]
   for (var i = 0; i < {{all_postings | safe}}.length; i++){
     var post = ({{all_postings | safe}})[i];
-    var item1 = [post[0], post[1]];
+    var item1 = [post[0], post[1], post[2], post[3], post[4]];
+    console.log(post[9]);
+    var first = true;
+    if (post[5] == 'true'){
+      item1.push("unopened");
+    }else{
+      item1.push("");
+    }
+    if (post[6] == 'true'){
+      if(first){
+        item1.push("original packing");
+        first = false;
+      }else{
+        item1.push(", original packing");
+      }
+    }else{
+      item1.push("");
+    }
+    if (post[7] == 'true'){
+      if(first){
+        item1.push("store bought");
+        first = false;
+      }else{
+        item1.push(", store bought");
+      }
+    }else{
+      item1.push("");
+    }
+    if (post[8] == 'true'){
+      if(first){
+        item1.push("homemade");
+        first = false;
+      }else{
+        item1.push(", homemeade");
+      }
+    }else{
+      item1.push("");
+    }
+    if (post[9] == 'true'){
+      item1.push("{% static 'coloring/images/verified.png'%}");
+    }else{
+      item1.push(null);
+    }
     createCard(item1);
   }
   
