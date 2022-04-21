@@ -187,7 +187,7 @@
   </style>
    </head>
    <body>
-
+<div id=myContainer>
      <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
  
     <div class="mx-auto order-0">
@@ -216,9 +216,10 @@
      <span hidden id="username">{{ user.username }}</span>
      <div class="row">
 </div>
+   </div>
      <!--      Start of popup stuff -->
       <div id="myModal" class="Modal is-hidden is-visuallyHidden">
-         <h1 style = "text-align:center; padding-top:5%;">Listing successfully uploaded!</h1>
+         <h1 id="popupr" style = "text-align:center; padding-top:5%;">Temp</h1>
          <div id='wrapper' style='text-align: center;padding-top:12%;'>
             <button onclick="window.location.href='../';"class="btn btn-primary btn-large" id="returnHome" style=" background-color:#3e8369;width:30%; height:20%;">
                <h4>Return to Home</h4>
@@ -303,25 +304,22 @@
             console.log(response); 
           }
         });
+       // Get the modal
+         var modal = document.getElementById('myModal');
+         // Get the main container and the body
+         var body = document.getElementsByTagName('body');
+         var container = document.getElementById('myContainer');
+         modal.className = "Modal is-visuallyHidden";
+         setTimeout(function() {
+         container.className = "MainContainer is-blurred";
+         modal.className = "Modal";
+         }, 100);
+         container.parentElement.className = "ModalOpen";
+         
     });
   // window.onload = function(){
-  //          // Get the modal
-  //        var modal = document.getElementById('myModal');
-  //        // Get the main container and the body
-  //        var body = document.getElementsByTagName('body');
-  //        var container = document.getElementById('myContainer');
-  //        // Get the open button
-  //        var btnOpen = document.getElementById("#picked-up");
-  //        // Open the modal
-  //        btnOpen.onclick = function() {
-  //        modal.className = "Modal is-visuallyHidden";
-  //        setTimeout(function() {
-  //        container.className = "MainContainer is-blurred";
-  //        modal.className = "Modal";
-  //        }, 100);
-  //        container.parentElement.className = "ModalOpen";
-  //        }
-  //          // End pop up
+           
+           // End pop up
   // }
 </script>
    </body>
