@@ -286,43 +286,43 @@
     });
   });
 
-    //  $("#picked-up").on("click", function(){
-    //      console.log("picked up clicked");
-    //      console.log($("#card-title").text());
+     $("#picked-up").on("click", function(){
+         console.log("picked up clicked");
+         console.log($("#card-title").text());
          
-    //      var data_to_send = {
-    //           "pickup_post": $("#card-title").text()
-    //         };
-    //      console.log("DEBUG: index POST req data", data_to_send);
-    //      $.ajax({
-    //       type: "POST",
-    //       url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
-    //       data: JSON.stringify(data_to_send),
-    //       success: function (response) {
-    //         // prints the response from the server
-    //         console.log(response); 
-    //       }
-    //     });
-    // });
-  window.onload = function(){
-           // Get the modal
-         var modal = document.getElementById('myModal');
-         // Get the main container and the body
-         var body = document.getElementsByTagName('body');
-         var container = document.getElementById('myContainer');
-         // Get the open button
-         var btnOpen = document.getElementById("#picked-up");
-         // Open the modal
-         btnOpen.onclick = function() {
-         modal.className = "Modal is-visuallyHidden";
-         setTimeout(function() {
-         container.className = "MainContainer is-blurred";
-         modal.className = "Modal";
-         }, 100);
-         container.parentElement.className = "ModalOpen";
-         }
-           // End pop up
-  }
+         var data_to_send = {
+              "pickup_post": $("#card-title").text()
+            };
+         console.log("DEBUG: index POST req data", data_to_send);
+         $.ajax({
+          type: "POST",
+          url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
+          data: JSON.stringify(data_to_send),
+          success: function (response) {
+            // prints the response from the server
+            console.log(response); 
+          }
+        });
+    });
+  // window.onload = function(){
+  //          // Get the modal
+  //        var modal = document.getElementById('myModal');
+  //        // Get the main container and the body
+  //        var body = document.getElementsByTagName('body');
+  //        var container = document.getElementById('myContainer');
+  //        // Get the open button
+  //        var btnOpen = document.getElementById("#picked-up");
+  //        // Open the modal
+  //        btnOpen.onclick = function() {
+  //        modal.className = "Modal is-visuallyHidden";
+  //        setTimeout(function() {
+  //        container.className = "MainContainer is-blurred";
+  //        modal.className = "Modal";
+  //        }, 100);
+  //        container.parentElement.className = "ModalOpen";
+  //        }
+  //          // End pop up
+  // }
 </script>
    </body>
 </html>
