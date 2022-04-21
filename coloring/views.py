@@ -163,20 +163,24 @@ def friends(request, username =""):
     #check if user exists (can't add user that doesn't exist)
     if User.objects.filter(username = data['friends']).exists():
       friends_list = user.friends
-      friends_list.append(str(data['friends']))
-      print("DEGBUG views.py: friends list updated", friends_list)
-      user.friends=friends_list
-      user.save(update_fields=['friends'])
+      if(friends_list.count(str(data['friends'])) > 0):
+        return HttpResponse() 
+      else:
+        friends_list.append(str(data['friends']))
+        print("DEGBUG views.py: friends list updated", friends_list)
+        user.friends=friends_list
+        user.save(update_fields=['friends'])
+        return HttpResponse(True) 
 
       
       #user.friends = user.friends.append(data['friends'])
       #user.save() 
-      print("friends list udpated: ", user.friends)
-      print("DEBUG views.py, friends: the updated friend list is ", user.friends)
-      return HttpResponse(True) #try fail
+      # print("friends list udpated: ", user.friends)
+      # print("DEBUG views.py, friends: the updated friend list is ", user.friends)
+      
     else:
       print("DEBUG views.py, friends: the user does not exist")
-      return HttpResponse(False) #try fail
+      return HttpResponse(False) 
     
     #return json response
   else: #GET request

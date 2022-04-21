@@ -236,13 +236,16 @@ btnClose.onclick = function() {
             // prints the response from the server
             console.log(response); 
             if(response == "True"){
-              console.log("friend existed");
               $('#popupr').text("Friend Added");
             }
-              
-            else{
-              console.log("friend dne");
+            if(response== "False")
+            {
               $('#popupr').text("Sorry, the username @" +$("#friend").val()+" does not exist");
+            }
+              
+            if(response== ""){
+              
+              $('#popupr').text("Friend Already");
             }
               
           }
