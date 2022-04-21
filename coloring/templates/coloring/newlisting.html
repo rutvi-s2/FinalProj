@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-   <head> 
+   <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
       <script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
@@ -51,6 +51,14 @@
          margin-left:-80px;
          vertical-align: top;
          }
+        .form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
          }
          /*     #myCanvas {
          border: 1px solid black;
@@ -58,7 +66,7 @@
       </style>
    </head>
    <body>
-   <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
+      <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
          <div class="mx-auto order-0">
             <a id="title" class="navbar-brand mx-auto" href="../">Wasteless</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
@@ -74,8 +82,8 @@
                   <a id="nav-items" class="nav-link" href="../profile/">Profile&nbsp&nbsp&nbsp&nbsp</a>
                </li>
                <li class="nav-item">
-                <a id="nav-items" class="nav-link" href="../friends">Friends&nbsp&nbsp&nbsp&nbsp</a>
-            </li>
+                  <a id="nav-items" class="nav-link" href="../friends">Friends&nbsp&nbsp&nbsp&nbsp</a>
+               </li>
                <li class="nav-item">
                   <a id="nav-items" class="nav-link" href="">New Listing</a>
                </li>
@@ -87,7 +95,6 @@
             <h id="subheading" style="margin:9px;">New Listing <span hidden id="username">{{ user.username }}</span> </h>
          </b>
       </nav>
-    
       <div class="container" style="margin:5px">
          <div class="row">
             <div class="col">
@@ -149,34 +156,26 @@
                </div>
             </div>
          </div>
-         <button class="btn btn-primary btn-large" id="post" style="float: right; background-color:#3e8369;width:15%; ">
+         <button class="btn btn-primary btn-large" onclick="openPop()" id="post" style="float: right; background-color:#3e8369;width:15%; ">
             <h4>POST</h4>
          </button>
       </div>
-      <!--
-         <div class="container">
-           
-           
-           <div class="row">
-             <div class="col-12">
-         
-               <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py 
-               <h4>Drawing by <span id="authorname">{{ author.name }}</span></h4>
-               <canvas id="myCanvas" width="350px" height="350px"></canvas>
-               
-               <br></br>
-               
-               <h4><label for="myTitle">Drawing Title</label></h4>
-               <textarea id="myTitle"></textarea>
-         
-               <br></br>
-               
-               <button class="btn btn-primary btn-large" id="save">Save</button>
-               <button class="btn btn-danger btn-large" id="reset">Reset</button>
-               
-           </div>
-         </div>
-         -->
+
+     
+<div class="form-popup" id="myForm">
+  <form action="/action_page.php" class="form-container">
+    <h1>Login</h1>
+
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit" class="btn">Login</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+</div>
       <script>
          window.onload = function(){
            console.log($("#username").val());
@@ -208,66 +207,13 @@
                 });
            });
          }
-          //   window.onload = function() {
-          
-          //     var points = []; 
-          
-          //     $('#save').on("click", function(){
-          
-          //       // send title, points, and author name to the server
-          //       var data_to_send = {
-          //         "title": $("#myTitle").val()
-          //       };
-          
-          //       // This ajax request sends a POST request to the server
-          //       // https://api.jquery.com/jquery.ajax/
-          //       $.ajax({
-          //         type: "POST",
-          //         url: "/coloring/" + $('#authorname').text() + "/",
-          //         data: JSON.stringify(data_to_send),
-          //         success: function (response) {
-          //           // prints the response from the server
-          //           console.log(response); 
-          //         }
-          //       });
-                
-          //     });
-          
-          //     $("#reset").on("click", function(){
-          //       paper.project.activeLayer.removeChildren();
-          //       paper.view.draw();
-          //       points = []; 
-          //     });
-              
-          //     // click and drag to draw
-          //     function basicDrawingTool(){
-                
-          //   		var tool = new paper.Tool();
-          //   		var path;
-            
-          //   		// Define a mousedown and mousedrag handler
-          //   		tool.onMouseDown = function(event) {
-          //   			path = new paper.Path();
-          //   			path.strokeColor = 'black';
-          //   			path.add(event.point);
-          //         points.push([event.point.x, event.point.y]); 
-          //   		}
-            
-          //   		tool.onMouseDrag = function(event) {
-          //   			path.add(event.point);
-          //         points.push([event.point.x, event.point.y]); 
-          //   		}      
-          //     }
-          
-          //     function init(){
-          //       // setup paper.js
-          //       paper.setup('myCanvas');
-          //       basicDrawingTool();
-          //       //caomment
-          //     }
-          
-          //     init();
-          // }
+         function openPop() {
+         document.getElementById("myForm").style.display = "block";
+         }
+         
+         function closePop() {
+         document.getElementById("myForm").style.display = "none";
+         }
           
       </script>
    </body>
