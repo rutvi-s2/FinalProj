@@ -23,7 +23,7 @@
   
   <style type="text/css">
     body {
-      background-color: white;
+      background-color: rgb(221,210,192);
     }
     
     #title {
@@ -40,10 +40,12 @@
 
     #list-text {
       color: black;
-      font-size: 35px;
+      font-size: 30px;
       background-color: white;
-      border: 4px solid #3e8369;
+/*       border: 4px solid #3e8369; */
       border-radius: 15px;
+      font-family: "Raleway", sans-serif;
+      font-align: "center";
     }
 
     #title-text {
@@ -62,6 +64,27 @@
     
     #myCanvas {
       border: 1px solid black;
+    }
+    .div-format{
+      width: 30%;
+      margin-top: 16px;
+      box-shadow:
+      0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+      0 12.5px 10px rgba(0, 0, 0, 0.06),
+      0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+      0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+      0 100px 80px rgba(0, 0, 0, 0.12)
+    }
+
+    .profile-image {
+      width: 40px;
+      margin-top: 20;
+      margin-bottom: 20;
+/*       display: block;
+      margin-left: auto;
+      margin-right: auto; */
+          
     }
     
   </style>
@@ -98,6 +121,7 @@
 
   <h1 id="title-text">Friends of @<span id="username">{{ user.username }}</span></h1>
   <div class="input-field">
+    
     <input height="40" size="25" type="text" class="input-field" id="friend" name="username">
     <button class="btn btn-large input-field add-button" style="background-color: #3e8369;" 
     id="add">Add Friend</button>
@@ -116,6 +140,11 @@
       div.setAttribute('id', 'list-text');
       div.setAttribute('class', 'p-3');
       div.setAttribute('class', 'm-2');
+      div.setAttribute('class', 'div-format');
+      var img = document.createElement('img');
+      img.src = "/static/coloring/images/women-icon.png";
+      img.setAttribute('class', 'profile-image');
+      div.appendChild(img);
       div.appendChild(document.createTextNode('@'+ text));
       ul.appendChild(div);
       // let code = `<div class="col-md-1 m-2 shadow p-3 mb-5 bg-white rounded ">${text}</div>`;
