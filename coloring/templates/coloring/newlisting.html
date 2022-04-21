@@ -51,24 +51,6 @@
          margin-left:-80px;
          vertical-align: top;
          }
-         .form-popup {
-         display: none;
-         position: fixed;
-         bottom: 0;
-         right: 15px;
-         border: 5px solid #a9a9a9;
-         z-index: 9;
-         position:absolute;
-         top:50%;
-         left:50%;
-         width:800px;  /* adjust as per your needs */
-         height:500px;   /* adjust as per your needs */
-         margin-left:-400px;   /* negative half of width above */
-         margin-top:-250px;   /* negative half of height above */
-         max-width: 800px;
-         padding: 10px;
-         background-color: white;
-         }
          .Modal {
          display: block;
          position: fixed;
@@ -80,27 +62,13 @@
          margin-left:-400px;   /* negative half of width above */
          margin-top:-250px;   /* negative half of height above */
          max-width: 800px;
-         /*          left: 0;
-         top: 0; */
          z-index: 9999;
-         /*          width: 100%;
-         height: 100%; */
          padding-top: 100px;
-         /*          background-color: black; */
          background-color: white;
-         /*          background-color: rgba(0, 0, 0, 0.4); */
          -webkit-transition: 0.5s;
          overflow: auto;
          transition: all 0.3s linear;
          }
-         /*          .Modal-content {
-         background-color: #fefefe;
-         margin: auto;
-         padding: 20px;
-         border-radius: 4px;
-         max-width: 800px;
-         height: 500px;
-         } */
          .ModalOpen { overflow: hidden; }
          .is-hidden { display: none; }
          .is-visuallyHidden { opacity: 0; }
@@ -118,20 +86,7 @@
          filter: blur(3px);
          -webkit-filter: blur(3px);
          }
-         /*          .overlay {
-         -webkit-filter: blur(3px);     
-         filter: blur(3px); 
-         } */
-         /* Add styles to the form container */
-         /* .form-container {
-         max-width: 300px;
-         padding: 10px;
-         background-color: white;
-         } */
          }
-         /*     #myCanvas {
-         border: 1px solid black;
-         } */
       </style>
    </head>
    <body>
@@ -232,31 +187,16 @@
          </div>
       </div>
       <div id="myModal" class="Modal is-hidden is-visuallyHidden">
-         <!-- Modal content -->
-         <!--          <div class="Modal-content"> -->
-         <!--             <span id="closeModal" class="Close">&times;</span> -->
          <h1 style = "text-align:center; padding-top:5%;">Listing successfully uploaded!</h1>
-        <div id='wrapper' style='text-align: center;padding-top:12%;'>
-         <button onclick="window.location.href='../';"class="btn btn-primary btn-large" id="returnHome" style=" background-color:#3e8369;width:30%; height:20%;">
-            <h4>Return to Home</h4>
-         </button>
-         <button onclick="window.location.href='';" id="another" class="btn btn-primary btn-large" style=" background-color:#3e8369;width:30%; height:20%; ">
-            <h4>Add another listing</h4>
-         </button>
-        </div>
-         <!--          </div> -->
+         <div id='wrapper' style='text-align: center;padding-top:12%;'>
+            <button onclick="window.location.href='../';"class="btn btn-primary btn-large" id="returnHome" style=" background-color:#3e8369;width:30%; height:20%;">
+               <h4>Return to Home</h4>
+            </button>
+            <button onclick="window.location.href='';" id="another" class="btn btn-primary btn-large" style=" background-color:#3e8369;width:30%; height:20%; ">
+               <h4>Add another listing</h4>
+            </button>
+         </div>
       </div>
-      <!--       <div class="form-popup" id="myForm">
-         <form action="/action_page.php" class="form-container">
-            <h1>Login</h1>
-            <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name="email" required>
-            <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
-            <button type="submit" class="btn">Login</button>
-            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-         </form>
-         </div> -->
       <script>
          window.onload = function(){
            // Get the modal
@@ -266,8 +206,6 @@
          var container = document.getElementById('myContainer');
          // Get the open button
          var btnOpen = document.getElementById("post");
-         // Get the close button
-         var btnClose = document.getElementById("closeModal");
          // Open the modal
          btnOpen.onclick = function() {
          modal.className = "Modal is-visuallyHidden";
@@ -276,13 +214,6 @@
          modal.className = "Modal";
          }, 100);
          container.parentElement.className = "ModalOpen";
-         }
-         // Close the modal
-         btnClose.onclick = function() {
-         modal.className = "Modal is-hidden is-visuallyHidden";
-         body.className = "";
-         container.className = "MainContainer";
-         container.parentElement.className = "";
          }
            console.log($("#username").val());
            $('#post').on("click", function(){
