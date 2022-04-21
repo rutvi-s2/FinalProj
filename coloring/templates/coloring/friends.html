@@ -145,7 +145,7 @@
    </div>
 <div id="myModal" class="Modal is-hidden is-visuallyHidden">
         <span id="closeModal" class="Close">&times;</span>
-         <h1 id="popupr" style="text-align:center; padding-top:5%;"></h1>
+         <h1 id="popupr" style="text-align:center; padding-top:5%;">Friend added!</h1>
 <!--          <div id='wrapper' style='text-align: center;padding-top:12%;'>
             <button onclick="window.location.href='../';"class="btn btn-primary btn-large" id="returnHome" style=" background-color:#3e8369;width:30%; height:20%;">
                <h4>Return to Home</h4>
@@ -229,7 +229,7 @@ btnClose.onclick = function() {
             };
          console.log("DEBUG: friends POST req data", data_to_send);
          $.ajax({
-          type: "POST",  
+          type: "POST",
           url: "/wasteless/" + $('#username').text() + "/friends/",
           timeout: 5000,
           data: JSON.stringify(data_to_send),
