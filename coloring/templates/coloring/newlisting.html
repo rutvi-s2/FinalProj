@@ -236,11 +236,11 @@
          <!--          <div class="Modal-content"> -->
          <!--             <span id="closeModal" class="Close">&times;</span> -->
          <h1 style = "text-align:center; padding-top:5%;">Listing successfully uploaded!</h1>
-        <div id='wrapper' style='text-align: center;padding-top:20%;'>
-         <button class="btn btn-primary btn-large" id="returnHome" style=" background-color:#3e8369;width:30%; height:20%;display:inline-block;">
+        <div id='wrapper' style='text-align: center;padding-top:12%;'>
+         <button onclick="window.location.href='../';"class="btn btn-primary btn-large" id="returnHome" style=" background-color:#3e8369;width:30%; height:20%;">
             <h4>Return to Home</h4>
          </button>
-         <button id="another" class="btn btn-primary btn-large" style=" background-color:#3e8369;width:30%; height:20%;display:inline-block; ">
+         <button onclick="window.location.href='';" id="another" class="btn btn-primary btn-large" style=" background-color:#3e8369;width:30%; height:20%; ">
             <h4>Add another listing</h4>
          </button>
         </div>
@@ -311,6 +311,9 @@
                     console.log(response); 
                   }
                 });
+           });
+           $('#another').on("click", function(){
+             
            });
          }
           
