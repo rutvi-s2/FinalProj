@@ -19,6 +19,8 @@
       <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
      <script src="https://kit.fontawesome.com/42a71b2c53.js" crossorigin="anonymous"></script>
+     <script src="https://maps.google.com/maps/api/js?key=AIzaSyCotBuEQ9RiD3kJg6II8gpONO37vLJThqQ"></script> -->
+
         </head>
       <!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
       <style type="text/css">
@@ -154,7 +156,7 @@
     <img src="/static/coloring/images/women-icon.png" alt="profilepic" style="width:200px" class="center">
   </div>
   <h4><center><span id="username">@{{ user.username }}</span></center></h4>
-  <h3><center>Austin, TX 78705</center></h3>
+  <h3><center id="location"></center></h3>
     <div class="impact-text">
   <center>My Impact</center>
 </div>
@@ -247,7 +249,8 @@
               
 
       <script>
-        var x=document.getElementById("demo");
+        var x=document.getElementById("location");
+        console.log("x", x);
           function getLocation(){
     if (navigator.geolocation){
         navigator.geolocation.getCurrentPosition(showPosition,showError);
@@ -295,7 +298,7 @@ function displayLocation(latitude,longitude){
                     country=value[count-1];
                     state=value[count-2];
                     city=value[count-3];
-                    x.innerHTML = "city name is: " + city;
+                    x.innerHTML = city + "," + state;
                 }
                 else  {
                     x.innerHTML = "address not found";
@@ -329,8 +332,8 @@ function move() {
   // }
 }
          window.onload = function(){   
-
-    move();
+            move(); 
+           getLocation();
          }
       </script>
    </body>
