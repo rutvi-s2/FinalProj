@@ -270,6 +270,12 @@ button {
   /* Add empty space above the container (20% of the view height) */
   margin-top: 20vh;
 }
+
+.user-text {
+  font-weight: bold;
+  font-size: 20px;
+  
+}
   </style>
   
 </head>
@@ -321,7 +327,8 @@ button {
 
         <div class="name">${item_name}</div>
   			<p>${description}</p>
-        <button>claim</button>
+        <p class="user-text">@${username}<button>claim</button></p>
+        
 </container>
   			<div class="card__face card__face--back">
   				<div class="card__content">
