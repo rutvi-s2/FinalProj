@@ -145,7 +145,7 @@
    </div>
 <div id="myModal" class="Modal is-hidden is-visuallyHidden">
         <span id="closeModal" class="Close">&times;</span>
-         <h1 style = "text-align:center; padding-top:5%;">Friend added!</h1>
+         <h1 id="popupr" style="text-align:center; padding-top:5%;">Friend added!</h1>
 <!--          <div id='wrapper' style='text-align: center;padding-top:12%;'>
             <button onclick="window.location.href='../';"class="btn btn-primary btn-large" id="returnHome" style=" background-color:#3e8369;width:30%; height:20%;">
                <h4>Return to Home</h4>
@@ -230,10 +230,21 @@ btnClose.onclick = function() {
          $.ajax({
           type: "POST",
           url: "/wasteless/" + $('#username').text() + "/friends/",
+          timeout: 5000,
           data: JSON.stringify(data_to_send),
           success: function (response) {
             // prints the response from the server
             console.log(response); 
+            if(response == "True"){
+              console.log("friend existed");
+              $('#popupr').text("Friend Added");
+            }
+              
+            else{
+              console.log("friend dne");
+              $('#popupr').text("Sorry, the username @" +$("#friend").val()+" does not exist");
+            }
+              
           }
         });
     });

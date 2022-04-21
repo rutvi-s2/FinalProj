@@ -173,10 +173,12 @@ def friends(request, username =""):
       #user.save() 
       print("friends list udpated: ", user.friends)
       print("DEBUG views.py, friends: the updated friend list is ", user.friends)
+      return HttpResponse(True) #try fail
     else:
       print("DEBUG views.py, friends: the user does not exist")
+      return HttpResponse(False) #try fail
     
-    return HttpResponse(True)
+    #return json response
   else: #GET request
     if User.objects.filter(username = username).exists():
       if user.friends == None:
