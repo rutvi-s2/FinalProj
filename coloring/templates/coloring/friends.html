@@ -236,7 +236,7 @@ btnClose.onclick = function() {
             // prints the response from the server
             console.log(response); 
             if(response == "True"){
-              $('#popupr').text("Friend Added");
+              $('#popupr').text("@" + $("#friend").val()+" is now your friend!");
             }
             if(response== "False")
             {
@@ -245,7 +245,7 @@ btnClose.onclick = function() {
               
             if(response== ""){
               
-              $('#popupr').text("Friend Already");
+              $('#popupr').text("@" + $("#friend").val()+" is already your friend!");
             }
               
           }
