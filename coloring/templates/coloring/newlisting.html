@@ -51,6 +51,7 @@
          margin-left:-80px;
          vertical-align: top;
          }
+/*         Stuff for pop up */
          .Modal {
          display: block;
          position: fixed;
@@ -72,16 +73,7 @@
          .ModalOpen { overflow: hidden; }
          .is-hidden { display: none; }
          .is-visuallyHidden { opacity: 0; }
-         .Close {
-         color: #aaaaaa;
-         float: right;
-         font-size: 16px;
-         }
-         .Close:hover, .Close:focus {
-         color: #000;
-         text-decoration: none;
-         cursor: pointer;
-         }
+
          .is-blurred {
          filter: blur(3px);
          -webkit-filter: blur(3px);
@@ -90,7 +82,7 @@
       </style>
    </head>
    <body>
-      <div class = "overlay" id=myContainer>
+      <div id=myContainer>
          <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
             <div class="mx-auto order-0">
                <a id="title" class="navbar-brand mx-auto" href="../">Wasteless</a>
@@ -186,6 +178,7 @@
             </button>
          </div>
       </div>
+<!--      Start of popup stuff -->
       <div id="myModal" class="Modal is-hidden is-visuallyHidden">
          <h1 style = "text-align:center; padding-top:5%;">Listing successfully uploaded!</h1>
          <div id='wrapper' style='text-align: center;padding-top:12%;'>
@@ -215,6 +208,7 @@
          }, 100);
          container.parentElement.className = "ModalOpen";
          }
+           // End pop up
            console.log($("#username").val());
            $('#post').on("click", function(){
              // send everything needed to make a listing
@@ -242,9 +236,6 @@
                     console.log(response); 
                   }
                 });
-           });
-           $('#another').on("click", function(){
-             
            });
          }
           

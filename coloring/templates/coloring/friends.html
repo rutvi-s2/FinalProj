@@ -63,13 +63,51 @@
     #myCanvas {
       border: 1px solid black;
     }
+    .Modal {
+         display: block;
+         position: fixed;
+         border: 5px solid #a9a9a9;
+         top:50%;
+         left:50%;
+         width:500px;  /* adjust as per your needs */
+         height:400px;   /* adjust as per your needs */
+         margin-left:-250px;   /* negative half of width above */
+         margin-top:-200px;   /* negative half of height above */
+         max-width: 500px;
+         z-index: 9999;
+         padding-top: 100px;
+         background-color: white;
+         -webkit-transition: 0.5s;
+         overflow: auto;
+         transition: all 0.3s linear;
+         }
+         .ModalOpen { overflow: hidden; }
+         .is-hidden { display: none; }
+         .is-visuallyHidden { opacity: 0; }
+         .Close {
+         color: #aaaaaa;
+/*          float: right; */
+         font-size: 35px;
+          top: -10px;
+           right: 0px;
+           position: absolute;
+         }
+         .Close:hover, .Close:focus {
+         color: #000;
+         text-decoration: none;
+         cursor: pointer;
+         }
+         .is-blurred {
+         filter: blur(3px);
+         -webkit-filter: blur(3px);
+         }
     
   </style>
   
 </head>
 <body>
 
-
+<div id=myContainer>
 <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
  
     <div class="mx-auto order-0">
@@ -104,8 +142,19 @@
   </div>
 <!--   <h2 id="friend-list">Friends: </h2> -->
   <ul id="dynamic-list" style="list-style: none;"></ul>
-  
-
+   </div>
+<div id="myModal" class="Modal is-hidden is-visuallyHidden">
+        <span id="closeModal" class="Close">&times;</span>
+         <h1 style = "text-align:center; padding-top:5%;">Friend added!</h1>
+<!--          <div id='wrapper' style='text-align: center;padding-top:12%;'>
+            <button onclick="window.location.href='../';"class="btn btn-primary btn-large" id="returnHome" style=" background-color:#3e8369;width:30%; height:20%;">
+               <h4>Return to Home</h4>
+            </button>
+            <button onclick="window.location.href='';" id="another" class="btn btn-primary btn-large" style=" background-color:#3e8369;width:30%; height:20%; ">
+               <h4>Add another listing</h4>
+            </button>
+         </div> -->
+      </div>
 
   <script>
 
@@ -142,7 +191,31 @@
    
   
   window.onload = function() {
-    
+    // Get the modal
+         var modal = document.getElementById('myModal');
+         // Get the main container and the body
+         var body = document.getElementsByTagName('body');
+         var container = document.getElementById('myContainer');
+         // Get the open button
+         var btnOpen = document.getElementById("add");
+        var btnClose = document.getElementById("closeModal");
+         // Open the modal
+         btnOpen.onclick = function() {
+         modal.className = "Modal is-visuallyHidden";
+         setTimeout(function() {
+         container.className = "MainContainer is-blurred";
+         modal.className = "Modal";
+         }, 100);
+         container.parentElement.className = "ModalOpen";
+         }
+    // Close the modal
+btnClose.onclick = function() {
+    modal.className = "Modal is-hidden is-visuallyHidden";
+    body.className = "";
+    container.className = "MainContainer";
+    container.parentElement.className = "";
+}
+           // End pop up
     console.log({{ friends|safe }});
     var friends_list = {{ friends|safe }};
     
