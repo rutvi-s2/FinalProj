@@ -19,7 +19,7 @@
       <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
      <script src="https://kit.fontawesome.com/42a71b2c53.js" crossorigin="anonymous"></script>
-     <script src="https://maps.google.com/maps/api/js?key=AIzaSyCotBuEQ9RiD3kJg6II8gpONO37vLJThqQ"></script> -->
+     <script src="https://maps.google.com/maps/api/js?key=AIzaSyCotBuEQ9RiD3kJg6II8gpONO37vLJThqQ"></script> 
 
         </head>
       <!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
@@ -121,6 +121,41 @@
         .profile-pic{
           padding: 10px;
         }
+
+        .btn-style-right{
+          width: 30%;
+          height: 70px;
+          background-color: #3e8369;
+          font-family: "Raleway", sans-serif;
+          border-radius: 20px;
+          float: right;
+          margin: 16px 10px 16px 10px;
+          cursor: pointer;
+         
+        }
+        .btn-style-left{
+          width: 30%;
+          height: 70px;
+          background-color: #3e8369;
+          font-family: "Raleway", sans-serif;
+          border-radius: 20px;
+          float: left;
+          margin: 16px 10px 16px 10px;
+          cursor: pointer;
+
+          
+        }
+
+        .btn-style-left:hover {
+          background-color: #4CAF50; /* Green */
+          color: white;
+        }
+
+        .btn-style-right:hover {
+          background-color: #4CAF50; /* Green */
+          color: white;
+        }
+      
       </style>
   
    <body>
@@ -170,7 +205,30 @@
      </div>
   
 </div>
-<div class='bottom'></div>
+<div class='bottom'>
+          <div class="row" >
+          <button onclick="window.location.href='mylistings';" class="btn-style-right" id="post" ">
+            <h3 style="color:black;">My Listings </h3>
+          </button>
+
+          <button onclick="window.location.href='claimed';" class="btn-style-left" id="post"  ">
+            <h3 style="color:black;">Claimed Listings </h3>
+          </button>
+
+        </div>
+        <div class="row"> 
+                  
+
+          <button onclick="window.location.href='saved';" class="btn-style-right" id="post">
+            <h3 style="color:black;">Saved Listings </h3>
+          </button>
+        
+          <button onclick="window.location.href='../friends/';" class="btn-style-left" id="post">
+            <h3 style="color:black;">Friends </h3>
+          </button>
+       
+        </div>
+</div>
 
      
 <!--      Profile page begins here 
@@ -299,6 +357,7 @@ function displayLocation(latitude,longitude){
                     state=value[count-2];
                     city=value[count-3];
                     x.innerHTML = city + "," + state;
+                    //post req here, 
                 }
                 else  {
                     x.innerHTML = "address not found";
