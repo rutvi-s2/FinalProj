@@ -6,7 +6,6 @@
       <script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
       <script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
      
-     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -19,11 +18,21 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
+     <script src="https://kit.fontawesome.com/42a71b2c53.js" crossorigin="anonymous"></script>
+        </head>
       <!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
       <style type="text/css">
          body {
          background-color: white;
          }
+        h3{
+          font-family: "Raleway", sans-serif;
+          font-size: 30px;
+        }
+         h4{
+          font-family: "Raleway", sans-serif;
+          font-size: 40px;
+        }
          #title {
          color: white;
          font-size: 44px;
@@ -96,8 +105,20 @@
       font-family: "Raleway", sans-serif;
       font-size: 20px;
     }
+      .top {
+  height: 70vh;
+  background-color: rgb(221,210,192);
+}
+
+.bottom {
+  height: 30vh;
+  background-color: white;
+}
+        .profile-pic{
+          padding: 10px;
+        }
       </style>
-   </head>
+  
    <body>
 
      <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
@@ -125,17 +146,40 @@
         </ul>
     </div>
 </nav>
-<!--      Profile page begins here -->
+
+<div class='top'>
+  <div class="profile-pic">
+    <img src="/static/coloring/images/women-icon.png" alt="profilepic" style="width:200px" class="center">
+  </div>
+  <h4><center><span id="username">@{{ user.username }}</span></center></h4>
+  <h3><center>Austin, TX 78705</center></h3>
+    <div class="impact-text">
+  <center>My Impact</center>
+</div>
+     <div id="myProgress">
+      <div id="myBar"></div>
+    </div>
+     <div class="impact-text">
+     <center>
+        {{ points }} points!
+       </center>
+     </div>
+  
+</div>
+<div class='bottom'></div>
+
+     
+<!--      Profile page begins here 
       <nav style="background-color: #D3D3D3;">
          <b>
             <h id="subheading" style="margin:9px;">Profile</h>
          </b>
       </nav>
 
-     <!-- testing location things
+<!--      <!-- testing location things
 
       <h3><center>your impact!</center></h3>
-<!--       <h3><center>impact bar here</center></h3> -->
+<!--       <h3><center>impact bar here</center></h3> 
      
      <p><button onclick="getLocation()">Get My Location</button></p>
 <p id="demo"></p>
@@ -196,7 +240,7 @@
           <button onclick="window.location.href='../friends/';" class="btn btn-primary btn-large" id="post" style="float: right; background-color:#EEEEEE;width:30%; ">
             <h3 style="color:black;">Friends </h3>
           </button>
-        </div>
+        </div> -->
 
               
 

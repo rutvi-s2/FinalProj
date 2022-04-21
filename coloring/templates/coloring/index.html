@@ -237,6 +237,7 @@ p {
   font-size: 14px;
   color: #7f8c9b;
   line-height: 150%;
+  margin-bottom: -5px;
 }
     /* Style button element */
 button {
@@ -318,6 +319,7 @@ button {
   <div class="col-md-4">
 <div>
   	<div class="card card2">
+<p class="user-text">@${username}</p>
 <img src="{% static 'coloring/images/cookies-image.jpeg'%}">
   		<div class="card__details">
   			<span class="tag">${homemade}</span>
@@ -327,7 +329,7 @@ button {
 
         <div class="name">${item_name}</div>
   			<p>${description}</p>
-        <p class="user-text">@${username}<button>claim</button></p>
+        <p> <button>claim</button></p>
         
 </container>
   			<div class="card__face card__face--back">
