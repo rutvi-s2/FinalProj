@@ -295,28 +295,32 @@ def claimed(request, username =""):
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
-
-    pickedup_post =Posting.objects.filter(item_name=data["pickup_post"])
-    #need to update post.active = False
-    for object in pickedup_post:
-      object.active = False
-      object.save()
-    
-    #remove from user's claimed list and add to their impact score
-    user.claimed.remove(pickedup_post[0].item_name)
-    print("updated user claim list,", user.claimed)
-    if(user.total == None):
-      user.total = 0
-    user.total = user.total + 1 
-    user.save()
-    print("updated user claim list,", user.claimed)
-    listing_user = pickedup_post[0].listing_user
-    
-    if(listing_user.total == None):
-      listing_user.total = 0
-    listing_user.total = listing_user.total + 1 
-    listing_user.save()
-    #pop up with rating
+    if(data['type']=="pickedup"):
+      print("in views registered as pickup")
+      pickedup_post =Posting.objects.filter(item_name=data["pickup_post"])
+      #need to update post.active = False
+      for object in pickedup_post:
+        object.active = False
+        object.save()
+      
+      #remove from user's claimed list and add to their impact score
+      user.claimed.remove(pickedup_post[0].item_name)
+      print("updated user claim list,", user.claimed)
+      if(user.total == None):
+        user.total = 0
+      user.total = user.total + 1 
+      user.save()
+      print("updated user claim list,", user.claimed)
+      listing_user = pickedup_post[0].listing_user
+      
+      if(listing_user.total == None):
+        listing_user.total = 0
+      listing_user.total = listing_user.total + 1 
+      listing_user.save()
+    else: #type is rated
+      # get listing user
+      # add to their rating in data base
+      print("in views registered as rated")
     
     return HttpResponse(True)
   else: #GET request

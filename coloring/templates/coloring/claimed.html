@@ -227,7 +227,7 @@
          <div id='wrapper' style='text-align: center;padding-top:6%;display: flex;
             justify-content: center;
             align-items: center;'>
-            <button class="btn btn-primary btn-large" id="submit" style=" background-color:#3e8369;width:30%; height:20%;">
+            <button onclick="window.location.href='';" class="btn btn-primary btn-large" id="submit" style=" background-color:#3e8369;width:30%; height:20%;">
                <h4>Submit</h4>
             </button>
          </div>
@@ -327,6 +327,7 @@
                 console.log($("#card-title").text());
                 $('#popupr').text("One more step! Rate \""+ $('#card-title').text()+ "\" to receive your impact points.");
                 var data_to_send = {
+                    "type": "pickedup",
                      "pickup_post": $("#card-title").text()
                    };
                 
@@ -360,20 +361,21 @@
                 console.log($("#givenRate").text());
           
                 
-               //  var data_to_send = {
-               //       "rated_post": $("#card-title").text(),
-               //        "score": $("#givenRate").text(),
-               //     };
+                var data_to_send = {
+                      "type": "rated",
+                     "rated_post": $("#card-title").text(),
+                      "score": $("#givenRate").text(),
+                   };
                 
-               //  $.ajax({
-               //   type: "POST",
-               //   url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
-               //   data: JSON.stringify(data_to_send),
-               //   success: function (response) {
-               //     // prints the response from the server
-               //     console.log(response); 
-               //   }
-               // });
+                $.ajax({
+                 type: "POST",
+                 url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
+                 data: JSON.stringify(data_to_send),
+                 success: function (response) {
+                   // prints the response from the server
+                   console.log(response); 
+                 }
+               });
                 
            });
          // window.onload = function(){
