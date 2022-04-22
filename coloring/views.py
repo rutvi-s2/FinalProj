@@ -299,6 +299,7 @@ def claimed(request, username =""):
       print("in views registered as pickup")
       pickedup_post =Posting.objects.filter(item_name=data["pickup_post"])
       #need to update post.active = False
+      # i dont think this needs a for loop if we treat each item name as unique
       for object in pickedup_post:
         object.active = False
         object.save()
@@ -319,6 +320,19 @@ def claimed(request, username =""):
       listing_user.save()
     else: #type is rated
       # get listing user
+      pickedup_post =Posting.objects.filter(item_name=data["rated_post"])
+      listing_user = pickedup_post[0].listing_user
+      old_num = listing_user.rating_numer
+      old_den = listing_user.rating_denom
+      this_snum, this_sdenom = (data["score"]).split('/')
+      this_num = int(this_snum)
+      new_rating = round(((old_num+this_num)/(old_den + 5))*5,2)
+      print("user being rated is ", listing_user.username)
+      print("this is new rating!!!!", new_rating)
+      listing_user.rating = new_rating
+      listing_user.rating_numer = this_num + old_num
+      listing_user.rating_denom = old_den + 5
+      listing_user.save()
       # add to their rating in data base
       print("in views registered as rated")
     
