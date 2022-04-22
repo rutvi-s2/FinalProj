@@ -216,7 +216,7 @@
             justify-content: center;
             align-items: center;'>
             <div class="rating">
-               <span class="rating__result"></span> 
+               <span hidden id= "givenRate" class="rating__result"></span> 
                <i class="rating__star far fa-star" style="font-size:48px;"></i>
                <i class="rating__star far fa-star" style="font-size:48px;"></i>
                <i class="rating__star far fa-star" style="font-size:48px;"></i>
@@ -227,7 +227,7 @@
          <div id='wrapper' style='text-align: center;padding-top:6%;display: flex;
             justify-content: center;
             align-items: center;'>
-            <button onclick="window.location.href='../';"class="btn btn-primary btn-large" id="submit" style=" background-color:#3e8369;width:30%; height:20%;">
+            <button class="btn btn-primary btn-large" id="submit" style=" background-color:#3e8369;width:30%; height:20%;">
                <h4>Submit</h4>
             </button>
          </div>
@@ -329,7 +329,7 @@
                 var data_to_send = {
                      "pickup_post": $("#card-title").text()
                    };
-                console.log("DEBUG: index POST req data", data_to_send);
+                
                 $.ajax({
                  type: "POST",
                  url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
@@ -351,6 +351,29 @@
                 modal.className = "Modal";
                 }, 100);
                 container.parentElement.className = "ModalOpen";
+                
+           });
+         $("#submit").on("click", function(){
+                console.log("submit clicked");
+              
+                console.log($("#card-title").text());
+                console.log($("#givenRate").text());
+          
+                
+               //  var data_to_send = {
+               //       "rated_post": $("#card-title").text(),
+               //        "score": $("#givenRate").text(),
+               //     };
+                
+               //  $.ajax({
+               //   type: "POST",
+               //   url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
+               //   data: JSON.stringify(data_to_send),
+               //   success: function (response) {
+               //     // prints the response from the server
+               //     console.log(response); 
+               //   }
+               // });
                 
            });
          // window.onload = function(){
