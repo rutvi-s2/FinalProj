@@ -159,21 +159,21 @@
       var msg = $('#textMsg').val();
          //console.log($("#textMsg").val());
          //var usr = $('#user').val();
-         var chatStorage = null;
+         /*var chatStorage = null;
          if ChatStorage.objects.filter(user_one={{ user}}).exists():
          chatStorage = ChatStorage.get()
          elif ChatStorage.objects.filter(user_two={{ user}}).exists():
          else:
-          chatStorage = ChatStorage.objects.create(user_one={{user}}, user_two=null);
+          chatStorage = ChatStorage.objects.create(user_one={{user}}, user_two=null);*/
         
          var usr = "{{ user }}";
          //console.log(usr);
          var toSend = { text: msg, user: usr};
                   //console.log(toSend);
       socket.send(JSON.stringify(toSend));
-         ajax.post("coloring/send-message", {
+         /*ajax.post("coloring/send-message", {
            "user1", "user2"
-         })
+         })*/
 
        });
         
