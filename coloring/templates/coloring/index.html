@@ -441,6 +441,7 @@ button {
      
      
     var data_to_send = {
+      "type": "claim",
       "claimed_post": $("#card-title").text()
         };
      console.log("DEBUG: index POST req data", data_to_send);
@@ -459,6 +460,7 @@ button {
     
      
     var data_to_send = {
+      "type": "chat",
       "listing-user": $(".user-text").text()
         };
      console.log("DEBUG: index POST req data", data_to_send);
