@@ -39,8 +39,8 @@
     #chat-area {
       width: 100%;
       height: 60vh;
-      padding-left: 20%;
-      padding-right: 20%;
+      padding-left: 10%;
+      padding-right: 10%;
       overflow:scroll;
       background:white;
     }
@@ -82,9 +82,11 @@
         <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py -->
         <h4>Chat Tool</h4>
         <div id="chat-area"></div>
-        <input id="user">
-        <input id="textMsg">
-        <button class="btn btn-primary btn-large" id="send">Send</button>
+        <div style="padding-top: 30px; padding-left:10%;">
+          <input id="user">
+          <input id="textMsg">
+          <button class="btn btn-primary btn-large" id="send">Send</button>
+        <div>
         
         <br></br>
         
@@ -122,9 +124,11 @@
           
           if(usr != $('#user').val()){
             $(textNode).css("margin-left", "60%");
+            $(textNode).css("background-color", "lightgray");
           }
           else{
             $(textNode).css("margin-right", "60%");
+            $(textNode).css("background-color", "lightblue");
           }
           $(textNode).css("width", "fit-content");
           textNode.innerHTML = msg + "  ";
