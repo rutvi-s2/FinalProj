@@ -332,6 +332,7 @@ button {
         <div class="name">${item_name}</div>
   			<p>${description}</p>
         <p> <button onclick="claimButton()">claim</button></p>
+        <p> <button onclick="chatButton()">chat</button></p>
         
   			<div class="card__face card__face--back">
   				<div class="card__content">
@@ -441,6 +442,24 @@ button {
      
     var data_to_send = {
       "claimed_post": $("#card-title").text()
+        };
+     console.log("DEBUG: index POST req data", data_to_send);
+     $.ajax({
+      type: "POST",
+      url: "/wasteless/" + $('#username').text() + "/",
+      data: JSON.stringify(data_to_send),
+      success: function (response) {
+        // prints the response from the server
+        console.log(response); 
+      }
+    });
+  }
+
+    function chatButton(){
+    
+     
+    var data_to_send = {
+      "listing-user": $(".user-text").text()
         };
      console.log("DEBUG: index POST req data", data_to_send);
      $.ajax({
