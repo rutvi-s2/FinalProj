@@ -18,8 +18,9 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
-     <script src="https://kit.fontawesome.com/42a71b2c53.js" crossorigin="anonymous"></script>
+   
      <script src="https://maps.google.com/maps/api/js?key=AIzaSyCotBuEQ9RiD3kJg6II8gpONO37vLJThqQ"></script> 
+     <script src="https://kit.fontawesome.com/fc188b5fd5.js" crossorigin="anonymous"></script>
 
         </head>
       <!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
@@ -346,7 +347,11 @@ function displayLocation(latitude,longitude){
                     country=value[count-1];
                     state=value[count-2];
                     city=value[count-3];
-                    x.innerHTML = city + "," + state;
+                    icon = document.createElement('i');
+                    icon.setAttribute('class', 'fas fa-map-marker-alt');
+                    
+                    x.innerHTML = city + "," + state + " ";
+                    x.appendChild(icon);
                     //post req here, 
                 }
                 else  {
