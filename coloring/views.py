@@ -97,8 +97,28 @@ def index(request, authorname="DefaultAuthor", username =""):
     
     return render(request, 'coloring/index.html', data)
     
+
+def chatindex(request):
+  # print("The authorname is:", authorname)
+  # author = get_author_by_name(authorname)
+  
+  if request.POST: 
+    # POST request received
+    
+    # demonstrating printing out the POST request & data
+    print("Received POST request with data:")
+    data = json.loads(request.body.decode('UTF-8'))
+    print(data)
+    return HttpResponse(True)
+
+    # creating a new listing
+    
+    
+    
 @csrf_exempt
 def newlisting(request, username =""):
+  # print("The authorname is:", authorname)
+  # author = get_author_by_name(authorname)
   
   user = get_user_by_name(username)
   print(user.username)
