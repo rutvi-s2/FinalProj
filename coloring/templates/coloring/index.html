@@ -260,6 +260,7 @@
   `;
     all_cards.innerHTML += code;
   }
+  // window.onload(){
   //[item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]
   for (var i = 0; i < {{all_postings | safe}}.length; i++){
     var post = ({{all_postings | safe}})[i];
@@ -343,7 +344,7 @@
       }
     });
   }
-    
+      
 </script>
 </body>
 </html>
