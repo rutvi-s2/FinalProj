@@ -14,6 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
 
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Raleway:wght@400;500&family=Shrikhand&display=swap" rel="stylesheet"> 
  
 
   
@@ -34,7 +35,7 @@
     #nav-items {
       color: white;
       font-size: 24px;
-      font-family: 'Lora', serif;
+      font-family: "Raleway", sans-serif;
     }
     
     #myCanvas {
@@ -193,6 +194,89 @@
       border: 2px solid #4CAF50; /* Green */
     }
 
+/*     my changes */
+    body {
+      background-color: #eaeff1;
+      font-family: "Raleway", sans-serif;
+    }
+    img {
+    width: 100%;
+    border-radius: 12px;
+    height: 214px;
+    object-fit: cover;
+    }
+
+    .card2 {
+  /* Change background color */
+  background-color: white;
+
+  /* Add border */
+  border: 3px solid #3e8368;
+
+  /* Add space between the border and the content */
+  padding: 8px;
+
+  border-radius: 12px;
+}
+
+    .tag {
+    padding: 4px 8px;
+    border: 1px solid #e5eaed;
+
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #788697;
+  }
+  .name {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 16px;
+  }
+p {
+  font-size: 14px;
+  color: #7f8c9b;
+  line-height: 150%;
+  margin-bottom: -5px;
+}
+    /* Style button element */
+button {
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+
+  font-weight: 600;
+  color: #0077ff;
+  background-color: #e0efff;
+
+  /* Button is inline-block element by default, it need to have block display for margin: 0 auto; to work */
+  margin: 0 auto;
+  display: block;
+  float: right;
+
+  /* Button is a clickable element, therefore it should have a pointer cursor */
+  cursor: pointer;
+}
+
+.card__details {
+  /* Add space around the details */
+  padding: 16px 8px 8px 8px;
+}
+    #container {
+  max-width: 300px;
+
+  /* Center the container in middle on horizontal axis */
+  margin: 0 auto;
+
+  /* Add empty space above the container (20% of the view height) */
+  margin-top: 20vh;
+}
+
+.user-text {
+  font-weight: bold;
+  font-size: 20px;
+  
+}
   </style>
   
 </head>
@@ -231,13 +315,24 @@
 
   const all_cards = document.querySelector(".row");
   function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]){
+   
     let code = `
   <div class="col-md-4">
-  	<div class="card">
-  		<div class="card__inner">
-  			<div class="card__face card__face--front">
-  				<h2>${item_name} x ${qty} ${qty_units}</h2>
-  			</div>
+<div>
+  	<div class="card card2">
+<p class="user-text">@${username}</p>
+<img src="{% static 'coloring/images/cookies-image.jpeg'%}">
+  		<div class="card__details">
+      <div id="all_tags">
+  			<span class="tag">${homemade}</span>
+        <span class="tag">${unopened}</span>
+        <span class="tag">${og}</span>
+        <span class="tag">${store}</span>
+      <div>
+        <div class="name">${item_name}</div>
+  			<p>${description}</p>
+        <p> <button onclick="claimButton()">claim</button></p>
+        
   			<div class="card__face card__face--back">
   				<div class="card__content">
   					<div class="card__header">
@@ -259,8 +354,17 @@
   </div>
   `;
     all_cards.innerHTML += code;
+
+    //this is code i tried that didn't work (appended to first card not specific one)
+    //     if(unopened.length > 0){
+    //       console.log("printing");
+    //   var all_tag = document.getElementById("all_tags");
+    //   var tag = document.createElement("span");
+    //   tag.setAttribute('class', 'tag');
+    //   tag.appendChild(document.createTextNode('unopened'));
+    //   all_tag.appendChild(tag);
+    // }
   }
-  // window.onload(){
   //[item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]
   for (var i = 0; i < {{all_postings | safe}}.length; i++){
     var post = ({{all_postings | safe}})[i];
@@ -287,7 +391,7 @@
         item1.push("store bought");
         first = false;
       }else{
-        item1.push(", store bought");
+        item1.push("store bought");
       }
     }else{
       item1.push("");
@@ -308,10 +412,11 @@
       item1.push(null);
     }
     createCard(item1);
+
   }
   
-  const cards = document.querySelectorAll(".card__inner");
-  
+  const cards = document.querySelectorAll(".card2");
+  console.log("the cards are", cards);
   cards.forEach(card => {
     const btn = document.querySelector('.btn');
     btn.addEventListener("click", function (e) {
@@ -319,7 +424,11 @@
       
     });
     card.addEventListener("click", function (e) {
-      console.log(card);
+      // temp = card.childNodes[5].querySelector("div");
+      // console.log(temp);
+      // console.log(temp.text());
+      //console.log(card.childNodes[5].querySelector("div"));
+      console.log($("#card-title").text());
       card.classList.toggle('is-flipped');
     });
   });
@@ -344,7 +453,7 @@
       }
     });
   }
-      
+    
 </script>
 </body>
 </html>
