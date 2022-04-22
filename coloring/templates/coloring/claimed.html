@@ -1,5 +1,4 @@
-claimed in progress
-   
+
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -290,7 +289,7 @@ claimed in progress
      $("#picked-up").on("click", function(){
          console.log("picked up clicked");
          console.log($("#card-title").text());
-         
+         $('#popupr').text("One more step! Rate \""+ $('#card-title').text()+ "\" to receive your impact points.");
          var data_to_send = {
               "pickup_post": $("#card-title").text()
             };
@@ -305,6 +304,7 @@ claimed in progress
           }
         });
        // Get the modal
+        
          var modal = document.getElementById('myModal');
          // Get the main container and the body
          var body = document.getElementsByTagName('body');
