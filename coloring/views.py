@@ -217,10 +217,14 @@ def profile(request, username =""):
     if User.objects.filter(username = username).exists():
       print("DEBUG: def freinds, inside get request user does exist")
       print("the user friends are ", user.friends)
-      
+      if user.total == None:
+        total_points = 0
+      else:
+        total_points = user.total
       data = {
         "user": user,
-        "friends": user.friends
+        "friends": user.friends,
+        "points": total_points
       }
     else:
       print("DEBUG: user doesnt yet exist")
