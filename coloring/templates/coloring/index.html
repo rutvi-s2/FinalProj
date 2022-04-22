@@ -314,7 +314,7 @@ button {
 <script>
 
   const all_cards = document.querySelector(".row");
-  function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]){
+  function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified, num]){
    
     let code = `
   <div class="col-md-4">
@@ -331,7 +331,7 @@ button {
       <div>
         <div class="name">${item_name}</div>
   			<p>${description}</p>
-        <p> <button onclick="claimButton()">claim</button></p>
+        <p> <button onclick="claimButton(this)" id="${num}">claim</button></p>
         <p> <button onclick="chatButton()">chat</button></p>
         
   			<div class="card__face card__face--back">
@@ -340,13 +340,10 @@ button {
   						<h2>@${username}<img src="${verified}" onerror="this.onerror=null; this.remove();" alt="" class="verified"/></h2>
   					</div>
   					<div class="card__body">
-  						<h3 id="card-title">${item_name}</h3>
+  						<h3 id="card-title${num}">${item_name}</h3>
   						<p><b> * Description: </b>${description}</p>
               <p><b> * Best Buy:</b> </p>
               <p><b> * Tags: </b> ${unopened} ${og} ${store} ${homemade}</p>
-              <button class="btn" onclick="claimButton()" id="claim" style="float: right; background-color:#EEEEEE;width:30%; ">
-            <h5 style="color:black;"><img src="{% static 'coloring/images/claim.png'%}" alt="" class="claim"/>Claim!</h5>
-          </button>
   					</div>
   				</div>
   			</div>
@@ -412,6 +409,7 @@ button {
     }else{
       item1.push(null);
     }
+    item1.push(i);
     createCard(item1);
 
   }
@@ -434,15 +432,15 @@ button {
     });
   });
 
-  function claimButton(){
+  function claimButton(button){
     console.log("ayoo");
     console.log("claimed");
     console.log($("#card-title").text());
-     
-     
+    const specific = '#card-title' + button.id
+    console.log($(specific).text());
     var data_to_send = {
       "type": "claim",
-      "claimed_post": $("#card-title").text()
+      "claimed_post": $(specific).text()
         };
      console.log("DEBUG: index POST req data", data_to_send);
      $.ajax({
