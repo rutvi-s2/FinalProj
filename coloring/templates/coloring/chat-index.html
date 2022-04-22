@@ -44,6 +44,11 @@
       overflow:scroll;
       background:white;
     }
+    #typeText{
+      padding-top: 30px;
+      padding-left:35%;
+      background-color: white;
+    }
     
   </style>
   
@@ -82,8 +87,8 @@
         <!-- the brackets around author.name indicate getting the property name from the author variable passed from coloring/views.py -->
         <h4>Chat Tool</h4>
         <div id="chat-area"></div>
-        <div style="padding-top: 30px; padding-left:10%;">
-          <input id="user">
+        <div id="typeText" style="padding-top: 30px; padding-left:35%;">
+          
           <input id="textMsg">
           <button class="btn btn-primary btn-large" id="send">Send</button>
         <div>
@@ -119,20 +124,26 @@
           var msg = message["text"];
           var usr = message["user"];
           var chatArea = $("#chat-area")
+          var textNodeBox = document.createElement("div");
           var textNode = document.createElement("div");
           textNode.id = "chat-msg";
           
-          if(usr != $('#user').val()){
-            $(textNode).css("margin-left", "60%");
+          if(usr !== "{{ user }}"){
+            $(textNode).css("margin-right", "60%");
             $(textNode).css("background-color", "lightgray");
+            
           }
           else{
-            $(textNode).css("margin-right", "60%");
+            $(textNodeBox).css("text-align", "right");
+            $(textNode).css("margin-left", "60%");
             $(textNode).css("background-color", "lightblue");
+            
           }
-          $(textNode).css("width", "fit-content");
+          $(textNode).css("display", "inline-block");
+          
           textNode.innerHTML = msg + "  ";
-          chatArea.append(textNode);
+          textNodeBox.append(textNode);
+          chatArea.append(textNodeBox);
           chatArea = document.getElementById("chat-area");
           chatArea.scrollTop = chatArea.scrollHeight;
          
@@ -144,13 +155,14 @@
         
         
        $( "#send" ).click(function() {
-      alert( "Handler for send called." );
          
       var msg = $('#textMsg').val();
-         console.log($("#textMsg").val());
-         var usr = $('#user').val();
+         //console.log($("#textMsg").val());
+         //var usr = $('#user').val();
+         var usr = "{{ user }}";
+         //console.log(usr);
          var toSend = { text: msg, user: usr};
-                  console.log(toSend);
+                  //console.log(toSend);
       socket.send(JSON.stringify(toSend));
 
        });

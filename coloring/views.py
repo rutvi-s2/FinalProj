@@ -98,7 +98,7 @@ def index(request, authorname="DefaultAuthor", username =""):
     return render(request, 'coloring/index.html', data)
     
 
-def chatindex(request):
+def chatindex(request, username=""):
   # print("The authorname is:", authorname)
   # author = get_author_by_name(authorname)
   
@@ -110,7 +110,12 @@ def chatindex(request):
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
     return HttpResponse(True)
-  return render(request, 'coloring/chat-index.html')
+  
+  data = {
+      "user": username,
+      "friends": [],
+    }
+  return render(request, 'coloring/chat-index.html', data)
 
     # creating a new listing
     
