@@ -296,27 +296,46 @@ def claimed(request, username =""):
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
 
-    pickedup_post =Posting.objects.filter(item_name=data["pickup_post"])
-    #need to update post.active = False
-    for object in pickedup_post:
-      object.active = False
-      object.save()
-    
-    #remove from user's claimed list and add to their impact score
-    user.claimed.remove(pickedup_post[0].item_name)
-    print("updated user claim list,", user.claimed)
-    if(user.total == None):
-      user.total = 0
-    user.total = user.total + 1 
-    user.save()
-    print("updated user claim list,", user.claimed)
-    listing_user = pickedup_post[0].listing_user
-    
-    if(listing_user.total == None):
-      listing_user.total = 0
-    listing_user.total = listing_user.total + 1 
-    listing_user.save()
-    #pop up with rating
+    if(data['type']=="pickedup"):
+      print("in views registered as pickup")
+      pickedup_post =Posting.objects.filter(item_name=data["pickup_post"])
+      #need to update post.active = False
+      # i dont think this needs a for loop if we treat each item name as unique
+      for object in pickedup_post:
+        object.active = False
+        object.save()
+
+      #remove from user's claimed list and add to their impact score
+      user.claimed.remove(pickedup_post[0].item_name)
+      print("updated user claim list,", user.claimed)
+      if(user.total == None):
+        user.total = 0
+      user.total = user.total + 1 
+      user.save()
+      print("updated user claim list,", user.claimed)
+      listing_user = pickedup_post[0].listing_user
+
+      if(listing_user.total == None):
+        listing_user.total = 0
+      listing_user.total = listing_user.total + 1 
+      listing_user.save()
+    else: #type is rated
+      # get listing user
+      pickedup_post =Posting.objects.filter(item_name=data["rated_post"])
+      listing_user = pickedup_post[0].listing_user
+      old_num = listing_user.rating_numer
+      old_den = listing_user.rating_denom
+      this_snum, this_sdenom = (data["score"]).split('/')
+      this_num = int(this_snum)
+      new_rating = round(((old_num+this_num)/(old_den + 5))*5,2)
+      print("user being rated is ", listing_user.username)
+      print("this is new rating!!!!", new_rating)
+      listing_user.rating = new_rating
+      listing_user.rating_numer = this_num + old_num
+      listing_user.rating_denom = old_den + 5
+      listing_user.save()
+      # add to their rating in data base
+      print("in views registered as rated")
     
     return HttpResponse(True)
   else: #GET request
