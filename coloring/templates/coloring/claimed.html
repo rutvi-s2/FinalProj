@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -5,129 +6,153 @@
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
       <script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
-      <script src="https://kit.fontawesome.com/fc188b5fd5.js" crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+     <script src="https://kit.fontawesome.com/fc188b5fd5.js" crossorigin="anonymous"></script>
+
+     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+     
       <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
       <!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
-      <style type="text/css">
-         body {
-         background-color: white;
-         }
-         #title {
-         color: white;
-         font-size: 44px;
-         font-family: 'Shrikhand', cursive;
-         }
-         #nav-items {
-         color: white;
-         font-size: 24px;
-         font-family: 'Lora', serif;
-         }
-         #myCanvas {
-         border: 1px solid black;
-         }
-         :root {
-         --primary: #3E8368;
-         --secondary: #EEEEEE;
-         --dark: #969696;
-         --light: #f8f7f7;
-         }
-         * {
-         margin: 0;
-         padding: 0;
-         }
-         body {
-         font-family: montserrat, sans-serif;
-         width: 100%;
-         min-height: 100vh;
-         }
-         .card {
-         margin: 100px auto 0;
-         width: 400px;
-         height: 400px;
-         perspective: 1000px;
-         }
-         .card__inner {
-         width: 100%;
-         height: 100%;
-         transition: transform 1s;
-         transform-style: preserve-3d;
-         cursor: pointer;
-         position: relative;
-         }
-         .card__inner.is-flipped {
-         transform: rotateY(180deg);
-         }
-         .card__face {
-         position: absolute;
-         width: 100%;
-         height: 100%;
-         -webkit-backface-visibility: hidden;
-         backface-visibility: hidden;
-         overflow: hidden;
-         border-radius: 16px;
-         box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
-         }
-         .card__face--front {
-         background-image: linear-gradient(to bottom right, var(--primary), var(--secondary));
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         }
-         .card__face--front h2 {
-         color: #FFF;
-         font-size: 32px;
-         }
-         .card__face--back {
-         background-color: var(--light);
-         transform: rotateY(180deg);
-         }
-         .card__content {
-         width: 100%;
-         height: 100%;
-         }
-         .card__header {
-         position: relative;
-         padding: 20px 20px 30px;
-         }
-         .card__header:after {
-         content: '';
-         display: block;
-         position: absolute;
-         top: 0;
-         left: 0;
-         right: 0;
-         bottom: 0;
-         background-image: linear-gradient(to bottom left, var(--primary) 10%, var(--secondary) 115%);
-         z-index: -1;
-         border-radius: 0px 0px 50% 0px;
-         }
-         .card__header h2 {
-         color: #FFF;
-         font-size: 32px;
-         font-weight: 900;
-         text-transform: uppercase;
-         text-align: center;
-         }
-         .card__body {
-         padding: 30px;
-         }
-         .card__body h3 {
-         color: var(--dark);
-         font-size: 24px;
-         font-weight: 600;
-         margin-bottom: 15px;
-         }
-         .card__body p {
-         color: var(--dark);
-         font-size: 18px;
-         line-height: 1.4;
-         }
-         /*         Stuff for pop up */
+  
+  <style type="text/css">
+    body {
+      background-color: white;
+    }
+    
+    #title {
+      color: white;
+      font-size: 44px;
+      font-family: 'Shrikhand', cursive;
+    }
+
+    #nav-items {
+      color: white;
+      font-size: 24px;
+      font-family: 'Lora', serif;
+    }
+    
+    #myCanvas {
+      border: 1px solid black;
+    }
+    :root {
+      --primary: #3E8368;
+      --secondary: #EEEEEE;
+      --dark: #969696;
+      --light: #f8f7f7;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: montserrat, sans-serif;
+      width: 100%;
+      min-height: 100vh;
+    }
+    
+    .card {
+      margin: 100px auto 0;
+      width: 400px;
+      height: 400px;
+      perspective: 1000px;
+    }
+    
+    .card__inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 1s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .card__inner.is-flipped {
+      transform: rotateY(180deg);
+    }
+    
+    .card__face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card__face--front {
+      background-image: linear-gradient(to bottom right, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .card__face--front h2 {
+      color: #FFF;
+      font-size: 32px;
+    }
+    
+    .card__face--back {
+      background-color: var(--light);
+      transform: rotateY(180deg);
+    }
+    
+    .card__content {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .card__header {
+      position: relative;
+      padding: 20px 20px 30px;
+    }
+    
+    .card__header:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(to bottom left, var(--primary) 10%, var(--secondary) 115%);
+      z-index: -1;
+      border-radius: 0px 0px 50% 0px;
+    }
+    
+    .card__header h2 {
+      color: #FFF;
+      font-size: 32px;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    
+    .card__body {
+      padding: 30px;
+    }
+    
+    .card__body h3 {
+      color: var(--dark);
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    
+    .card__body p {
+      color: var(--dark);
+      font-size: 18px;
+      line-height: 1.4;
+    }
+    /*         Stuff for pop up */
          .Modal {
          display: block;
          position: fixed;
@@ -149,214 +174,222 @@
          .ModalOpen { overflow: hidden; }
          .is-hidden { display: none; }
          .is-visuallyHidden { opacity: 0; }
+
          .is-blurred {
          filter: blur(3px);
          -webkit-filter: blur(3px);
          }
-         /*     Stuff for stars on rating*/
-         .rating {
-         position: relative;
-         width: 60%;
-         height: 90px;
-         background: transparent;
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         gap: .3em;
-         padding: 5px;
-         overflow: hidden;
-         border-radius: 0px;
-         box-shadow: 0 0 2px #b3acac;
-         }
-         .rating__result {
-         position: absolute;
-         top: 0;
-         left: 0;
-         transform: translateY(-10px) translateX(-5px);
-         z-index: -9;
-         font: 3em Arial, Helvetica, sans-serif;
-         color: #ebebeb8e;
-         pointer-events: none;
-         } 
-      </style>
+/*     Stuff for stars on rating*/
+    .rating {
+   position: relative;
+   width: 60%;
+    height: 90px;
+   background: transparent;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: .3em;
+   padding: 5px;
+   overflow: hidden;
+   border-radius: 0px;
+   box-shadow: 0 0 2px #b3acac;
+}
+
+.rating__result {
+   position: absolute;
+   top: 0;
+   left: 0;
+   transform: translateY(-10px) translateX(-5px);
+   z-index: -9;
+   font: 3em Arial, Helvetica, sans-serif;
+   color: #ebebeb8e;
+   pointer-events: none;
+} 
+
+  </style>
    </head>
    <body>
-      <div id=myContainer>
-         <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
-            <div class="mx-auto order-0">
-               <a id="title" class="navbar-brand mx-auto" href="../../">Wasteless</a>
-               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-               <span class="navbar-toggler-icon"></span>
-               </button>
-            </div>
-            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-               <ul class="navbar-nav ml-auto">
-                  <li class="nav-item">
-                     <a id="nav-items" class="nav-link" href="../../"<span id="nav-items"></span>Home&nbsp&nbsp&nbsp&nbsp</a>
-                  </li>
-                  <li class="nav-item">
-                     <a id="nav-items" class="nav-link" href="../">Profile&nbsp&nbsp&nbsp&nbsp</a>
-                  </li>
-                  <li class="nav-item">
-                     <a id="nav-items" class="nav-link" href="../../friends/">Friends&nbsp&nbsp&nbsp&nbsp</a>
-                  </li>
-                  <li class="nav-item">
-                     <a id="nav-items" class="nav-link" href="../../newlisting/">New Listing</a>
-                  </li>
-               </ul>
-            </div>
-         </nav>
-         <span hidden id="username">{{ user.username }}</span>
-         <div class="row"></div>
-      </div>
-      <!--      Start of popup stuff -->
+<div id=myContainer>
+     <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
+ 
+    <div class="mx-auto order-0">
+        <a id="title" class="navbar-brand mx-auto" href="../../">Wasteless</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="../../"<span id="nav-items"></span>Home&nbsp&nbsp&nbsp&nbsp</a>
+            </li>
+            <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="../">Profile&nbsp&nbsp&nbsp&nbsp</a>
+            </li>
+          <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="../../friends/">Friends&nbsp&nbsp&nbsp&nbsp</a>
+            </li>
+           <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="../../newlisting/">New Listing</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+     <span hidden id="username">{{ user.username }}</span>
+     <div class="row">
+</div>
+   </div>
+     <!--      Start of popup stuff -->
       <div id="myModal" class="Modal is-hidden is-visuallyHidden">
          <h1 id="popupr" style = "text-align:center; padding-top:5%;">Temp</h1>
+        
          <div id='wrapper' style='text-align: center;padding-top:8%;display: flex;
-            justify-content: center;
-            align-items: center;'>
-            <div class="rating">
-               <span class="rating__result"></span> 
-               <i class="rating__star far fa-star" style="font-size:48px;"></i>
-               <i class="rating__star far fa-star" style="font-size:48px;"></i>
-               <i class="rating__star far fa-star" style="font-size:48px;"></i>
-               <i class="rating__star far fa-star" style="font-size:48px;"></i>
-               <i class="rating__star far fa-star" style="font-size:48px;"></i>
-            </div>
+   justify-content: center;
+   align-items: center;'>
+           <div class="rating">
+             <span class="rating__result"></span> 
+  <i class="rating__star far fa-star" style="font-size:48px;"></i>
+  <i class="rating__star far fa-star" style="font-size:48px;"></i>
+  <i class="rating__star far fa-star" style="font-size:48px;"></i>
+  <i class="rating__star far fa-star" style="font-size:48px;"></i>
+  <i class="rating__star far fa-star" style="font-size:48px;"></i>
+</div>
          </div>
-         <div id='wrapper' style='text-align: center;padding-top:6%;display: flex;
-            justify-content: center;
-            align-items: center;'>
+        <div id='wrapper' style='text-align: center;padding-top:6%;display: flex;
+   justify-content: center;
+   align-items: center;'>
             <button onclick="window.location.href='../';"class="btn btn-primary btn-large" id="submit" style=" background-color:#3e8369;width:30%; height:20%;">
                <h4>Submit</h4>
             </button>
          </div>
       </div>
-      <script>
-         const curr_cards = document.querySelector(".row");
-         // const pickup_cards = document.querySelector(".pickup");
-         
-         function createCard([title, text]){
-           let code = `
-         <div class="col-md-4">
-         	<div class="card">
-         		<div class="card__inner">
-         			<div class="card__face card__face--front">
-         				<h2>Card Front3</h2>
-         			</div>
-         			<div class="card__face card__face--back">
-         				<div class="card__content">
-         					<div class="card__header">
-         						<h2>Item</h2>
-         					</div>
-         					<div class="card__body">
-         						<h3 id="card-title">${title}</h3>
-         						<p>${text}</p>
-         <button class="btn btn-primary btn-large" id="picked-up" style="float: right; background-color:#EEEEEE;width:30%; ">
-                   <h5 style="color:black;">Picked Up </h5>
-                 </button>
-         					</div>
-         				</div>
-         			</div>
-         		</div>
-         	</div>
-         </div>
-         `;
-           curr_cards.innerHTML += code;
+
+<script>
+
+  const curr_cards = document.querySelector(".row");
+  // const pickup_cards = document.querySelector(".pickup");
+  
+  function createCard([title, text]){
+    let code = `
+  <div class="col-md-4">
+  	<div class="card">
+  		<div class="card__inner">
+  			<div class="card__face card__face--front">
+  				<h2>Card Front3</h2>
+  			</div>
+  			<div class="card__face card__face--back">
+  				<div class="card__content">
+  					<div class="card__header">
+  						<h2>Item</h2>
+  					</div>
+  					<div class="card__body">
+  						<h3 id="card-title">${title}</h3>
+  						<p>${text}</p>
+<button class="btn btn-primary btn-large" id="picked-up" style="float: right; background-color:#EEEEEE;width:30%; ">
+            <h5 style="color:black;">Picked Up </h5>
+          </button>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  </div>
+  `;
+    curr_cards.innerHTML += code;
+  }
+
+  console.log({{my_claimed | safe}});
+  for (var i = 0; i < {{my_claimed | safe}}.length; i++){
+    console.log("i is", i, "post is ", post);
+    var post = ({{my_claimed | safe}})[i];
+    console.log("post:", post);
+    console.log("post at 0:", post[0]);
+    var item1 = [post[0], post[1]];
+    console.log("item", item1);
+    createCard(item1);
+  }
+  
+  
+  const cards = document.querySelectorAll(".card__inner");
+  const ratingStars = [...document.getElementsByClassName("rating__star")];
+const ratingResult = document.querySelector(".rating__result");
+
+printRatingResult(ratingResult);
+
+function executeRating(stars, result) {
+   const starClassActive = "rating__star fas fa-star";
+   const starClassUnactive = "rating__star far fa-star";
+   const starsLength = stars.length;
+   let i;
+   stars.map((star) => {
+      star.onclick = () => {
+         i = stars.indexOf(star);
+
+         if (star.className.indexOf(starClassUnactive) !== -1) {
+            printRatingResult(result, i + 1);
+            for (i; i >= 0; --i) stars[i].className = starClassActive;
+         } else {
+            printRatingResult(result, i);
+            for (i; i < starsLength; ++i) stars[i].className = starClassUnactive;
          }
+      };
+   });
+}
+
+function printRatingResult(result, num = 0) {
+   result.textContent = `${num}/5`;
+}
+
+executeRating(ratingStars, ratingResult);
+  
+  cards.forEach(card => {
+    const btn = document.querySelector('.btn');
+    btn.addEventListener("click", function (e) {
+      console.log("button clicked");
+      
+    });
+    card.addEventListener("click", function (e) {
+      console.log(card);
+      card.classList.toggle('is-flipped');
+    });
+  });
+
+     $("#picked-up").on("click", function(){
+         console.log("picked up clicked");
+       
+         console.log($("#card-title").text());
+         $('#popupr').text("One more step! Rate \""+ $('#card-title').text()+ "\" to receive your impact points.");
+         var data_to_send = {
+              "pickup_post": $("#card-title").text()
+            };
+         console.log("DEBUG: index POST req data", data_to_send);
+         $.ajax({
+          type: "POST",
+          url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
+          data: JSON.stringify(data_to_send),
+          success: function (response) {
+            // prints the response from the server
+            console.log(response); 
+          }
+        });
+       // Get the modal
+        
+         var modal = document.getElementById('myModal');
+         // Get the main container and the body
+         var body = document.getElementsByTagName('body');
+         var container = document.getElementById('myContainer');
+         modal.className = "Modal is-visuallyHidden";
+         setTimeout(function() {
+         container.className = "MainContainer is-blurred";
+         modal.className = "Modal";
+         }, 100);
+         container.parentElement.className = "ModalOpen";
          
-         console.log({{my_claimed | safe}});
-         for (var i = 0; i < {{my_claimed | safe}}.length; i++){
-           console.log("i is", i, "post is ", post);
-           var post = ({{my_claimed | safe}})[i];
-           console.log("post:", post);
-           console.log("post at 0:", post[0]);
-           var item1 = [post[0], post[1]];
-           console.log("item", item1);
-           createCard(item1);
-         }
-         
-         
-         const cards = document.querySelectorAll(".card__inner");
-         const ratingStars = [...document.getElementsByClassName("rating__star")];
-         const ratingResult = document.querySelector(".rating__result");
-         
-         printRatingResult(ratingResult);
-         
-         function executeRating(stars, result) {
-          const starClassActive = "rating__star fas fa-star";
-          const starClassUnactive = "rating__star far fa-star";
-          const starsLength = stars.length;
-          let i;
-          stars.map((star) => {
-             star.onclick = () => {
-                i = stars.indexOf(star);
-         
-                if (star.className.indexOf(starClassUnactive) !== -1) {
-                   printRatingResult(result, i + 1);
-                   for (i; i >= 0; --i) stars[i].className = starClassActive;
-                } else {
-                   printRatingResult(result, i);
-                   for (i; i < starsLength; ++i) stars[i].className = starClassUnactive;
-                }
-             };
-          });
-         }
-         
-         function printRatingResult(result, num = 0) {
-          result.textContent = `${num}/5`;
-         }
-         
-         executeRating(ratingStars, ratingResult);
-         
-         cards.forEach(card => {
-           const btn = document.querySelector('.btn');
-           btn.addEventListener("click", function (e) {
-             console.log("button clicked");
-             
-           });
-           card.addEventListener("click", function (e) {
-             console.log(card);
-             card.classList.toggle('is-flipped');
-           });
-         });
-         
-            $("#picked-up").on("click", function(){
-                console.log("picked up clicked");
-              
-                console.log($("#card-title").text());
-                $('#popupr').text("One more step! Rate \""+ $('#card-title').text()+ "\" to receive your impact points.");
-                var data_to_send = {
-                     "pickup_post": $("#card-title").text()
-                   };
-                console.log("DEBUG: index POST req data", data_to_send);
-                $.ajax({
-                 type: "POST",
-                 url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
-                 data: JSON.stringify(data_to_send),
-                 success: function (response) {
-                   // prints the response from the server
-                   console.log(response); 
-                 }
-               });
-              // Get the modal
-               
-                var modal = document.getElementById('myModal');
-                // Get the main container and the body
-                var body = document.getElementsByTagName('body');
-                var container = document.getElementById('myContainer');
-                modal.className = "Modal is-visuallyHidden";
-                setTimeout(function() {
-                container.className = "MainContainer is-blurred";
-                modal.className = "Modal";
-                }, 100);
-                container.parentElement.className = "ModalOpen";
-                
-           });
-         // window.onload = function(){
-                  
-                  // End pop up
-         // }
-      </script>
+    });
+  // window.onload = function(){
+           
+           // End pop up
+  // }
+</script>
    </body>
 </html>
