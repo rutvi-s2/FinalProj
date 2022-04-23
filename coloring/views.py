@@ -346,12 +346,13 @@ def claimed(request, username =""):
       my_claimed = []
       
       #claimed_postings = Posting.objects.filter(claimed=True)
-      for post in user_claimed:
-        print("CLAIMED POSTING", post)
-        post_details = Posting.objects.filter(item_name=post)
-        post_info = [post_details[0].item_name, post_details[0].description]
-        my_claimed.append(post_info)
-        print("DEBUG my_claimed", my_claimed)
+    for posting in user_claimed:
+      post = Posting.objects.filter(item_name = posting)
+      print("post is", post)
+      new_post = post[0]
+      print("new post is", new_post)
+      post_info = [new_post.item_name, new_post.qty, new_post.qty_units, new_post.description, new_post.listing_user.username, json.dumps(new_post.unopened), json.dumps(new_post.og_packaging), json.dumps(new_post.store_bought), json.dumps(new_post.homemade),json.dumps(new_post.listing_user.verified)]
+      my_claimed.append(post_info)
       
       data = {
         "user": user,
