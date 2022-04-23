@@ -280,7 +280,7 @@ button {
         <div class="name">${item_name}</div>
   			<p>${description}</p>
         
-        <p> <button onclick="pickUpButton()">picked up</button></p>
+        
         
   			<div class="card__face card__face--back">
   				<div class="card__content">
@@ -302,9 +302,10 @@ button {
            curr_cards.innerHTML += code;
          }
          
-         console.log({{my_curr | safe}});
+    console.log({{my_curr | safe}});
   for (var i = 0; i < {{my_curr | safe}}.length; i++){
     var post = ({{my_curr | safe}})[i];
+    //console.log("post at 3", post[1]);
     var item1 = [post[0], post[1], post[2], post[3], post[4]];
     console.log(post[9]);
     var first = true;

@@ -255,15 +255,15 @@ def mylistings(request, username =""):
     my_archive = []
     my_postings = Posting.objects.filter(listing_user=user)
     for post in my_postings:
-      # post_info = [post.item_name, post.qty, post.qty_units, post.best_by, post.description, post.unopened, post.og_packaging, post.store_bought, post.homemade]
-      post_info = [post.item_name, post.description]
-      if(post.active == True):
+       post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
+      #post_info = [post.item_name, post.description]
+       if(post.active == True):
         # add to my_curr or my_pickup
-        if(post.claimed == False):
-          my_curr.append(post_info)
-        else:
-          my_pickup.append(post_info)
-      else: 
+         if(post.claimed == False):
+           my_curr.append(post_info)
+         else:
+           my_pickup.append(post_info)
+       else: 
         # add to archive
         my_archive.append(post_info)
     print("my acrhive!!!!!!!!!!!!", my_archive)
