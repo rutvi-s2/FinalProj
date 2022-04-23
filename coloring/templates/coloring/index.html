@@ -277,12 +277,39 @@ button {
   font-size: 20px;
   
 }
+/*         Stuff for pop up */
+         .Modal {
+         display: block;
+         position: fixed;
+         border: 5px solid #a9a9a9;
+         top:50%;
+         left:50%;
+         width:800px;  /* adjust as per your needs */
+         height:500px;   /* adjust as per your needs */
+         margin-left:-400px;   /* negative half of width above */
+         margin-top:-250px;   /* negative half of height above */
+         max-width: 800px;
+         z-index: 9999;
+         padding-top: 100px;
+         background-color: white;
+         -webkit-transition: 0.5s;
+         overflow: auto;
+         transition: all 0.3s linear;
+         }
+         .ModalOpen { overflow: hidden; }
+         .is-hidden { display: none; }
+         .is-visuallyHidden { opacity: 0; }
+
+         .is-blurred {
+         filter: blur(3px);
+         -webkit-filter: blur(3px);
+         }
   </style>
   
 </head>
 <body>
 
-
+<div id=myContainer>
 <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
  
     <div class="mx-auto order-0">
@@ -311,6 +338,20 @@ button {
 <h <span hidden id="username">{{user.username}}</span></h>
   <div class="row">
 </div>
+</div>
+  <!--      Start of popup stuff -->
+      <div id="myModal" class="Modal is-hidden is-visuallyHidden">
+         <h1 id="popupr" style = "text-align:center; padding-top:5%;">Temp</h1>
+         <div id='wrapper' style='text-align: center;padding-top:12%;'>
+            <button onclick="window.location.href='';"class="btn btn-primary btn-large" style=" background-color:#3e8369;width:30%; height:20%; display:inline-block;justify-content:center;align-items:center">
+               <h4>Continue browsing</h4>
+            </button>
+            <button onclick="window.location.href='profile/claimed';" class="btn btn-primary btn-large" style=" background-color:#3e8369;width:30%; height:20%;display:inline-block;justify-content:center;align-items:center">
+               <h4>View Claimed Listings</h4>
+            </button>
+         </div>
+      </div>
+  
 <script>
 
   const all_cards = document.querySelector(".row");
@@ -433,10 +474,12 @@ button {
   });
 
   function claimButton(button){
+    
     console.log("ayoo");
-    console.log("claimed");
+    // console.log("claimed");
     console.log($("#card-title").text());
     const specific = '#card-title' + button.id
+    $('#popupr').text("Claimed \""+ $(specific).text()+ "\" successfully. Don't forget to pick up!");
     console.log($(specific).text());
     var data_to_send = {
       "type": "claim",
@@ -452,6 +495,17 @@ button {
         console.log(response); 
       }
     });
+    var modal = document.getElementById('myModal');
+                // Get the main container and the body
+                var body = document.getElementsByTagName('body');
+                var container = document.getElementById('myContainer');
+                modal.className = "Modal is-visuallyHidden";
+                setTimeout(function() {
+                container.className = "MainContainer is-blurred";
+                modal.className = "Modal";
+                }, 100);
+                container.parentElement.className = "ModalOpen";
+    // location.reload();
   }
 
     function chatButton(){
