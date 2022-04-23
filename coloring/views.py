@@ -255,15 +255,15 @@ def mylistings(request, username =""):
     my_archive = []
     my_postings = Posting.objects.filter(listing_user=user)
     for post in my_postings:
-      # post_info = [post.item_name, post.qty, post.qty_units, post.best_by, post.description, post.unopened, post.og_packaging, post.store_bought, post.homemade]
-      post_info = [post.item_name, post.description]
-      if(post.active == True):
+       post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
+      #post_info = [post.item_name, post.description]
+       if(post.active == True):
         # add to my_curr or my_pickup
-        if(post.claimed == False):
-          my_curr.append(post_info)
-        else:
-          my_pickup.append(post_info)
-      else: 
+         if(post.claimed == False):
+           my_curr.append(post_info)
+         else:
+           my_pickup.append(post_info)
+       else: 
         # add to archive
         my_archive.append(post_info)
     print("my acrhive!!!!!!!!!!!!", my_archive)
@@ -346,12 +346,13 @@ def claimed(request, username =""):
       my_claimed = []
       
       #claimed_postings = Posting.objects.filter(claimed=True)
-      for post in user_claimed:
-        print("CLAIMED POSTING", post)
-        post_details = Posting.objects.filter(item_name=post)
-        post_info = [post_details[0].item_name, post_details[0].description]
-        my_claimed.append(post_info)
-        print("DEBUG my_claimed", my_claimed)
+    for posting in user_claimed:
+      post = Posting.objects.filter(item_name = posting)
+      print("post is", post)
+      new_post = post[0]
+      print("new post is", new_post)
+      post_info = [new_post.item_name, new_post.qty, new_post.qty_units, new_post.description, new_post.listing_user.username, json.dumps(new_post.unopened), json.dumps(new_post.og_packaging), json.dumps(new_post.store_bought), json.dumps(new_post.homemade),json.dumps(new_post.listing_user.verified)]
+      my_claimed.append(post_info)
       
       data = {
         "user": user,
