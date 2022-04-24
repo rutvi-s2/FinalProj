@@ -362,7 +362,7 @@ def claimed(request, username =""):
       print("DEBUG: user doesnt yet exist")
       data = {
         "user": user,
-        "my_claimed": my_claimed
+        "my_claimed": []
       }
   
     return render(request, 'coloring/claimed.html', data)
