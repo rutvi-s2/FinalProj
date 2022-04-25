@@ -439,8 +439,7 @@
     }
     //[item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]
     for (var i = 0; i < {{ all_postings | safe}}.length; i++) {
-      var post = ({{ all_postings | safe
-    }})[i];
+      var post = ({{ all_postings | safe}})[i];
     var item1 = [post[0], post[1], post[2], post[3], post[4]];
     console.log(post[9]);
     var first = true;
@@ -544,7 +543,7 @@
 
     function chatButton() {
       var otherUser = $(".user-text").text().substr(1); // get rid of the @
-      location.href("/wasteless/" + $('#username').text() + "/startchat/" + otherUser);
+      location.href = "/wasteless/" + $('#username').text() + "/startchat/" + otherUser;
 /*
       var data_to_send = {
         "type": "chat",

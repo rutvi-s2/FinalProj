@@ -112,7 +112,26 @@
 
 
           // Establish websocket connection
-          var socket = new WebSocket("wss://ws-server-template.ashriftman.repl.co", "very-good-protocol");
+          //var socket = new WebSocket("wss://ws-server-template.ashriftman.repl.co", "very-good-protocol");
+          var user_one = "{{ user }}";
+          var user_two = "{{ listinguser }}";
+
+          var first = (user_one > user_two ? user_one : user_two);
+          var second = (user_two > user_one ? user_one : user_two);
+
+          console.log("path: "+"wss://" +
+                                    window.location.host +
+                                    "/ws/wasteless/" +
+                                     first +
+                                     "/" +
+                                     second);
+          var socket = new WebSocket("wss://" +
+                                    window.location.host +
+                                    "/ws/wasteless/" +
+                                     first +
+                                     "/" +
+                                     second
+                                    );
           var thisChatStorage;
           socket.onopen = function () {
 

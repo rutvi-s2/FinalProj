@@ -429,10 +429,11 @@ def startchat(request, username="", listinguser=""):
       chat_storage = ChatStorage(user_one = username, user_two = listinguser)
       chat_storage.save()
 
-    data = {
-          "user": username,
-          "listinguser": listinguser,
-          "friends": [],
-        }
-    return render(request, 'coloring/chat-index.html', data)
+  data = {
+        "user": username,
+        "listinguser": listinguser,
+        "friends": [],
+      }
+  print(listinguser)
+  return render(request, 'coloring/chat-index.html', data)
   #return chatindex(request, username)
