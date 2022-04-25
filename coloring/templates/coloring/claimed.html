@@ -439,7 +439,7 @@ button {
                 // console.log($("#card-title").text());
                 const specific = '#card-title' + button.id;
               console.log($(specific).text());
-                $('#popupr').text("One more step! Rate \""+ $('#card-title').text()+ "\" to receive your impact points.");
+                $('#popupr').text("One more step! Rate \""+ $(specific).text() + "\" to receive your impact points.");
                 var data_to_send = {
                     "type": "pickedup",
                      "pickup_post": $(specific).text()
