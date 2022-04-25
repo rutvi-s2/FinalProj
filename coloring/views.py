@@ -314,7 +314,7 @@ def mylistings(request, username =""):
     return render(request, 'coloring/mylistings.html', data)
     
 @csrf_exempt
-def claimed(request, username = ""):
+def claimed(request, username =""):
   user = get_user_by_name(username)
 
   if request.POST: 
@@ -350,7 +350,7 @@ def claimed(request, username = ""):
       pickedup_post =Posting.objects.filter(item_name=data["rated_post"])
       print("here")
       print(pickedup_post)
-      listing_user = pickedup_post.first().listing_user
+      listing_user = pickedup_post[0].listing_user
       old_num = listing_user.rating_numer
       old_den = listing_user.rating_denom
       this_snum, this_sdenom = (data["score"]).split('/')
