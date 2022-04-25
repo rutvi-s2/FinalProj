@@ -9,7 +9,9 @@ class User(models.Model):
   friends = models.JSONField(null=True)
   saved = models.JSONField(null=True)
   claimed = models.JSONField(null=True)
-  rating = models.IntegerField(null=True)
+  rating_numer = models.IntegerField(default=0)
+  rating_denom = models.IntegerField(default=0)
+  rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
   total = models.IntegerField(null=True)
   verified = models.BooleanField(default = False)
 

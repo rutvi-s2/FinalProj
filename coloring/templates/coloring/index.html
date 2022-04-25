@@ -242,7 +242,7 @@ p {
     /* Style button element */
 button {
   border: none;
-  padding: 12px 24px;
+  padding: 6px 24px;
   border-radius: 50px;
 
   font-weight: 600;
@@ -277,12 +277,39 @@ button {
   font-size: 20px;
   
 }
+/*         Stuff for pop up */
+         .Modal {
+         display: block;
+         position: fixed;
+         border: 5px solid #a9a9a9;
+         top:50%;
+         left:50%;
+         width:800px;  /* adjust as per your needs */
+         height:500px;   /* adjust as per your needs */
+         margin-left:-400px;   /* negative half of width above */
+         margin-top:-250px;   /* negative half of height above */
+         max-width: 800px;
+         z-index: 9999;
+         padding-top: 100px;
+         background-color: white;
+         -webkit-transition: 0.5s;
+         overflow: auto;
+         transition: all 0.3s linear;
+         }
+         .ModalOpen { overflow: hidden; }
+         .is-hidden { display: none; }
+         .is-visuallyHidden { opacity: 0; }
+
+         .is-blurred {
+         filter: blur(3px);
+         -webkit-filter: blur(3px);
+         }
   </style>
   
 </head>
 <body>
 
-
+<div id=myContainer>
 <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
  
     <div class="mx-auto order-0">
@@ -314,10 +341,24 @@ button {
 <h <span hidden id="username">{{user.username}}</span></h>
   <div class="row">
 </div>
+</div>
+  <!--      Start of popup stuff -->
+      <div id="myModal" class="Modal is-hidden is-visuallyHidden">
+         <h1 id="popupr" style = "text-align:center; padding-top:5%;">Temp</h1>
+         <div id='wrapper' style='text-align: center;padding-top:12%;'>
+            <button onclick="window.location.href='';"class="btn btn-primary btn-large" style=" background-color:#3e8369;width:30%; height:20%; display:inline-block;justify-content:center;align-items:center">
+               <h4>Continue browsing</h4>
+            </button>
+            <button onclick="window.location.href='profile/claimed';" class="btn btn-primary btn-large" style=" background-color:#3e8369;width:30%; height:20%;display:inline-block;justify-content:center;align-items:center">
+               <h4>View Claimed Listings</h4>
+            </button>
+         </div>
+      </div>
+  
 <script>
 
   const all_cards = document.querySelector(".row");
-  function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]){
+  function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified, num]){
    
     let code = `
   <div class="col-md-4">
@@ -334,7 +375,7 @@ button {
       <div>
         <div class="name">${item_name}</div>
   			<p>${description}</p>
-        <p> <button onclick="claimButton()">claim</button></p>
+        <p> <button onclick="claimButton(this)" id="${num}">claim</button></p>
         <p> <button onclick="chatButton()">chat</button></p>
         
   			<div class="card__face card__face--back">
@@ -343,13 +384,10 @@ button {
   						<h2>@${username}<img src="${verified}" onerror="this.onerror=null; this.remove();" alt="" class="verified"/></h2>
   					</div>
   					<div class="card__body">
-  						<h3 id="card-title">${item_name}</h3>
+  						<h3 id="card-title${num}">${item_name}</h3>
   						<p><b> * Description: </b>${description}</p>
               <p><b> * Best Buy:</b> </p>
               <p><b> * Tags: </b> ${unopened} ${og} ${store} ${homemade}</p>
-              <button class="btn" onclick="claimButton()" id="claim" style="float: right; background-color:#EEEEEE;width:30%; ">
-            <h5 style="color:black;"><img src="{% static 'coloring/images/claim.png'%}" alt="" class="claim"/>Claim!</h5>
-          </button>
   					</div>
   				</div>
   			</div>
@@ -415,6 +453,7 @@ button {
     }else{
       item1.push(null);
     }
+    item1.push(i);
     createCard(item1);
 
   }
@@ -437,15 +476,17 @@ button {
     });
   });
 
-  function claimButton(){
+  function claimButton(button){
+    
     console.log("ayoo");
-    console.log("claimed");
+    // console.log("claimed");
     console.log($("#card-title").text());
-     
-     
+    const specific = '#card-title' + button.id;
+    $('#popupr').text("Claimed \""+ $(specific).text()+ "\" successfully. Don't forget to pick up!");
+    console.log($(specific).text());
     var data_to_send = {
       "type": "claim",
-      "claimed_post": $("#card-title").text()
+      "claimed_post": $(specific).text()
         };
      console.log("DEBUG: index POST req data", data_to_send);
      $.ajax({
@@ -457,6 +498,17 @@ button {
         console.log(response); 
       }
     });
+    var modal = document.getElementById('myModal');
+                // Get the main container and the body
+                var body = document.getElementsByTagName('body');
+                var container = document.getElementById('myContainer');
+                modal.className = "Modal is-visuallyHidden";
+                setTimeout(function() {
+                container.className = "MainContainer is-blurred";
+                modal.className = "Modal";
+                }, 100);
+                container.parentElement.className = "ModalOpen";
+    // location.reload();
   }
 
     function chatButton(){
@@ -477,6 +529,8 @@ button {
       }
     });
   }
+
+    
     
 </script>
 </body>

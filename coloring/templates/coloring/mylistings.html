@@ -63,6 +63,70 @@
       height: 400px;
       perspective: 1000px;
     }
+
+            /*     my changes */
+    body {
+      background-color: #eaeff1;
+      font-family: "Raleway", sans-serif;
+    }
+    img {
+    width: 100%;
+    border-radius: 12px;
+    height: 214px;
+    object-fit: cover;
+    }
+
+    .card2 {
+  /* Change background color */
+  background-color: white;
+
+  /* Add border */
+  border: 3px solid #3e8368;
+
+  /* Add space between the border and the content */
+  padding: 8px;
+
+  border-radius: 12px;
+}
+
+    .tag {
+    padding: 4px 8px;
+    border: 1px solid #e5eaed;
+
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #788697;
+  }
+  .name {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 16px;
+  }
+p {
+  font-size: 14px;
+  color: #7f8c9b;
+  line-height: 150%;
+  margin-bottom: -5px;
+}
+    /* Style button element */
+button {
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+
+  font-weight: 600;
+  color: #0077ff;
+  background-color: #e0efff;
+
+  /* Button is inline-block element by default, it need to have block display for margin: 0 auto; to work */
+  margin: 0 auto;
+  display: block;
+  float: right;
+
+  /* Button is a clickable element, therefore it should have a pointer cursor */
+  cursor: pointer;
+}
     
     .card__inner {
       width: 100%;
@@ -198,23 +262,36 @@
 
   const curr_cards = document.querySelector(".row");
   // const pickup_cards = document.querySelector(".pickup");
-  
-  function createCard([title, text]){
+         
+         function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified, num]){
     let code = `
   <div class="col-md-4">
-  	<div class="card">
-  		<div class="card__inner">
-  			<div class="card__face card__face--front">
-  				<h2>Card Front3</h2>
-  			</div>
+<div>
+  	<div class="card card2">
+<p class="user-text">@${username}</p>
+<img src="{% static 'coloring/images/cookies-image.jpeg'%}">
+  		<div class="card__details">
+      <div id="all_tags">
+  			<span class="tag">${homemade}</span>
+        <span class="tag">${unopened}</span>
+        <span class="tag">${og}</span>
+        <span class="tag">${store}</span>
+      <div>
+        <div class="name">${item_name}</div>
+  			<p>${description}</p>
+        
+        
+        
   			<div class="card__face card__face--back">
   				<div class="card__content">
   					<div class="card__header">
-  						<h2>Item</h2>
+  						<h2>@${username}<img src="${verified}" onerror="this.onerror=null; this.remove();" alt="" class="verified"/></h2>
   					</div>
   					<div class="card__body">
-  						<h3>${title}</h3>
-  						<p>${text}</p>
+  						<h3 id="card-title${num}">${item_name}</h3>
+  						<p><b> * Description: </b>${description}</p>
+              <p><b> * Best Buy:</b> </p>
+              <p><b> * Tags: </b> ${unopened} ${og} ${store} ${homemade}</p>
   					</div>
   				</div>
   			</div>
@@ -222,25 +299,59 @@
   	</div>
   </div>
   `;
-    curr_cards.innerHTML += code;
-  }
-
-  // function createHeader(text){
-  //   let code = `
-  //   <h3>
-  //   ${text}
-  //   </h3>
-  // `;
-  //   all_cards.innerHTML += code;
-  // }
-
-  // createHeader("Active Listings")
+           curr_cards.innerHTML += code;
+         }
+         
+    console.log({{my_curr | safe}});
   for (var i = 0; i < {{my_curr | safe}}.length; i++){
     var post = ({{my_curr | safe}})[i];
-    var item1 = [post[0], post[1]];
-    console.log("item", item1);
+    //console.log("post at 3", post[1]);
+    var item1 = [post[0], post[1], post[2], post[3], post[4]];
+    console.log(post[9]);
+    var first = true;
+    if (post[5] == 'true'){
+      item1.push("unopened");
+    }else{
+      item1.push("");
+    }
+    if (post[6] == 'true'){
+      if(first){
+        item1.push("original packing");
+        first = false;
+      }else{
+        item1.push(", original packing");
+      }
+    }else{
+      item1.push("");
+    }
+    if (post[7] == 'true'){
+      if(first){
+        item1.push("store bought");
+        first = false;
+      }else{
+        item1.push("store bought");
+      }
+    }else{
+      item1.push("");
+    }
+    if (post[8] == 'true'){
+      if(first){
+        item1.push("homemade");
+        first = false;
+      }else{
+        item1.push(", homemeade");
+      }
+    }else{
+      item1.push("");
+    }
+    if (post[9] == 'true'){
+      item1.push("{% static 'coloring/images/verified.png'%}");
+    }else{
+      item1.push(null);
+    }
+    item1.push(i);
     createCard(item1);
-  }
+         }
   
   
   const cards = document.querySelectorAll(".card__inner");

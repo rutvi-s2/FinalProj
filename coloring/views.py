@@ -281,15 +281,15 @@ def mylistings(request, username =""):
     my_archive = []
     my_postings = Posting.objects.filter(listing_user=user)
     for post in my_postings:
-      # post_info = [post.item_name, post.qty, post.qty_units, post.best_by, post.description, post.unopened, post.og_packaging, post.store_bought, post.homemade]
-      post_info = [post.item_name, post.description]
-      if(post.active == True):
+       post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
+      #post_info = [post.item_name, post.description]
+       if(post.active == True):
         # add to my_curr or my_pickup
-        if(post.claimed == False):
-          my_curr.append(post_info)
-        else:
-          my_pickup.append(post_info)
-      else: 
+         if(post.claimed == False):
+           my_curr.append(post_info)
+         else:
+           my_pickup.append(post_info)
+       else: 
         # add to archive
         my_archive.append(post_info)
     print("my acrhive!!!!!!!!!!!!", my_archive)
@@ -322,27 +322,46 @@ def claimed(request, username =""):
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
 
-    pickedup_post =Posting.objects.filter(item_name=data["pickup_post"])
-    #need to update post.active = False
-    for object in pickedup_post:
-      object.active = False
-      object.save()
-    
-    #remove from user's claimed list and add to their impact score
-    user.claimed.remove(pickedup_post[0].item_name)
-    print("updated user claim list,", user.claimed)
-    if(user.total == None):
-      user.total = 0
-    user.total = user.total + 1 
-    user.save()
-    print("updated user claim list,", user.claimed)
-    listing_user = pickedup_post[0].listing_user
-    
-    if(listing_user.total == None):
-      listing_user.total = 0
-    listing_user.total = listing_user.total + 1 
-    listing_user.save()
-    #pop up with rating
+    if(data['type']=="pickedup"):
+      print("in views registered as pickup")
+      pickedup_post =Posting.objects.filter(item_name=data["pickup_post"])
+      #need to update post.active = False
+      # i dont think this needs a for loop if we treat each item name as unique
+      for object in pickedup_post:
+        object.active = False
+        object.save()
+
+      #remove from user's claimed list and add to their impact score
+      user.claimed.remove(pickedup_post[0].item_name)
+      print("updated user claim list,", user.claimed)
+      if(user.total == None):
+        user.total = 0
+      user.total = user.total + 1 
+      user.save()
+      print("updated user claim list,", user.claimed)
+      listing_user = pickedup_post[0].listing_user
+
+      if(listing_user.total == None):
+        listing_user.total = 0
+      listing_user.total = listing_user.total + 1 
+      listing_user.save()
+    else: #type is rated
+      # get listing user
+      pickedup_post =Posting.objects.filter(item_name=data["rated_post"])
+      listing_user = pickedup_post[0].listing_user
+      old_num = listing_user.rating_numer
+      old_den = listing_user.rating_denom
+      this_snum, this_sdenom = (data["score"]).split('/')
+      this_num = int(this_snum)
+      new_rating = round(((old_num+this_num)/(old_den + 5))*5,2)
+      print("user being rated is ", listing_user.username)
+      print("this is new rating!!!!", new_rating)
+      listing_user.rating = new_rating
+      listing_user.rating_numer = this_num + old_num
+      listing_user.rating_denom = old_den + 5
+      listing_user.save()
+      # add to their rating in data base
+      print("in views registered as rated")
     
     return HttpResponse(True)
   else: #GET request
@@ -353,12 +372,13 @@ def claimed(request, username =""):
       my_claimed = []
       
       #claimed_postings = Posting.objects.filter(claimed=True)
-      for post in user_claimed:
-        print("CLAIMED POSTING", post)
-        post_details = Posting.objects.filter(item_name=post)
-        post_info = [post_details[0].item_name, post_details[0].description]
-        my_claimed.append(post_info)
-        print("DEBUG my_claimed", my_claimed)
+    for posting in user_claimed:
+      post = Posting.objects.filter(item_name = posting)
+      print("post is", post)
+      new_post = post[0]
+      print("new post is", new_post)
+      post_info = [new_post.item_name, new_post.qty, new_post.qty_units, new_post.description, new_post.listing_user.username, json.dumps(new_post.unopened), json.dumps(new_post.og_packaging), json.dumps(new_post.store_bought), json.dumps(new_post.homemade),json.dumps(new_post.listing_user.verified)]
+      my_claimed.append(post_info)
       
       data = {
         "user": user,
