@@ -97,8 +97,34 @@ def index(request, authorname="DefaultAuthor", username =""):
     
     return render(request, 'coloring/index.html', data)
     
+
+def chatindex(request, username=""):
+  # print("The authorname is:", authorname)
+  # author = get_author_by_name(authorname)
+  
+  if request.POST: 
+    # POST request received
+    
+    # demonstrating printing out the POST request & data
+    print("Received POST request with data:")
+    data = json.loads(request.body.decode('UTF-8'))
+    print(data)
+    return HttpResponse(True)
+  
+  data = {
+      "user": username,
+      "friends": [],
+    }
+  return render(request, 'coloring/chat-index.html', data)
+
+    # creating a new listing
+    
+    
+    
 @csrf_exempt
 def newlisting(request, username =""):
+  # print("The authorname is:", authorname)
+  # author = get_author_by_name(authorname)
   
   user = get_user_by_name(username)
   print(user.username)
@@ -389,3 +415,25 @@ def saved(request, username =""):
       }
   
     return render(request, 'coloring/saved.html', data)
+
+def startchat(request, username="", listinguser=""):
+  if request.GET:
+    # Start a new chat between us and the new guy
+    data = json.loads(request.body.decode('UTF-8'))
+    chat_storage = None
+    if ChatStorage.objects.filter(user_one = username, user_two = listinguser).exists():
+      chat_storage = ChatStorage.objects.get(user_one = username, user_two = listinguser)
+    elif ChatStorage.objects.filter(user_one = listinguser, user_two = username).exists():
+      chat_storage = ChatStorage.objects.get(user_one = listinguser, user_two = username)
+    else:
+      chat_storage = ChatStorage(user_one = username, user_two = listinguser)
+      chat_storage.save()
+
+  data = {
+        "user": username,
+        "listinguser": listinguser,
+        "friends": [],
+      }
+  print(listinguser)
+  return render(request, 'coloring/chat-index.html', data)
+  #return chatindex(request, username)

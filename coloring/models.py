@@ -45,4 +45,13 @@ class Posting(models.Model):
   store_bought = models.BooleanField(default = False)
   homemade = models.BooleanField(default = False)
   
-  
+class ChatStorage(models.Model):
+  user_one = models.CharField(max_length=40)
+  user_two = models.CharField(max_length=40)
+
+class Message(models.Model):
+  chat_storage = models.ForeignKey(
+    'ChatStorage',
+    on_delete=models.CASCADE,
+  )
+  text = models.CharField(max_length=1000)
