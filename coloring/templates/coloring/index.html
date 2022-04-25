@@ -543,7 +543,8 @@
     }
 
     function chatButton() {
-      location.href("/wasteless/" + $('#username').text() + "/startchat/" + $(".user-text").text());
+      var otherUser = $(".user-text").text().substr(1); // get rid of the @
+      location.href("/wasteless/" + $('#username').text() + "/startchat/" + otherUser);
 /*
       var data_to_send = {
         "type": "chat",
