@@ -2,30 +2,34 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Final Project: Implementation Prototype - Food Waste</title>
-	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
   <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Raleway:wght@400;500&family=Shrikhand&display=swap" rel="stylesheet"> 
- 
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Raleway:wght@400;500&family=Shrikhand&display=swap"
+    rel="stylesheet">
 
-  
-<!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
-  
-  
+
+
+  <!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
+
+
   <style type="text/css">
     body {
       background-color: white;
     }
-    
+
     #title {
       color: white;
       font-size: 44px;
@@ -37,35 +41,36 @@
       font-size: 24px;
       font-family: "Raleway", sans-serif;
     }
-    
+
     #myCanvas {
       border: 1px solid black;
     }
+
     :root {
       --primary: #3E8368;
       --secondary: #EEEEEE;
       --dark: #969696;
       --light: #f8f7f7;
     }
-    
+
     * {
       margin: 0;
       padding: 0;
     }
-    
+
     body {
       font-family: montserrat, sans-serif;
       width: 100%;
       min-height: 100vh;
     }
-    
+
     .card {
       margin: 100px auto 0;
       width: 400px;
       height: 400px;
       perspective: 1000px;
     }
-    
+
     .card__inner {
       width: 100%;
       height: 100%;
@@ -74,11 +79,11 @@
       cursor: pointer;
       position: relative;
     }
-    
+
     .card__inner.is-flipped {
       transform: rotateY(180deg);
     }
-    
+
     .card__face {
       position: absolute;
       width: 100%;
@@ -89,39 +94,39 @@
       border-radius: 16px;
       box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
     }
-    
+
     .card__face--front {
       background-image: linear-gradient(to bottom right, var(--primary), var(--secondary));
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    
+
     .card__face--front h2 {
       color: #FFF;
       font-size: 32px;
     }
-    
+
     .card__face--front h3 {
       color: #FFF;
       font-size: 22px;
     }
-    
+
     .card__face--back {
       background-color: var(--light);
       transform: rotateY(180deg);
     }
-    
+
     .card__content {
       width: 100%;
       height: 100%;
     }
-    
+
     .card__header {
       position: relative;
       padding: 20px 20px 30px;
     }
-    
+
     .card__header:after {
       content: '';
       display: block;
@@ -134,6 +139,7 @@
       z-index: -1;
       border-radius: 0px 0px 50% 0px;
     }
+
     .verified {
       display: block;
       width: 50px;
@@ -144,7 +150,7 @@
       border: 5px solid #FFF;
       object-fit: cover;
     }
-    
+
     .claim {
       display: block;
       width: 50px;
@@ -155,6 +161,7 @@
       border: 1px solid #FFF;
       object-fit: cover;
     }
+
     .card__header h2 {
       color: #FFF;
       font-size: 32px;
@@ -162,7 +169,7 @@
       text-transform: uppercase;
       text-align: center;
     }
-    
+
     .card__header h3 {
       color: #FFF;
       font-size: 22px;
@@ -170,197 +177,220 @@
       text-transform: uppercase;
       text-align: center;
     }
-    
+
     .card__body {
       padding: 30px;
     }
-    
+
     .card__body h3 {
       color: var(--dark);
       font-size: 24px;
       font-weight: 600;
       margin-bottom: 15px;
     }
-    
+
     .card__body p {
       color: var(--dark);
       font-size: 18px;
       line-height: 1.4;
     }
 
-    .btn{
+    .btn {
       background-color: white;
       color: black;
-      border: 2px solid #4CAF50; /* Green */
+      border: 2px solid #4CAF50;
+      /* Green */
     }
 
-/*     my changes */
+    /*     my changes */
     body {
       background-color: #eaeff1;
       font-family: "Raleway", sans-serif;
     }
+
     img {
-    width: 100%;
-    border-radius: 12px;
-    height: 214px;
-    object-fit: cover;
+      width: 100%;
+      border-radius: 12px;
+      height: 214px;
+      object-fit: cover;
     }
 
     .card2 {
-  /* Change background color */
-  background-color: white;
+      /* Change background color */
+      background-color: white;
 
-  /* Add border */
-  border: 3px solid #3e8368;
+      /* Add border */
+      border: 3px solid #3e8368;
 
-  /* Add space between the border and the content */
-  padding: 8px;
+      /* Add space between the border and the content */
+      padding: 8px;
 
-  border-radius: 12px;
-}
+      border-radius: 12px;
+    }
 
     .tag {
-    padding: 4px 8px;
-    border: 1px solid #e5eaed;
+      padding: 4px 8px;
+      border: 1px solid #e5eaed;
 
-    border-radius: 50px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #788697;
-  }
-  .name {
-    font-size: 24px;
-    font-weight: 600;
-    margin-top: 16px;
-  }
-p {
-  font-size: 14px;
-  color: #7f8c9b;
-  line-height: 150%;
-  margin-bottom: -5px;
-}
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #788697;
+    }
+
+    .name {
+      font-size: 24px;
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #7f8c9b;
+      line-height: 150%;
+      margin-bottom: -5px;
+    }
+
     /* Style button element */
-button {
-  border: none;
-  padding: 6px 24px;
-  border-radius: 50px;
+    button {
+      border: none;
+      padding: 6px 24px;
+      border-radius: 50px;
 
-  font-weight: 600;
-  color: #0077ff;
-  background-color: #e0efff;
+      font-weight: 600;
+      color: #0077ff;
+      background-color: #e0efff;
 
-  /* Button is inline-block element by default, it need to have block display for margin: 0 auto; to work */
-  margin: 0 auto;
-  display: block;
-  float: right;
+      /* Button is inline-block element by default, it need to have block display for margin: 0 auto; to work */
+      margin: 0 auto;
+      display: block;
+      float: right;
 
-  /* Button is a clickable element, therefore it should have a pointer cursor */
-  cursor: pointer;
-}
+      /* Button is a clickable element, therefore it should have a pointer cursor */
+      cursor: pointer;
+    }
 
-.card__details {
-  /* Add space around the details */
-  padding: 16px 8px 8px 8px;
-}
+    .card__details {
+      /* Add space around the details */
+      padding: 16px 8px 8px 8px;
+    }
+
     #container {
-  max-width: 300px;
+      max-width: 300px;
 
-  /* Center the container in middle on horizontal axis */
-  margin: 0 auto;
+      /* Center the container in middle on horizontal axis */
+      margin: 0 auto;
 
-  /* Add empty space above the container (20% of the view height) */
-  margin-top: 20vh;
-}
+      /* Add empty space above the container (20% of the view height) */
+      margin-top: 20vh;
+    }
 
-.user-text {
-  font-weight: bold;
-  font-size: 20px;
-  
-}
-/*         Stuff for pop up */
-         .Modal {
-         display: block;
-         position: fixed;
-         border: 5px solid #a9a9a9;
-         top:50%;
-         left:50%;
-         width:800px;  /* adjust as per your needs */
-         height:500px;   /* adjust as per your needs */
-         margin-left:-400px;   /* negative half of width above */
-         margin-top:-250px;   /* negative half of height above */
-         max-width: 800px;
-         z-index: 9999;
-         padding-top: 100px;
-         background-color: white;
-         -webkit-transition: 0.5s;
-         overflow: auto;
-         transition: all 0.3s linear;
-         }
-         .ModalOpen { overflow: hidden; }
-         .is-hidden { display: none; }
-         .is-visuallyHidden { opacity: 0; }
+    .user-text {
+      font-weight: bold;
+      font-size: 20px;
 
-         .is-blurred {
-         filter: blur(3px);
-         -webkit-filter: blur(3px);
-         }
+    }
+
+    /*         Stuff for pop up */
+    .Modal {
+      display: block;
+      position: fixed;
+      border: 5px solid #a9a9a9;
+      top: 50%;
+      left: 50%;
+      width: 800px;
+      /* adjust as per your needs */
+      height: 500px;
+      /* adjust as per your needs */
+      margin-left: -400px;
+      /* negative half of width above */
+      margin-top: -250px;
+      /* negative half of height above */
+      max-width: 800px;
+      z-index: 9999;
+      padding-top: 100px;
+      background-color: white;
+      -webkit-transition: 0.5s;
+      overflow: auto;
+      transition: all 0.3s linear;
+    }
+
+    .ModalOpen {
+      overflow: hidden;
+    }
+
+    .is-hidden {
+      display: none;
+    }
+
+    .is-visuallyHidden {
+      opacity: 0;
+    }
+
+    .is-blurred {
+      filter: blur(3px);
+      -webkit-filter: blur(3px);
+    }
   </style>
-  
+
 </head>
+
 <body>
 
-<div id=myContainer>
-<nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
- 
-    <div class="mx-auto order-0">
+  <div id=myContainer>
+    <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
+
+      <div class="mx-auto order-0">
         <a id="title" class="navbar-brand mx-auto" href="">Wasteless</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-            <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
         </button>
-    </div>
-    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+      </div>
+      <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a id="nav-items" class="nav-link" href=""<span id="nav-items"></span>Home&nbsp&nbsp&nbsp&nbsp</a>
-            </li>
-            <li class="nav-item">
-                <a id="nav-items" class="nav-link" href="profile">Profile&nbsp&nbsp&nbsp&nbsp</a>
-            </li>
           <li class="nav-item">
-                <a id="nav-items" class="nav-link" href="friends">Friends&nbsp&nbsp&nbsp&nbsp</a>
-            </li>
-           <li class="nav-item">
-                <a id="nav-items" class="nav-link" href="newlisting">New Listing</a>
-            </li>
-            <li class="nav-item">
-              <a id="nav-items" class="nav-link" href="/chat-index">Chat</a>
+            <a id="nav-items" class="nav-link" href="" <span id="nav-items"></span>Home&nbsp&nbsp&nbsp&nbsp</a>
+          </li>
+          <li class="nav-item">
+            <a id="nav-items" class="nav-link" href="profile">Profile&nbsp&nbsp&nbsp&nbsp</a>
+          </li>
+          <li class="nav-item">
+            <a id="nav-items" class="nav-link" href="friends">Friends&nbsp&nbsp&nbsp&nbsp</a>
+          </li>
+          <li class="nav-item">
+            <a id="nav-items" class="nav-link" href="newlisting">New Listing</a>
+          </li>
+          <li class="nav-item">
+            <a id="nav-items" class="nav-link" href="/chat-index">Chat</a>
           </li>
         </ul>
-    </div>
-</nav>
-<h <span hidden id="username">{{user.username}}</span></h>
-  <div class="row">
-</div>
-</div>
-  <!--      Start of popup stuff -->
-      <div id="myModal" class="Modal is-hidden is-visuallyHidden">
-         <h1 id="popupr" style = "text-align:center; padding-top:5%;">Temp</h1>
-         <div id='wrapper' style='text-align: center;padding-top:12%;'>
-            <button onclick="window.location.href='';"class="btn btn-primary btn-large" style=" background-color:#3e8369;width:30%; height:20%; display:inline-block;justify-content:center;align-items:center">
-               <h4>Continue browsing</h4>
-            </button>
-            <button onclick="window.location.href='profile/claimed';" class="btn btn-primary btn-large" style=" background-color:#3e8369;width:30%; height:20%;display:inline-block;justify-content:center;align-items:center">
-               <h4>View Claimed Listings</h4>
-            </button>
-         </div>
       </div>
-  
-<script>
+    </nav>
+    <h <span hidden id="username">{{user.username}}</span></h>
+    <div class="row">
+    </div>
+  </div>
+  <!--      Start of popup stuff -->
+  <div id="myModal" class="Modal is-hidden is-visuallyHidden">
+    <h1 id="popupr" style="text-align:center; padding-top:5%;">Temp</h1>
+    <div id='wrapper' style='text-align: center;padding-top:12%;'>
+      <button onclick="window.location.href='';" class="btn btn-primary btn-large"
+        style=" background-color:#3e8369;width:30%; height:20%; display:inline-block;justify-content:center;align-items:center">
+        <h4>Continue browsing</h4>
+      </button>
+      <button onclick="window.location.href='profile/claimed';" class="btn btn-primary btn-large"
+        style=" background-color:#3e8369;width:30%; height:20%;display:inline-block;justify-content:center;align-items:center">
+        <h4>View Claimed Listings</h4>
+      </button>
+    </div>
+  </div>
 
-  const all_cards = document.querySelector(".row");
-  function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified, num]){
-   
-    let code = `
+  <script>
+
+    const all_cards = document.querySelector(".row");
+    function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified, num]) {
+
+      let code = `
   <div class="col-md-4">
 <div>
   	<div class="card card2">
@@ -395,143 +425,147 @@ button {
   	</div>
   </div>
   `;
-    all_cards.innerHTML += code;
+      all_cards.innerHTML += code;
 
-    //this is code i tried that didn't work (appended to first card not specific one)
-    //     if(unopened.length > 0){
-    //       console.log("printing");
-    //   var all_tag = document.getElementById("all_tags");
-    //   var tag = document.createElement("span");
-    //   tag.setAttribute('class', 'tag');
-    //   tag.appendChild(document.createTextNode('unopened'));
-    //   all_tag.appendChild(tag);
-    // }
-  }
-  //[item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]
-  for (var i = 0; i < {{all_postings | safe}}.length; i++){
-    var post = ({{all_postings | safe}})[i];
+      //this is code i tried that didn't work (appended to first card not specific one)
+      //     if(unopened.length > 0){
+      //       console.log("printing");
+      //   var all_tag = document.getElementById("all_tags");
+      //   var tag = document.createElement("span");
+      //   tag.setAttribute('class', 'tag');
+      //   tag.appendChild(document.createTextNode('unopened'));
+      //   all_tag.appendChild(tag);
+      // }
+    }
+    //[item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]
+    for (var i = 0; i < {{ all_postings | safe}}.length; i++) {
+      var post = ({{ all_postings | safe
+    }})[i];
     var item1 = [post[0], post[1], post[2], post[3], post[4]];
     console.log(post[9]);
     var first = true;
-    if (post[5] == 'true'){
+    if (post[5] == 'true') {
       item1.push("unopened");
-    }else{
+    } else {
       item1.push("");
     }
-    if (post[6] == 'true'){
-      if(first){
+    if (post[6] == 'true') {
+      if (first) {
         item1.push("original packing");
         first = false;
-      }else{
+      } else {
         item1.push(", original packing");
       }
-    }else{
+    } else {
       item1.push("");
     }
-    if (post[7] == 'true'){
-      if(first){
+    if (post[7] == 'true') {
+      if (first) {
         item1.push("store bought");
         first = false;
-      }else{
+      } else {
         item1.push("store bought");
       }
-    }else{
+    } else {
       item1.push("");
     }
-    if (post[8] == 'true'){
-      if(first){
+    if (post[8] == 'true') {
+      if (first) {
         item1.push("homemade");
         first = false;
-      }else{
+      } else {
         item1.push(", homemeade");
       }
-    }else{
+    } else {
       item1.push("");
     }
-    if (post[9] == 'true'){
+    if (post[9] == 'true') {
       item1.push("{% static 'coloring/images/verified.png'%}");
-    }else{
+    } else {
       item1.push(null);
     }
     item1.push(i);
     createCard(item1);
 
   }
-  
-  const cards = document.querySelectorAll(".card2");
-  console.log("the cards are", cards);
-  cards.forEach(card => {
-    const btn = document.querySelector('.btn');
-    btn.addEventListener("click", function (e) {
-      console.log("button clicked");
-      
+
+    const cards = document.querySelectorAll(".card2");
+    console.log("the cards are", cards);
+    cards.forEach(card => {
+      const btn = document.querySelector('.btn');
+      btn.addEventListener("click", function (e) {
+        console.log("button clicked");
+
+      });
+      card.addEventListener("click", function (e) {
+        // temp = card.childNodes[5].querySelector("div");
+        // console.log(temp);
+        // console.log(temp.text());
+        //console.log(card.childNodes[5].querySelector("div"));
+        console.log($("#card-title").text());
+        card.classList.toggle('is-flipped');
+      });
     });
-    card.addEventListener("click", function (e) {
-      // temp = card.childNodes[5].querySelector("div");
-      // console.log(temp);
-      // console.log(temp.text());
-      //console.log(card.childNodes[5].querySelector("div"));
+
+    function claimButton(button) {
+
+      console.log("ayoo");
+      // console.log("claimed");
       console.log($("#card-title").text());
-      card.classList.toggle('is-flipped');
-    });
-  });
+      const specific = '#card-title' + button.id;
+      $('#popupr').text("Claimed \"" + $(specific).text() + "\" successfully. Don't forget to pick up!");
+      console.log($(specific).text());
+      var data_to_send = {
+        "type": "claim",
+        "claimed_post": $(specific).text()
+      };
+      console.log("DEBUG: index POST req data", data_to_send);
+      $.ajax({
+        type: "POST",
+        url: "/wasteless/" + $('#username').text() + "/",
+        data: JSON.stringify(data_to_send),
+        success: function (response) {
+          // prints the response from the server
+          console.log(response);
+        }
+      });
+      var modal = document.getElementById('myModal');
+      // Get the main container and the body
+      var body = document.getElementsByTagName('body');
+      var container = document.getElementById('myContainer');
+      modal.className = "Modal is-visuallyHidden";
+      setTimeout(function () {
+        container.className = "MainContainer is-blurred";
+        modal.className = "Modal";
+      }, 100);
+      container.parentElement.className = "ModalOpen";
+      // location.reload();
+    }
 
-  function claimButton(button){
-    
-    console.log("ayoo");
-    // console.log("claimed");
-    console.log($("#card-title").text());
-    const specific = '#card-title' + button.id;
-    $('#popupr').text("Claimed \""+ $(specific).text()+ "\" successfully. Don't forget to pick up!");
-    console.log($(specific).text());
-    var data_to_send = {
-      "type": "claim",
-      "claimed_post": $(specific).text()
-        };
-     console.log("DEBUG: index POST req data", data_to_send);
-     $.ajax({
-      type: "POST",
-      url: "/wasteless/" + $('#username').text() + "/",
-      data: JSON.stringify(data_to_send),
-      success: function (response) {
-        // prints the response from the server
-        console.log(response); 
-      }
-    });
-    var modal = document.getElementById('myModal');
-                // Get the main container and the body
-                var body = document.getElementsByTagName('body');
-                var container = document.getElementById('myContainer');
-                modal.className = "Modal is-visuallyHidden";
-                setTimeout(function() {
-                container.className = "MainContainer is-blurred";
-                modal.className = "Modal";
-                }, 100);
-                container.parentElement.className = "ModalOpen";
-    // location.reload();
-  }
+    function chatButton() {
+      location.href("/wasteless/" + $('#username').text() + "/startchat/" + $(".user-text").text());
+/*
+      var data_to_send = {
+        "type": "chat",
+        "listing-user": $(".user-text").text()
+      };
 
-    function chatButton(){
-    
-     
-    var data_to_send = {
-      "type": "chat",
-      "listing-user": $(".user-text").text()
-        };
-     console.log("DEBUG: index POST req data", data_to_send);
-     $.ajax({
-      type: "POST",
-      url: "/wasteless/" + $('#username').text() + "/",
-      data: JSON.stringify(data_to_send),
-      success: function (response) {
-        // prints the response from the server
-        console.log(response); 
-      }
-    });
-  }
+      console.log("DEBUG: index POST req data", data_to_send);
+      $.ajax({
+        type: "POST",
+        url: "/wasteless/" + $('#username').text() + "/startchat",
+        data: JSON.stringify(data_to_send),
+        success: function (response) {
+          // prints the response from the server
+          console.log(response);
+        }
+      });
+      */
+    }
 
-    
-    
-</script>
+
+
+  </script>
 </body>
+
 </html>

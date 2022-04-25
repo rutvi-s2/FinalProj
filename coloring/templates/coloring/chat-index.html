@@ -2,19 +2,20 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Chat Tool</title>
-	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
-  <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
-  
 
-      <style type="text/css">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Chat Tool</title>
+  <script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+  <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+
+
+  <style type="text/css">
     body {
       background-color: lightgray;
     }
-    
+
     #title {
       color: white;
       font-size: 44px;
@@ -26,61 +27,63 @@
       font-size: 24px;
       font-family: 'Lora', serif;
     }
+
     #chat-msg {
       background-color: #c2dbb6;
       font-size: 24px;
       font-family: 'Lora', serif;
       margin-top: 2%;
       margin-bottom: 2%;
-      word-break:break-all;
+      word-break: break-all;
       padding: 5px;
     }
-    
+
     #chat-area {
       width: 100%;
       height: 60vh;
       padding-left: 10%;
       padding-right: 10%;
-      overflow:scroll;
-      background:white;
+      overflow: scroll;
+      background: white;
     }
-    #typeText{
+
+    #typeText {
       padding-top: 30px;
-      padding-left:35%;
+      padding-left: 35%;
       background-color: white;
     }
-    
   </style>
-  
+
 </head>
+
 <body>
   <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
-         <div class="mx-auto order-0">
-            <a id="title" class="navbar-brand mx-auto" href="#">Wasteless</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-         </div>
-         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-            <ul class="navbar-nav ml-auto">
-               <li class="nav-item">
-                  <a id="nav-items" class="nav-link" href="/">Home</a>
-               </li>
-               <li class="nav-item">
-                  <a id="nav-items" class="nav-link" href="#">Profile</a>
-               </li>
-               <li class="nav-item">
-                  <a id="nav-items" class="nav-link" href="/newlisting">New Listing</a>
-               </li>
-              <li class="nav-item">
-                  <a id="nav-items" class="nav-link" href="/chat-index">Chat</a>
-               </li>
-            </ul>
-         </div>
-      </nav>
+    <div class="mx-auto order-0">
+      <a id="title" class="navbar-brand mx-auto" href="#">Wasteless</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a id="nav-items" class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a id="nav-items" class="nav-link" href="#">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a id="nav-items" class="nav-link" href="/newlisting">New Listing</a>
+        </li>
+        <li class="nav-item">
+          <a id="nav-items" class="nav-link" href="/chat-index">Chat</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
   <div class="container">
-    
+
     <div class="row">
       <div class="col-12">
 
@@ -88,103 +91,104 @@
         <h4>Chat Tool</h4>
         <div id="chat-area"></div>
         <div id="typeText" style="padding-top: 30px; padding-left:35%;">
-          
+
           <input id="textMsg">
           <button class="btn btn-primary btn-large" id="send">Send</button>
-        <div>
-        
-        <br></br>
-        
-        
-    </div>
-    </div>
-  </div>
-  <script>
-    
-    window.onload = function() {
+          <div>
 
-      var points = []; 
-      
-      
-        
-     
-        // Establish websocket connection
-        var socket = new WebSocket("wss://ws-server-template.ashriftman.repl.co", "very-good-protocol");
-        var thisChatStorage;
-        socket.onopen = function(){
-      
-          
- 
-        }
-        socket.onmessage = function(rawMessage){
-          
-         // Receive a message from websocket server
-          var message = JSON.parse(rawMessage.data);
-          console.log(message);
-          var msg = message["text"];
-          var usr = message["user"];
-          var chatArea = $("#chat-area")
-          var textNodeBox = document.createElement("div");
-          var textNode = document.createElement("div");
-          textNode.id = "chat-msg";
-          
-          if(usr !== "{{ user }}"){
-            $(textNode).css("margin-right", "60%");
-            $(textNode).css("background-color", "lightgray");
-            
+            <br></br>
+
+
+          </div>
+        </div>
+      </div>
+      <script>
+
+        window.onload = function () {
+
+          var points = [];
+
+
+
+
+          // Establish websocket connection
+          var socket = new WebSocket("wss://ws-server-template.ashriftman.repl.co", "very-good-protocol");
+          var thisChatStorage;
+          socket.onopen = function () {
+
+
+
           }
-          else{
-            $(textNodeBox).css("text-align", "right");
-            $(textNode).css("margin-left", "60%");
-            $(textNode).css("background-color", "lightblue");
-            
+          socket.onmessage = function (rawMessage) {
+
+            // Receive a message from websocket server
+            var message = JSON.parse(rawMessage.data);
+            console.log(message);
+            var msg = message["text"];
+            var usr = message["user"];
+            var chatArea = $("#chat-area")
+            var textNodeBox = document.createElement("div");
+            var textNode = document.createElement("div");
+            textNode.id = "chat-msg";
+
+            if (usr !== "{{ user }}") {
+              $(textNode).css("margin-right", "60%");
+              $(textNode).css("background-color", "lightgray");
+
+            }
+            else {
+              $(textNodeBox).css("text-align", "right");
+              $(textNode).css("margin-left", "60%");
+              $(textNode).css("background-color", "lightblue");
+
+            }
+            $(textNode).css("display", "inline-block");
+
+            textNode.innerHTML = msg + "  ";
+            textNodeBox.append(textNode);
+            chatArea.append(textNodeBox);
+            chatArea = document.getElementById("chat-area");
+            chatArea.scrollTop = chatArea.scrollHeight;
+
           }
-          $(textNode).css("display", "inline-block");
-          
-          textNode.innerHTML = msg + "  ";
-          textNodeBox.append(textNode);
-          chatArea.append(textNodeBox);
-          chatArea = document.getElementById("chat-area");
-          chatArea.scrollTop = chatArea.scrollHeight;
-         
+
+          socket.onclose = function () {
+
+          }
+
+
+          $("#send").click(function () {
+
+            var msg = $('#textMsg').val();
+            //console.log($("#textMsg").val());
+            //var usr = $('#user').val();
+            /*var chatStorage = null;
+            if ChatStorage.objects.filter(user_one={{ user}}).exists():
+            chatStorage = ChatStorage.get()
+            elif ChatStorage.objects.filter(user_two={{ user}}).exists():
+            else:
+             chatStorage = ChatStorage.objects.create(user_one={{user}}, user_two=null);*/
+
+            var usr = "{{ user }}";
+            //console.log(usr);
+            var toSend = { text: msg, user: usr };
+            //console.log(toSend);
+            socket.send(JSON.stringify(toSend));
+            /*ajax.post("coloring/send-message", {
+              "user1", "user2"
+            })*/
+
+          });
+
+
         }
-        
-        socket.onclose = function(){
-        
-        }
-        
-        
-       $( "#send" ).click(function() {
-         
-      var msg = $('#textMsg').val();
-         //console.log($("#textMsg").val());
-         //var usr = $('#user').val();
-         /*var chatStorage = null;
-         if ChatStorage.objects.filter(user_one={{ user}}).exists():
-         chatStorage = ChatStorage.get()
-         elif ChatStorage.objects.filter(user_two={{ user}}).exists():
-         else:
-          chatStorage = ChatStorage.objects.create(user_one={{user}}, user_two=null);*/
-        
-         var usr = "{{ user }}";
-         //console.log(usr);
-         var toSend = { text: msg, user: usr};
-                  //console.log(toSend);
-      socket.send(JSON.stringify(toSend));
-         /*ajax.post("coloring/send-message", {
-           "user1", "user2"
-         })*/
-
-       });
-        
-
-      }
 
 
-      
-      
-  
 
-</script>
+
+
+
+      </script>
 </body>
+
 </html>
