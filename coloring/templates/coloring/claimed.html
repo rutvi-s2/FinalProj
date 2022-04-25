@@ -466,18 +466,16 @@ button {
                 modal.className = "Modal";
                 }, 100);
                 container.parentElement.className = "ModalOpen";
-                
-           }
-         $("#submit").on("click", function(){
+              $("#submit").on("click", function(){
                 console.log("submit clicked");
               
-                console.log($("#card-title").text());
+                console.log($(specifc).text());
                 console.log($("#givenRate").text());
           
                 
                 var data_to_send = {
                       "type": "rated",
-                     "rated_post": $("#card-title").text(),
+                     "rated_post": $(specific).text(),
                       "score": $("#givenRate").text(),
                    };
                 
@@ -491,7 +489,9 @@ button {
                  }
                });
                 
-           });
+           });    
+           }
+
          // window.onload = function(){
                   
                   // End pop up
