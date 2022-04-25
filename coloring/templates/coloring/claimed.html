@@ -388,7 +388,7 @@ button {
     createCard(item1);
          }
          
-         
+         var card_num;
          const cards = document.querySelectorAll(".card__inner");
          const ratingStars = [...document.getElementsByClassName("rating__star")];
          const ratingResult = document.querySelector(".rating__result");
@@ -438,6 +438,7 @@ button {
               
                 // console.log($("#card-title").text());
                 const specific = '#card-title' + button.id;
+                card_num = button.id;
               console.log($(specific).text());
                 $('#popupr').text("One more step! Rate \""+ $(specific).text() + "\" to receive your impact points.");
                 var data_to_send = {
@@ -466,10 +467,13 @@ button {
                 modal.className = "Modal";
                 }, 100);
                 container.parentElement.className = "ModalOpen";
-              $("#submit").on("click", function(){
+                
+           }
+        
+         $("#submit").on("click", function(){
                 console.log("submit clicked");
-              
-                console.log($(specifc).text());
+                const specific = '#card-title' + card_num;
+                console.log($(specific).text());
                 console.log($("#givenRate").text());
           
                 
@@ -489,9 +493,7 @@ button {
                  }
                });
                 
-           });    
-           }
-
+           });
          // window.onload = function(){
                   
                   // End pop up
