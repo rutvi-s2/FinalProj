@@ -247,16 +247,24 @@ def profile(request, username =""):
         total_points = 0
       else:
         total_points = user.total
+        
+      if user.rating == None:
+        rating = 0
+      else:
+        rating = user.rating
       data = {
         "user": user,
         "friends": user.friends,
-        "points": total_points
+        "points": total_points,
+        "rating": rating
       }
     else:
       print("DEBUG: user doesnt yet exist")
       data = {
         "user": user,
-        "friends": []
+        "friends": [],
+        "points": total_points,
+        "rating": rating
       }
   
     return render(request, 'coloring/profile.html', data)
