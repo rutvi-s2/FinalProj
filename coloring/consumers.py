@@ -32,6 +32,7 @@ class ChatConsumer(WebsocketConsumer):
         self.user_one = self.scope['url_route']['kwargs']['user_one']
         self.user_two = self.scope['url_route']['kwargs']['user_two']
         self.room_name = self.user_one + "." + self.user_two
+        ### TODO: Get associated chat storage
 
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
@@ -53,6 +54,10 @@ class ChatConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['text']
 
+
+        print("i am getting a message from " + text_data_json['user'] + " that says: " + message)
+        #### STORE ME IN A MODEL CHATSTORAGE PLS
+      
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
             self.room_name,
@@ -66,8 +71,6 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from room group
     def chat_message(self, event):
         message = event['text']
-
-        print("i am getting a message from " + event['user'] + " that says: " + message)
       
         # Send message to WebSocket
         self.send(text_data=json.dumps({
