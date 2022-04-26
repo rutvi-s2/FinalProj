@@ -384,7 +384,7 @@
   <script>
 
     const all_cards = document.querySelector(".row");
-    function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified, num]) {
+    function createCard([item_name, qty, qty_units, description, username, unopened, unopenedtag, og, ogtag, store, storetag, homemade, homemadetag, verified, num]) {
 
       let code = `
   <div class="col-md-4">
@@ -394,10 +394,10 @@
 <img src="{% static 'coloring/images/cookies-image.jpeg'%}">
   		<div class="card__details">
       <div id="all_tags">
-  			<span class="tag">${homemade}</span>
-        <span class="tag">${unopened}</span>
-        <span class="tag">${og}</span>
-        <span class="tag">${store}</span>
+  			<span class="${homemadetag}">${homemade}</span>
+        <span class="${unopenedtag}">${unopened}</span>
+        <span class="${ogtag}">${og}</span>
+        <span class="${storetag}">${store}</span>
       <div>
         <div class="name">${item_name}</div>
   			<p>${description}</p>
@@ -438,40 +438,32 @@
       var post = ({{ all_postings | safe}})[i];
     var item1 = [post[0], post[1], post[2], post[3], post[4]];
     console.log(post[9]);
-    var first = true;
     if (post[5] == 'true') {
       item1.push("unopened");
+      item1.push("tag");
     } else {
+      item1.push("");
       item1.push("");
     }
     if (post[6] == 'true') {
-      if (first) {
-        item1.push("original packing");
-        first = false;
-      } else {
-        item1.push(", original packing");
-      }
+      item1.push("original packing");
+      item1.push("tag");
     } else {
+      item1.push("");
       item1.push("");
     }
     if (post[7] == 'true') {
-      if (first) {
-        item1.push("store bought");
-        first = false;
-      } else {
-        item1.push("store bought");
-      }
+      item1.push("store bought");
+      item1.push("tag");
     } else {
+      item1.push("");
       item1.push("");
     }
     if (post[8] == 'true') {
-      if (first) {
-        item1.push("homemade");
-        first = false;
-      } else {
-        item1.push(", homemeade");
-      }
+      item1.push("homemade");
+      item1.push("tag");
     } else {
+      item1.push("");
       item1.push("");
     }
     if (post[9] == 'true') {
