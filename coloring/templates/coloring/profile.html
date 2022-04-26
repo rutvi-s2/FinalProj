@@ -193,6 +193,7 @@
     <img src="/static/coloring/images/women-icon.png" alt="profilepic" style="width:200px" class="center">
   </div>
   <h4><center><span id="username">@{{ user.username }}</span></center></h4>
+  <h3><center><span id="stars"></span></center></h3>
   <h3><center id="location"></center></h3>
     <div class="impact-text">
   <center>My Impact</center>
@@ -298,6 +299,41 @@
               
 
       <script>
+const rating = {{rating}};
+
+console.log("the rating is", rating);
+function addStars(rating){
+  var total_stars = 0;
+  console.log(rating);
+  var elem = document.getElementById("stars");
+  
+  for(var i = rating; i > 0; i--){
+    console.log("i is", i);
+    var span = document.createElement("span");
+    if(i >= 1){
+    span.setAttribute('class', 'fa fa-star');
+    console.log('add full star');
+    total_stars += 1;
+    elem.append(span);
+    }
+    else if (i >= 0.5){
+      span.setAttribute('class', 'fas fa-star-half-alt');
+      console.log('add half star');
+      total_stars += 1;
+      elem.append(span);
+    
+  }
+  }
+  for(var i = 0; i < 5 - total_stars; i++){
+ 
+    var span = document.createElement("span");
+    span.setAttribute('class', 'far fa-star');
+    console.log('add empty star');
+    elem.append(span);
+  }
+  elem.append("(",rating,")");
+}
+        
         var x=document.getElementById("location");
         console.log("x", x);
           function getLocation(){
@@ -388,6 +424,7 @@ function move() {
          window.onload = function(){   
             move(); 
            getLocation();
+           addStars(rating);
          }
       </script>
    </body>
