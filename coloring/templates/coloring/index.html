@@ -392,13 +392,11 @@
 <div>
   	<div class="card card2">
 <p class="user-text">@${username}</p>
-
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">    
 </head>
-<body>
-<i class="fa fa-bookmark fa-2x" style ="color: white; border:3px; border-color: black; position:absolute; right:5px; top:2px;" id="${num}" onclick="saveButton(this)"></i>
-</body>
+<span class='bi bi-bookmark-fill' style ="font-size: 40px; color: white; text-shadow: 0 0 3px #000; position:absolute; right:5px; top:2px;" id="${num}" onclick="saveButton(this)"></span>
+
 <img src="{% static 'coloring/images/cookies-image.jpeg'%}">
   		<div class="card__details">
       <div id="all_tags">
@@ -574,6 +572,38 @@
         }
       });
       */
+    }
+    function saveButton(button){
+      // change button color to filled in if wasn't previously
+      // if(button.color = "white"){
+      //   console.log("we go therherhehrehrhehre");
+      // }
+      // const specific = '#card-title' + button.id;
+      // var data_to_send = {
+      //   "type": "saved",
+      //   "claimed_post": $(specific).text()
+      // };
+      // console.log("DEBUG: index POST req data", data_to_send);
+      // $.ajax({
+      //   type: "POST",
+      //   url: "/wasteless/" + $('#username').text() + "/",
+      //   data: JSON.stringify(data_to_send),
+      //   success: function (response) {
+      //     // prints the response from the server
+      //     console.log(response);
+      //   }
+      // });
+      // var modal = document.getElementById('myModal');
+      // // Get the main container and the body
+      // var body = document.getElementsByTagName('body');
+      // var container = document.getElementById('myContainer');
+      // modal.className = "Modal is-visuallyHidden";
+      // setTimeout(function () {
+      //   container.className = "MainContainer is-blurred";
+      //   modal.className = "Modal";
+      // }, 100);
+      // container.parentElement.className = "ModalOpen";
+      // location.reload();
     }
 
 
