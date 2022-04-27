@@ -55,3 +55,5 @@ class Message(models.Model):
     on_delete=models.CASCADE,
   )
   text = models.CharField(max_length=1000)
+  from_user = models.CharField(max_length=40)
+  to_user = models.CharField(max_length=40)

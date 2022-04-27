@@ -133,18 +133,20 @@
                                      second
                                     );
           var thisChatStorage;
+
+          // Load previous messages
+          var prev_msgs = JSON.parse('{{ messages|safe}}');
+          prev_msgs.forEach((e) => {
+            render_message(e["text"], e["from_user"]);
+          });
+          
           socket.onopen = function () {
 
 
 
           }
-          socket.onmessage = function (rawMessage) {
 
-            // Receive a message from websocket server
-            var message = JSON.parse(rawMessage.data);
-            console.log(message);
-            var msg = message["text"];
-            var usr = message["user"];
+          function render_message(msg, usr) {
             var chatArea = $("#chat-area")
             var textNodeBox = document.createElement("div");
             var textNode = document.createElement("div");
@@ -166,7 +168,18 @@
             textNode.innerHTML = msg + "  ";
             textNodeBox.append(textNode);
             chatArea.append(textNodeBox);
-            chatArea = document.getElementById("chat-area");
+          }
+          
+          socket.onmessage = function (rawMessage) {
+
+            // Receive a message from websocket server
+            var message = JSON.parse(rawMessage.data);
+            console.log(message);
+            var msg = message["text"];
+            var usr = message["user"];
+            render_message(msg, usr);
+            
+            var chatArea = document.getElementById("chat-area");
             chatArea.scrollTop = chatArea.scrollHeight;
 
           }

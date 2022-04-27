@@ -417,23 +417,39 @@ def saved(request, username =""):
     return render(request, 'coloring/saved.html', data)
 
 def startchat(request, username="", listinguser=""):
-  if request.GET:
+  print(request)
+  if request.method == 'GET':
     # Start a new chat between us and the new guy
-    data = json.loads(request.body.decode('UTF-8'))
-    chat_storage = None
-    if ChatStorage.objects.filter(user_one = username, user_two = listinguser).exists():
-      chat_storage = ChatStorage.objects.get(user_one = username, user_two = listinguser)
-    elif ChatStorage.objects.filter(user_one = listinguser, user_two = username).exists():
-      chat_storage = ChatStorage.objects.get(user_one = listinguser, user_two = username)
-    else:
-      chat_storage = ChatStorage(user_one = username, user_two = listinguser)
-      chat_storage.save()
+    #data = json.loads(request.body.decode('UTF-8'))
+    # chat_storage = None
+    # if ChatStorage.objects.filter(user_one = username, user_two = listinguser).exists():
+    #   chat_storage = ChatStorage.objects.get(user_one = username, user_two = listinguser)
+    # elif ChatStorage.objects.filter(user_one = listinguser, user_two = username).exists():
+    #   chat_storage = ChatStorage.objects.get(user_one = listinguser, user_two = username)
+    # else:
+    #   chat_storage = ChatStorage(user_one = username, user_two = listinguser)
+    #   chat_storage.save()
+    user_one_temp = username if username > listinguser else listinguser
+    user_two_temp = listinguser if username > listinguser else username
+    messages = []
+    if ChatStorage.objects.filter(user_one = user_one_temp, user_two = user_two_temp).exists():
+      storage = ChatStorage.objects.get(user_one = user_one_temp, user_two = user_two_temp)
+      msgs = Message.objects.filter(chat_storage=storage)
+      for msg_o in msgs:
+        msg = {
+          "text": msg_o.text,
+          "from_user": msg_o.from_user,
+          "to_user": msg_o.to_user
+        }
+        messages.append(msg)
 
-  data = {
+    data = {
         "user": username,
         "listinguser": listinguser,
+        "messages": json.dumps(messages),
         "friends": [],
       }
-  print(listinguser)
-  return render(request, 'coloring/chat-index.html', data)
-  #return chatindex(request, username)
+    print(listinguser)
+    return render(request, 'coloring/chat-index.html', data)
+  return HttpResponse(True)
+
