@@ -53,25 +53,42 @@ def index(request, authorname="DefaultAuthor", username =""):
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
 
-    #need to update listing as claimed
-    claimed_post = Posting.objects.filter(item_name = data['claimed_post'])
-    print("DEBUG: views post request, the claimed post is ", claimed_post)
-
-    for object in claimed_post:
-      object.claimed = True
-      object.save()
-    #claimed_post.claimed = True
-    #claimed_post.save()
-    
-    print("DEBUG view post req, claimed = ", claimed_post[0].claimed)
-    #need to update user's claimed list 
-    print(user.claimed)
-    current_claimed = user.claimed
-    if current_claimed == None:
-      current_claimed = []
-    current_claimed.append(str(claimed_post[0].item_name))
-    user.claimed = current_claimed
-    user.save()
+    if(data['type'] == 'claim'):
+      #need to update listing as claimed
+      claimed_post = Posting.objects.filter(item_name = data['claimed_post'])
+      print("DEBUG: views post request, the claimed post is ", claimed_post)
+  
+      for object in claimed_post:
+        object.claimed = True
+        object.save()
+      
+      print("DEBUG view post req, claimed = ", claimed_post[0].claimed)
+      #need to update user's claimed list 
+      print(user.claimed)
+      current_claimed = user.claimed
+      if current_claimed == None:
+        current_claimed = []
+	      current_claimed.append(str(claimed_post[0].item_name))
+      user.claimed = current_claimed
+      user.save()
+    if(data['type'] == 'save'):
+      bool_saved = data['bool_saved']
+      saved_post = Posting.objects.filter(item_name = data['saved_post'])
+      #need to update user's claimed list 
+        # add to saved
+      print(user.saved)
+      current_saved = user.saved
+      if(bool_saved == 'True'):
+        if current_saved == None:
+          current_saved = []
+        current_saved.append(str(saved_post[0].item_name))
+      if(bool_saved == 'False'):
+        if current_saved == None:
+          current_saved = []
+        else: 
+          current_saved.remove(str(saved_post[0].item_name))
+      user.saved = current_saved
+      user.save()
     
     return HttpResponse(True)
 
