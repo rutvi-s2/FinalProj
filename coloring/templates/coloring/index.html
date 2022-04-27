@@ -465,9 +465,9 @@
   <center id="middle"></center>
   <script>
 
-    var post_list = {{all_postings | safe}};
+    var allpost_list = {{all_postings | safe}};
     var friendpost_list = {{friend_postings | safe}};
-    console.log("post list", post_list);
+    console.log("post list", allpost_list);
     console.log("friendlist", friendpost_list);
     const all_cards = document.querySelector(".row");
     function createCard([item_name, qty, qty_units, description, username, unopened, unopenedtag, og, ogtag, store, storetag, homemade, homemadetag, verified, num]) {
@@ -589,8 +589,15 @@
       h3.appendChild(document.createTextNode("No Current Listings"));
       center.appendChild(h3);
     }
-     populate_page(post_list);
+     populate_page(friendpost_list);
     $(".all-users").on("click", "input[type='radio']", function(event) {
+        // do something here ...
+        console.log("all users clicked!!");
+        all_cards.innerHTML = ``;
+        populate_page(allpost_list);
+      
+      });
+    $(".friend-users").on("click", "input[type='radio']", function(event) {
         // do something here ...
         console.log("all users clicked!!");
         all_cards.innerHTML = ``;
