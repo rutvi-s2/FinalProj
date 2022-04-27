@@ -369,6 +369,10 @@ def claimed(request, username =""):
       listing_user.rating = new_rating
       listing_user.rating_numer = this_num + old_num
       listing_user.rating_denom = old_den + 5
+      if listing_user.total_ratings == None:
+        listing_user.total_ratings = 1
+      else:
+        listing_user.total_ratings += 1
       listing_user.save()
       # add to their rating in data base
       print("in views registered as rated")
