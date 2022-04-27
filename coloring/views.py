@@ -93,14 +93,16 @@ def index(request, authorname="DefaultAuthor", username =""):
     if User.objects.filter(username = username).exists():
       data = {
         "user": user,
-        "all_postings": all_postings
+        "all_postings": all_postings,
+        "friend_postings": friend_postings
       }
     else:
       print("DEBUG: user doesnt yet exist")
       data = {
         "user": user,
         "friends": [],
-        "all_postings": all_postings
+        "all_postings": all_postings,
+        "friend_postings": friend_postings
       }
     
     return render(request, 'coloring/index.html', data)

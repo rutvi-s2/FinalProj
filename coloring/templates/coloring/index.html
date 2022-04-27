@@ -438,7 +438,7 @@
     </nav>
 
     <div class="d-lg-flex align-items-lg-center pt-2">
-        <div class="form-inline d-flex align-items-center my-2 mr-lg-2 radio bg-light border"> <label class="options">All Users <input type="radio" name="radio"> <span class="checkmark"></span> </label> <label class="options">Friends Only <input type="radio" name="radio" checked> <span class="checkmark"></span> </label> </div>
+        <div class="form-inline d-flex align-items-center my-2 mr-lg-2 radio bg-light border"> <label class="options all-users">All Users <input type="radio" name="radio"> <span class="checkmark"></span> </label> <label class="options friend-users">Friends Only <input type="radio" name="radio" checked> <span class="checkmark"></span> </label> </div>
       
         
     </div>
@@ -465,6 +465,10 @@
   <center id="middle"></center>
   <script>
 
+    var post_list = {{all_postings | safe}};
+    var friendpost_list = {{friend_postings | safe}};
+    console.log("post list", post_list);
+    console.log("friendlist", friendpost_list);
     const all_cards = document.querySelector(".row");
     function createCard([item_name, qty, qty_units, description, username, unopened, unopenedtag, og, ogtag, store, storetag, homemade, homemadetag, verified, num]) {
 
@@ -516,8 +520,9 @@
       // }
     }
     //[item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]
-    for (var i = 0; i < {{ all_postings | safe}}.length; i++) {
-      var post = ({{ all_postings | safe}})[i];
+    function populate_page(card_list){
+    for (var i = 0; i < card_list.length; i++) {
+      var post = card_list[i];
     var item1 = [post[0], post[1], post[2], post[3], post[4]];
     console.log(post[9]);
     if (post[5] == 'true') {
@@ -557,7 +562,7 @@
     createCard(item1);
 
   }
-
+  }
     const cards = document.querySelectorAll(".card2");
     console.log("the cards are", cards);
     cards.forEach(card => {
@@ -584,6 +589,14 @@
       h3.appendChild(document.createTextNode("No Current Listings"));
       center.appendChild(h3);
     }
+     populate_page(post_list);
+    $(".all-users").on("click", "input[type='radio']", function(event) {
+        // do something here ...
+        console.log("all users clicked!!");
+        all_cards.innerHTML = ``;
+        populate_page(friendpost_list);
+      
+      });
     
     function claimButton(button) {
 
@@ -641,7 +654,9 @@
       });
       */
     }
-
+window.onload = function() {
+   
+}
 
 
   </script>
