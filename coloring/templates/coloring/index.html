@@ -385,7 +385,7 @@
   <script>
 
     const all_cards = document.querySelector(".row");
-    function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified, num]) {
+    function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified, num, save_color]) {
 
       let code = `
   <div class="col-md-4">
@@ -395,7 +395,7 @@
 <head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">    
 </head>
-<span class='bi bi-bookmark-fill' style ="font-size: 40px; color: white; text-shadow: 0 0 3px #000; position:absolute; right:5px; top:2px;" id="${num}" onclick="saveButton(this)"></span>
+<span class='bi bi-bookmark-fill' style ="font-size: 40px; color: ${save_color}; text-shadow: 0 0 3px #000; position:absolute; right:5px; top:2px;" id="${num}" onclick="saveButton(this)"></span>
 
 <img src="{% static 'coloring/images/cookies-image.jpeg'%}">
   		<div class="card__details">
@@ -443,7 +443,11 @@
     for (var i = 0; i < {{ all_postings | safe}}.length; i++) {
       var post = ({{ all_postings | safe}})[i];
     var item1 = [post[0], post[1], post[2], post[3], post[4]];
-    console.log(post[9]);
+    var user_saved = "{{ user.saved | safe}}";
+    console.log(user_saved);
+    // console.log("item name is this!!!!")
+    // console.log(post[0]);
+    
     var first = true;
     if (post[5] == 'true') {
       item1.push("unopened");
@@ -486,6 +490,19 @@
       item1.push(null);
     }
     item1.push(i);
+    var saved = user_saved.includes(post[0]);
+    console.log("saved is this!!!!");
+    console.log(saved);
+    if(saved == true){
+      item1.push('gray');
+      console.log('should be gray');
+    }
+    else
+    {
+      item1.push('white');
+      console.log('should be white');
+    }
+    
     createCard(item1);
 
   }
@@ -576,15 +593,13 @@
     }
     function saveButton(button){
       // change button color to filled in if wasn't previously
-      console.log("at beginning color is: ")
-      console.log(button.style.color)
       var bool_saved;
       if(button.style.color == "white"){
         // not saved prev, want to save now
-        button.style.color = 'grey';
+        button.style.color = 'gray';
         bool_saved = "True";
       }
-      else if(button.style.color == "grey"){
+      else if(button.style.color == "gray"){
         // not saved prev, want to save now
         button.style.color = "white";
         bool_saved = "False";
