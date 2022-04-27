@@ -77,22 +77,32 @@ def index(request, authorname="DefaultAuthor", username =""):
 
   else:  #GET Request
     all_postings = []
+    friend_postings = []
+    
     postings = Posting.objects.filter(active = True,claimed = False)
     for post in postings:
+      
       post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
+      if user.friends == None:
+        user.friends = []
+      if post.listing_user.username in user.friends:
+        print("this works")
+        friend_postings.append(post_info)
       all_postings.append(post_info)
     print(all_postings)
     if User.objects.filter(username = username).exists():
       data = {
         "user": user,
-        "all_postings": all_postings
+        "all_postings": all_postings,
+        "friend_postings": friend_postings
       }
     else:
       print("DEBUG: user doesnt yet exist")
       data = {
         "user": user,
         "friends": [],
-        "all_postings": all_postings
+        "all_postings": all_postings,
+        "friend_postings": friend_postings
       }
     
     return render(request, 'coloring/index.html', data)
