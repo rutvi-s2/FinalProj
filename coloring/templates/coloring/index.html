@@ -507,6 +507,7 @@
         card.classList.toggle('is-flipped');
       });
     });
+    
 
 
     if({{ all_postings | safe}}.length == 0){
@@ -575,35 +576,35 @@
     }
     function saveButton(button){
       // change button color to filled in if wasn't previously
-      // if(button.color = "white"){
-      //   console.log("we go therherhehrehrhehre");
-      // }
-      // const specific = '#card-title' + button.id;
-      // var data_to_send = {
-      //   "type": "saved",
-      //   "claimed_post": $(specific).text()
-      // };
+      console.log("at beginning color is: ")
+      console.log(button.style.color)
+      var bool_saved;
+      if(button.style.color == "white"){
+        // not saved prev, want to save now
+        button.style.color = 'grey';
+        bool_saved = "True";
+      }
+      else if(button.style.color == "grey"){
+        // not saved prev, want to save now
+        button.style.color = "white";
+        bool_saved = "False";
+      }
+      const specific = '#card-title' + button.id;
+      var data_to_send = {
+        "type": "save",
+        "bool_saved": bool_saved,
+        "saved_post": $(specific).text()
+      };
       // console.log("DEBUG: index POST req data", data_to_send);
-      // $.ajax({
-      //   type: "POST",
-      //   url: "/wasteless/" + $('#username').text() + "/",
-      //   data: JSON.stringify(data_to_send),
-      //   success: function (response) {
-      //     // prints the response from the server
-      //     console.log(response);
-      //   }
-      // });
-      // var modal = document.getElementById('myModal');
-      // // Get the main container and the body
-      // var body = document.getElementsByTagName('body');
-      // var container = document.getElementById('myContainer');
-      // modal.className = "Modal is-visuallyHidden";
-      // setTimeout(function () {
-      //   container.className = "MainContainer is-blurred";
-      //   modal.className = "Modal";
-      // }, 100);
-      // container.parentElement.className = "ModalOpen";
-      // location.reload();
+      $.ajax({
+        type: "POST",
+        url: "/wasteless/" + $('#username').text() + "/",
+        data: JSON.stringify(data_to_send),
+        success: function (response) {
+          // prints the response from the server
+          console.log(response);
+        }
+      });
     }
 
 
