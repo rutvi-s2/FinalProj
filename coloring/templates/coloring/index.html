@@ -606,16 +606,17 @@
     $(".all-users").on("click", "input[type='radio']", function(event) {
         // do something here ...
         console.log("all users clicked!!");
-        all_cards.innerHTML = ``;
-        populate_page(allpost_list);
+        //all_cards.innerHTML = ``;
+        //populate_page(allpost_list);
+        applyButton();
       
       });
     $(".friend-users").on("click", "input[type='radio']", function(event) {
         // do something here ...
         console.log("all users clicked!!");
-        all_cards.innerHTML = ``;
-        populate_page(friendpost_list);
-      
+       // all_cards.innerHTML = ``;
+        //populate_page(friendpost_list);
+      applyButton();
       });
     
     function claimButton(button) {
