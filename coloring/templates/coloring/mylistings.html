@@ -353,7 +353,6 @@
         <div class="name">${item_name}</div>
   			<p>${description}</p>
         <p> <button onclick="deleteButton(this)" id="${num}">delete</button></p>
-        <p> <button onclick="chatButton()">chat</button></p>
         
   			<div class="card__face card__face--back">
   				<div class="card__content">
@@ -373,18 +372,7 @@
   </div>
   `;
       all_cards.innerHTML += code;
-
-      //this is code i tried that didn't work (appended to first card not specific one)
-      //     if(unopened.length > 0){
-      //       console.log("printing");
-      //   var all_tag = document.getElementById("all_tags");
-      //   var tag = document.createElement("span");
-      //   tag.setAttribute('class', 'tag');
-      //   tag.appendChild(document.createTextNode('unopened'));
-      //   all_tag.appendChild(tag);
-      // }
     }
-    //[item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]
     function populate_page(card_list){
     for (var i = 0; i < card_list.length; i++) {
       var post = card_list[i];
@@ -427,16 +415,13 @@
     // Saves stuff
     var user_saved = "{{ user.saved | safe}}";
     var saved = user_saved.includes(post[0]);
-    console.log("saved is this!!!!");
-    console.log(saved);
+
     if(saved == true){
       item1.push('gray');
-      console.log('should be gray');
     }
     else
     {
       item1.push('white');
-      console.log('should be white');
     }
     // End save stuff
     createCard(item1);
@@ -486,7 +471,7 @@
     //   });
     
     function deleteButton(button) {
-
+      console.log("delete button recognized as presesd in mylsiting.html");
       const specific = '#card-title' + button.id;
       // $('#popupr').text("Claimed \"" + $(specific).text() + "\" successfully. Don't forget to pick up!");
       console.log($(specific).text());
@@ -494,40 +479,18 @@
         "type": "delete",
         "delete_post": $(specific).text()
       };
-      console.log("DEBUG: index POST req data", data_to_send);
       $.ajax({
         type: "POST",
-        url: "/wasteless/" + $('#username').text() + "/",
+        url: "/wasteless/" + $('#username').text() + "/profile/mylistings/",
         data: JSON.stringify(data_to_send),
         success: function (response) {
           // prints the response from the server
           console.log(response);
         }
       });
-      location.reload();
+      // location.reload();
     }
 
-    function chatButton() {
-      var otherUser = $(".user-text").text().substr(1); // get rid of the @
-      location.href = "/wasteless/" + $('#username').text() + "/startchat/" + otherUser;
-/*
-      var data_to_send = {
-        "type": "chat",
-        "listing-user": $(".user-text").text()
-      };
-
-      console.log("DEBUG: index POST req data", data_to_send);
-      $.ajax({
-        type: "POST",
-        url: "/wasteless/" + $('#username').text() + "/startchat",
-        data: JSON.stringify(data_to_send),
-        success: function (response) {
-          // prints the response from the server
-          console.log(response);
-        }
-      });
-      */
-    }
 	    function saveButton(button){
       // change button color to filled in if wasn't previously
       var bool_saved;

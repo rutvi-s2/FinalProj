@@ -298,11 +298,13 @@ def profile(request, username =""):
 @csrf_exempt  
 def mylistings(request, username =""):
   user = get_user_by_name(username)
- 
+  print("omcomcocomcocococmcmcomcococomc")
   
   if request.POST: 
+    
     # POST request received
     print("Received POST request with data:")
+    print("!!!!!ADSFASF")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
     
@@ -326,7 +328,10 @@ def mylistings(request, username =""):
       user.save()
     if(data['type']=='delete'):
       # do this
-      print("do later")
+      print("getting in delete post and this is the post anme")
+      print(data['delete_post'])
+      delete_post = Posting.objects.get(item_name = data['delete_post'])
+      delete_post.delete()
     return HttpResponse(True)
 
   else:  #GET
@@ -334,7 +339,7 @@ def mylistings(request, username =""):
     my_pickup = []
     my_archive = []
     my_postings = Posting.objects.filter(listing_user=user)
-    print("in get request in mylistings")
+    # print("in get request in mylistings")
     for post in my_postings:
        post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
       #post_info = [post.item_name, post.description]
@@ -348,8 +353,8 @@ def mylistings(request, username =""):
         # add to archive
         my_archive.append(post_info)
     if User.objects.filter(username = username).exists():
-      print("this is mny_curr")
-      print(my_curr)
+      # print("this is my_curr")
+      # print(my_curr)
       data = {
         "user": user,
         "my_curr": my_curr,
