@@ -460,7 +460,7 @@ def claimed(request, username =""):
 def saved(request, username =""):
   # author = get_author_by_name(authorname)
   user = get_user_by_name(username)
-  
+  # print("getting into def saved in views")
   if request.POST: 
     # POST request received
     print("Received POST request with data:")
@@ -504,8 +504,9 @@ def saved(request, username =""):
     return HttpResponse(True)
 
   else:  #GET Request
+    # print("getting inside get in def saved")
     saved_postings = []
-    
+    print
     postings = Posting.objects.filter(active = True,claimed = False)
     for post in postings:
       
@@ -514,7 +515,7 @@ def saved(request, username =""):
         user.saved = []
       if post.item_name in user.saved:
         saved_postings.append(post_info)
-    print(saved_postings)
+    print("Saved postings is+++++++", saved_postings)
     if User.objects.filter(username = username).exists():
       data = {
         "user": user,

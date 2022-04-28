@@ -316,11 +316,13 @@
     </div>
 </nav>
       <center id="middle"></center>
+     <span hidden id="username">{{ user.username }}</span>
+         <div class="row"></div>
   <script>
 
     var savedpost_list = {{saved_postings | safe}};
     // var friendpost_list = {{friend_postings | safe}};
-    const all_cards = document.querySelector(".row");
+    const saved_cards = document.querySelector(".row");
     function createCard([item_name, qty, qty_units, description, username, unopened, unopenedtag, og, ogtag, store, storetag, homemade, homemadetag, verified, num, save_color]) {
 
       let code = `
@@ -362,13 +364,15 @@
   	</div>
   </div>
   `;
-      all_cards.innerHTML += code;
+      saved_cards.innerHTML += code;
 
     }
     
     function populate_page(card_list){
     for (var i = 0; i < card_list.length; i++) {
       var post = card_list[i];
+      console.log("post[0] is thisssss");
+      console.log(post[0]);
     var item1 = [post[0], post[1], post[2], post[3], post[4]];
     console.log(post[9]);
     if (post[5] == 'true') {
@@ -412,14 +416,14 @@
     console.log(saved);
     if(saved == true){
       item1.push('gray');
-      console.log('should be gray');
     }
     else
     {
       item1.push('white');
-      console.log('should be white');
     }
     // End save stuff
+    console.log("this is item 1 in populate page");
+    console.log(item1);
     createCard(item1);
 
   }
@@ -450,6 +454,8 @@
       h3.appendChild(document.createTextNode("No Current Listings"));
       center.appendChild(h3);
     }
+    console.log("Savedpost_list is this");
+    console.log(savedpost_list[0]);
      populate_page(savedpost_list);
     
     function claimButton(button) {
