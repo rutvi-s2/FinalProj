@@ -100,9 +100,9 @@ def index(request, authorname="DefaultAuthor", username =""):
       if user.friends == None:
         user.friends = []
       if post.listing_user.username in user.friends:
-        print("this works")
         friend_postings.append(post_info)
-      all_postings.append(post_info)
+      if post.listing_user.username != user.username:
+        all_postings.append(post_info)
     print(all_postings)
     if User.objects.filter(username = username).exists():
       data = {
@@ -298,13 +298,11 @@ def profile(request, username =""):
 @csrf_exempt  
 def mylistings(request, username =""):
   user = get_user_by_name(username)
-  print("omcomcocomcocococmcmcomcococomc")
   
   if request.POST: 
     
     # POST request received
     print("Received POST request with data:")
-    print("!!!!!ADSFASF")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
     
@@ -327,9 +325,6 @@ def mylistings(request, username =""):
       user.saved = current_saved
       user.save()
     if(data['type']=='delete'):
-      # do this
-      print("getting in delete post and this is the post anme")
-      print(data['delete_post'])
       delete_post = Posting.objects.get(item_name = data['delete_post'])
       delete_post.delete()
     return HttpResponse(True)
