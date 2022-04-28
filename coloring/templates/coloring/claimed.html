@@ -2,322 +2,358 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
-      <script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
-      <script src="https://kit.fontawesome.com/fc188b5fd5.js" crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-      <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
-      <!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
-      <style type="text/css">
-         body {
-         background-color: white;
-         }
-         #title {
-         color: white;
-         font-size: 44px;
-         font-family: 'Shrikhand', cursive;
-         }
-         #nav-items {
-         color: white;
-         font-size: 24px;
-         font-family: 'Lora', serif;
-         }
-         #myCanvas {
-         border: 1px solid black;
-         }
-         :root {
-         --primary: #3E8368;
-         --secondary: #EEEEEE;
-         --dark: #969696;
-         --light: #f8f7f7;
-         }
-         * {
-         margin: 0;
-         padding: 0;
-         }
-         body {
-         font-family: montserrat, sans-serif;
-         width: 100%;
-         min-height: 100vh;
-         }
-         .card {
-         margin: 100px auto 0;
-         width: 400px;
-         height: 400px;
-         perspective: 1000px;
-         }
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Final Project: Implementation Prototype - Food Waste</title>
+	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+  <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
 
-        /*     my changes */
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,500&family=Shrikhand&display=swap" rel="stylesheet">
+ 
+
+  
+<!--   <link rel="stylesheet" href="coloring/templates/coloring/styles.css"> -->
+  
+  
+  <style type="text/css">
+    body {
+      background-color: white;
+    }
+
+    #title {
+      color: white;
+      font-size: 44px;
+      font-family: 'Shrikhand', cursive;
+    }
+
+    #nav-items {
+      color: white;
+      font-size: 24px;
+      font-family: "Raleway", sans-serif;
+    }
+
+    #myCanvas {
+      border: 1px solid black;
+    }
+
+    :root {
+      --primary: #3E8368;
+      --secondary: #EEEEEE;
+      --dark: #969696;
+      --light: #f8f7f7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: montserrat, sans-serif;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    .card {
+      margin: 100px auto 0;
+      width: 400px;
+      height: 400px;
+      perspective: 1000px;
+    }
+
+    .card__inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 1s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .card__inner.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card__face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .card__face--front {
+      background-image: linear-gradient(to bottom right, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card__face--front h2 {
+      color: #FFF;
+      font-size: 32px;
+    }
+
+    .card__face--front h3 {
+      color: #FFF;
+      font-size: 22px;
+    }
+
+    .card__face--back {
+      background-color: var(--light);
+      transform: rotateY(180deg);
+    }
+
+    .card__content {
+      width: 100%;
+      height: 100%;
+    }
+
+    .card__header {   
+      position: relative;
+      padding: 20px 20px 30px;
+    }
+
+    .card__header:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(to bottom left, var(--primary) 10%, var(--secondary) 115%);
+      z-index: -1;
+      border-radius: 0px 0px 50% 0px;
+    }
+
+    .verified {
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 30px;
+      border-radius: 50%;
+      background-color: #FFF;
+      border: 5px solid #FFF;
+      object-fit: cover;
+    }
+
+    .claim {
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 0px;
+      border-radius: 20%;
+      background-color: #FFF;
+      border: 1px solid #FFF;
+      object-fit: cover;
+    }
+
+    .card__header h2 {
+      color: #FFF;
+      font-size: 32px;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .card__header h3 {
+      color: #FFF;
+      font-size: 22px;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .card__body {
+      padding: 30px;
+    }
+
+    .card__body h3 {
+      color: var(--dark);
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .card__body p {
+      color: var(--dark);
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .btn {
+      background-color: #3e8369;
+      color: white;
+    }
+/*         style=" background-color:#3e8369;width:30%; height:20%; display:inline-block;justify-content:center;align-items:center" */
+    /*     my changes */
     body {
       background-color: #eaeff1;
       font-family: "Raleway", sans-serif;
     }
+
     img {
-    width: 100%;
-    border-radius: 12px;
-    height: 214px;
-    object-fit: cover;
+      width: 100%;
+      border-radius: 12px;
+      height: 214px;
+      object-fit: cover;
     }
 
     .card2 {
-  /* Change background color */
-  background-color: white;
+      /* Change background color */
+      background-color: white;
 
-  /* Add border */
-  border: 3px solid #3e8368;
+      /* Add border */
+      border: 3px solid #3e8368;
 
-  /* Add space between the border and the content */
-  padding: 8px;
+      /* Add space between the border and the content */
+      padding: 8px;
 
-  border-radius: 12px;
-}
+      border-radius: 12px;
+    }
 
     .tag {
-    padding: 4px 8px;
-    border: 1px solid #e5eaed;
+      padding: 4px 8px;
+      border: 1px solid #e5eaed;
 
-    border-radius: 50px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #788697;
-  }
-  .name {
-    font-size: 24px;
-    font-weight: 600;
-    margin-top: 16px;
-  }
-p {
-  font-size: 14px;
-  color: #7f8c9b;
-  line-height: 150%;
-  margin-bottom: -5px;
-}
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #788697;
+    }
+
+    .name {
+      font-size: 24px;
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #7f8c9b;
+      line-height: 150%;
+      margin-bottom: -5px;
+    }
+
     /* Style button element */
-button {
-  border: none;
-  padding: 12px 24px;
-  border-radius: 50px;
+    button {
+      border: none;
+      padding: 6px 24px;
+      border-radius: 50px;
 
-  font-weight: 600;
-  color: #0077ff;
-  background-color: #e0efff;
+      font-weight: 600;
+      color: #0077ff;
+      background-color: #e0efff;
 
-  /* Button is inline-block element by default, it need to have block display for margin: 0 auto; to work */
-  margin: 0 auto;
-  display: block;
-  float: right;
+      /* Button is inline-block element by default, it need to have block display for margin: 0 auto; to work */
+      margin: 0 auto;
+      display: block;
+      float: right;
 
-  /* Button is a clickable element, therefore it should have a pointer cursor */
-  cursor: pointer;
-}
-         .card__inner {
-         width: 100%;
-         height: 100%;
-         transition: transform 1s;
-         transform-style: preserve-3d;
-         cursor: pointer;
-         position: relative;
-         }
-         .card__inner.is-flipped {
-         transform: rotateY(180deg);
-         }
-         .card__face {
-         position: absolute;
-         width: 100%;
-         height: 100%;
-         -webkit-backface-visibility: hidden;
-         backface-visibility: hidden;
-         overflow: hidden;
-         border-radius: 16px;
-         box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
-         }
-         .card__face--front {
-         background-image: linear-gradient(to bottom right, var(--primary), var(--secondary));
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         }
-         .card__face--front h2 {
-         color: #FFF;
-         font-size: 32px;
-         }
-         .card__face--back {
-         background-color: var(--light);
-         transform: rotateY(180deg);
-         }
-         .card__content {
-         width: 100%;
-         height: 100%;
-         }
-         .card__header {
-         position: relative;
-         padding: 20px 20px 30px;
-         }
-         .card__header:after {
-         content: '';
-         display: block;
-         position: absolute;
-         top: 0;
-         left: 0;
-         right: 0;
-         bottom: 0;
-         background-image: linear-gradient(to bottom left, var(--primary) 10%, var(--secondary) 115%);
-         z-index: -1;
-         border-radius: 0px 0px 50% 0px;
-         }
-         .card__header h2 {
-         color: #FFF;
-         font-size: 32px;
-         font-weight: 900;
-         text-transform: uppercase;
-         text-align: center;
-         }
-         .card__body {
-         padding: 30px;
-         }
-         .card__body h3 {
-         color: var(--dark);
-         font-size: 24px;
-         font-weight: 600;
-         margin-bottom: 15px;
-         }
-         .card__body p {
-         color: var(--dark);
-         font-size: 18px;
-         line-height: 1.4;
-         }
-         /*         Stuff for pop up */
-         .Modal {
-         display: block;
-         position: fixed;
-         border: 5px solid #a9a9a9;
-         top:50%;
-         left:50%;
-         width:800px;  /* adjust as per your needs */
-         height:500px;   /* adjust as per your needs */
-         margin-left:-400px;   /* negative half of width above */
-         margin-top:-250px;   /* negative half of height above */
-         max-width: 800px;
-         z-index: 9999;
-         padding-top: 100px;
-         background-color: white;
-         -webkit-transition: 0.5s;
-         overflow: auto;
-         transition: all 0.3s linear;
-         }
-         .ModalOpen { overflow: hidden; }
-         .is-hidden { display: none; }
-         .is-visuallyHidden { opacity: 0; }
-         .is-blurred {
-         filter: blur(3px);
-         -webkit-filter: blur(3px);
-         }
-         /*     Stuff for stars on rating*/
-         .rating {
-         position: relative;
-         width: 60%;
-         height: 90px;
-         background: transparent;
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         gap: .3em;
-         padding: 5px;
-         overflow: hidden;
-         border-radius: 0px;
-         box-shadow: 0 0 2px #b3acac;
-         }
-         .rating__result {
-         position: absolute;
-         top: 0;
-         left: 0;
-         transform: translateY(-10px) translateX(-5px);
-         z-index: -9;
-         font: 3em Arial, Helvetica, sans-serif;
-         color: #ebebeb8e;
-         pointer-events: none;
-         } 
-      </style>
-   </head>
+      /* Button is a clickable element, therefore it should have a pointer cursor */
+      cursor: pointer;
+    }
+
+    .card__details {
+      /* Add space around the details */
+      padding: 16px 8px 8px 8px;
+    }
+
+    #container {
+      max-width: 300px;
+
+      /* Center the container in middle on horizontal axis */
+      margin: 0 auto;
+
+      /* Add empty space above the container (20% of the view height) */
+      margin-top: 20vh;
+    }
+
+    .user-text {
+      font-weight: bold;
+      font-size: 20px;
+
+    }
+
+  </style>
+  
+</head>
    <body>
-      <div id=myContainer>
-         <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
-            <div class="mx-auto order-0">
-               <a id="title" class="navbar-brand mx-auto" href="../../">Wasteless</a>
-               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-               <span class="navbar-toggler-icon"></span>
-               </button>
-            </div>
-            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-               <ul class="navbar-nav ml-auto">
-                  <li class="nav-item">
-                     <a id="nav-items" class="nav-link" href="../../"<span id="nav-items"></span>Home&nbsp&nbsp&nbsp&nbsp</a>
-                  </li>
-                  <li class="nav-item">
-                     <a id="nav-items" class="nav-link" href="../">Profile&nbsp&nbsp&nbsp&nbsp</a>
-                  </li>
-                  <li class="nav-item">
-                     <a id="nav-items" class="nav-link" href="../../friends/">Friends&nbsp&nbsp&nbsp&nbsp</a>
-                  </li>
-                  <li class="nav-item">
-                     <a id="nav-items" class="nav-link" href="../../newlisting/">New Listing</a>
-                  </li>
-               </ul>
-            </div>
-         </nav>
-         <span hidden id="username">{{ user.username }}</span>
-         <div class="row"></div>
-      </div>
-      <!--      Start of popup stuff -->
-      <div id="myModal" class="Modal is-hidden is-visuallyHidden">
-         <h1 id="popupr" style = "text-align:center; padding-top:5%;">Temp</h1>
-         <div id='wrapper' style='text-align: center;padding-top:8%;display: flex;
-            justify-content: center;
-            align-items: center;'>
-            <div class="rating">
-               <span hidden id= "givenRate" class="rating__result"></span> 
-               <i class="rating__star far fa-star" style="font-size:48px;"></i>
-               <i class="rating__star far fa-star" style="font-size:48px;"></i>
-               <i class="rating__star far fa-star" style="font-size:48px;"></i>
-               <i class="rating__star far fa-star" style="font-size:48px;"></i>
-               <i class="rating__star far fa-star" style="font-size:48px;"></i>
-            </div>
-         </div>
-         <div id='wrapper' style='text-align: center;padding-top:6%;display: flex;
-            justify-content: center;
-            align-items: center;'>
-            <button onclick="window.location.href='';" class="btn btn-primary btn-large" id="submit" style=" background-color:#3e8369;width:30%; height:20%;">
-               <h4>Submit</h4>
-            </button>
-         </div>
-      </div>
-      <script>
-         const curr_cards = document.querySelector(".row");
-         // const pickup_cards = document.querySelector(".pickup");
-         
-         function createCard([item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified, num]){
-    let code = `
+
+     <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
+ 
+    <div class="mx-auto order-0">
+        <a id="title" class="navbar-brand mx-auto" href="../../">Wasteless</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="../../"<span id="nav-items"></span>Home&nbsp&nbsp&nbsp&nbsp</a>
+            </li>
+            <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="../">Profile&nbsp&nbsp&nbsp&nbsp</a>
+            </li>
+          <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="../../friends/">Friends&nbsp&nbsp&nbsp&nbsp</a>
+            </li>
+           <li class="nav-item">
+                <a id="nav-items" class="nav-link" href="../../newlisting/">New Listing</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<nav style="background-color: #D3D3D3;">
+         <b>
+            <h id="subheading" style="margin:9px;">My Listings <span hidden id="username">{{ user.username }}</span> </h>
+         </b>
+</nav>
+<!-- <h1>Active Listings</h1> -->
+<div class="row">
+</div>
+<!-- <h3> Waiting for Pickup</h3> -->
+<!-- <div class="row">
+</div> -->
+<script>
+
+    var my_curr_list = {{my_curr | safe}};
+    // var friendpost_list = {{friend_postings | safe}};
+    // console.log("post list", allpost_list);
+    console.log("my current", my_curr_list);
+    const all_cards = document.querySelector(".row");
+    function createCard([item_name, qty, qty_units, description, username, unopened, unopenedtag, og, ogtag, store, storetag, homemade, homemadetag, verified, num, save_color]) {
+
+      let code = `
   <div class="col-md-4">
 <div>
   	<div class="card card2">
 <p class="user-text">@${username}</p>
+	<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">    
+</head>
+<span class='bi bi-bookmark-fill' style ="font-size: 40px; color: ${save_color}; text-shadow: 0 0 3px #000; position:absolute; right:5px; top:2px;" id="${num}" onclick="saveButton(this)"></span>
 <img src="{% static 'coloring/images/cookies-image.jpeg'%}">
   		<div class="card__details">
       <div id="all_tags">
-  			<span class="tag">${homemade}</span>
-        <span class="tag">${unopened}</span>
-        <span class="tag">${og}</span>
-        <span class="tag">${store}</span>
+  			<span class="${homemadetag}">${homemade}</span>
+        <span class="${unopenedtag}">${unopened}</span>
+        <span class="${ogtag}">${og}</span>
+        <span class="${storetag}">${store}</span>
       <div>
         <div class="name">${item_name}</div>
   			<p>${description}</p>
+        <p> <button onclick="deleteButton(this)" id="${num}">delete</button></p>
         
-        <p> <button onclick="pickUpButton(this)" id ="${num}">picked up</button></p>
   			<div class="card__face card__face--back">
   				<div class="card__content">
   					<div class="card__header">
@@ -335,169 +371,145 @@ button {
   	</div>
   </div>
   `;
-           curr_cards.innerHTML += code;
-         }
-         
-         console.log({{my_claimed | safe}});
-  for (var i = 0; i < {{my_claimed | safe}}.length; i++){
-    var post = ({{my_claimed | safe}})[i];
+      all_cards.innerHTML += code;
+    }
+    function populate_page(card_list){
+    for (var i = 0; i < card_list.length; i++) {
+      var post = card_list[i];
     var item1 = [post[0], post[1], post[2], post[3], post[4]];
     console.log(post[9]);
-    var first = true;
-    if (post[5] == 'true'){
+    if (post[5] == 'true') {
       item1.push("unopened");
-    }else{
+      item1.push("tag");
+    } else {
+      item1.push("");
       item1.push("");
     }
-    if (post[6] == 'true'){
-      if(first){
-        item1.push("original packing");
-        first = false;
-      }else{
-        item1.push(", original packing");
-      }
-    }else{
+    if (post[6] == 'true') {
+      item1.push("original packing");
+      item1.push("tag");
+    } else {
+      item1.push("");
       item1.push("");
     }
-    if (post[7] == 'true'){
-      if(first){
-        item1.push("store bought");
-        first = false;
-      }else{
-        item1.push("store bought");
-      }
-    }else{
+    if (post[7] == 'true') {
+      item1.push("store bought");
+      item1.push("tag");
+    } else {
+      item1.push("");
       item1.push("");
     }
-    if (post[8] == 'true'){
-      if(first){
-        item1.push("homemade");
-        first = false;
-      }else{
-        item1.push(", homemeade");
-      }
-    }else{
+    if (post[8] == 'true') {
+      item1.push("homemade");
+      item1.push("tag");
+    } else {
+      item1.push("");
       item1.push("");
     }
-    if (post[9] == 'true'){
+    if (post[9] == 'true') {
       item1.push("{% static 'coloring/images/verified.png'%}");
-    }else{
+    } else {
       item1.push(null);
     }
     item1.push(i);
-    createCard(item1);
-         }
-         
-         var card_num;
-         const cards = document.querySelectorAll(".card__inner");
-         const ratingStars = [...document.getElementsByClassName("rating__star")];
-         const ratingResult = document.querySelector(".rating__result");
-         
-         printRatingResult(ratingResult);
-         
-         function executeRating(stars, result) {
-          const starClassActive = "rating__star fas fa-star";
-          const starClassUnactive = "rating__star far fa-star";
-          const starsLength = stars.length;
-          let i;
-          stars.map((star) => {
-             star.onclick = () => {
-                i = stars.indexOf(star);
-         
-                if (star.className.indexOf(starClassUnactive) !== -1) {
-                   printRatingResult(result, i + 1);
-                   for (i; i >= 0; --i) stars[i].className = starClassActive;
-                } else {
-                   printRatingResult(result, i);
-                   for (i; i < starsLength; ++i) stars[i].className = starClassUnactive;
-                }
-             };
-          });
-         }
-         
-         function printRatingResult(result, num = 0) {
-          result.textContent = `${num}/5`;
-         }
-         
-         executeRating(ratingStars, ratingResult);
-         
-         cards.forEach(card => {
-           const btn = document.querySelector('.btn');
-           btn.addEventListener("click", function (e) {
-             console.log("button clicked");
-             
-           });
-           card.addEventListener("click", function (e) {
-             console.log(card);
-             card.classList.toggle('is-flipped');
-           });
-         });
+    // Saves stuff
+    var user_saved = "{{ user.saved | safe}}";
+    var saved = user_saved.includes(post[0]);
 
-            function pickUpButton(button) {
-                console.log("picked up clicked");
-              
-                // console.log($("#card-title").text());
-                const specific = '#card-title' + button.id;
-                card_num = button.id;
-              console.log($(specific).text());
-                $('#popupr').text("One more step! Rate \""+ $(specific).text() + "\" to receive your impact points.");
-                var data_to_send = {
-                    "type": "pickedup",
-                     "pickup_post": $(specific).text()
-                   };
-                
-                $.ajax({
-                 type: "POST",
-                 url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
-                 data: JSON.stringify(data_to_send),
-                 success: function (response) {
-                   // prints the response from the server
-                   console.log(response); 
-                 }
-               });
-              // Get the modal
-               
-                var modal = document.getElementById('myModal');
-                // Get the main container and the body
-                var body = document.getElementsByTagName('body');
-                var container = document.getElementById('myContainer');
-                modal.className = "Modal is-visuallyHidden";
-                setTimeout(function() {
-                container.className = "MainContainer is-blurred";
-                modal.className = "Modal";
-                }, 100);
-                container.parentElement.className = "ModalOpen";
-                
-           }
-        
-         $("#submit").on("click", function(){
-                console.log("submit clicked");
-                const specific = '#card-title' + card_num;
-                console.log($(specific).text());
-                console.log($("#givenRate").text());
-          
-                
-                var data_to_send = {
-                      "type": "rated",
-                     "rated_post": $(specific).text(),
-                      "score": $("#givenRate").text(),
-                   };
-                
-                $.ajax({
-                 type: "POST",
-                 url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
-                 data: JSON.stringify(data_to_send),
-                 success: function (response) {
-                   // prints the response from the server
-                   console.log(response); 
-                 }
-               });
-                
-           });
-         // window.onload = function(){
-                  
-                  // End pop up
-         // }
-      </script>
+    if(saved == true){
+      item1.push('gray');
+    }
+    else
+    {
+      item1.push('white');
+    }
+    // End save stuff
+    createCard(item1);
+
+  }
+  }
+    const cards = document.querySelectorAll(".card2");
+    console.log("the cards are", cards);
+    cards.forEach(card => {
+      const btn = document.querySelector('.btn');
+      btn.addEventListener("click", function (e) {
+        console.log("button clicked");
+
+      });
+      card.addEventListener("click", function (e) {
+        // temp = card.childNodes[5].querySelector("div");
+        // console.log(temp);
+        // console.log(temp.text());
+        //console.log(card.childNodes[5].querySelector("div"));
+        console.log($("#card-title").text());
+        card.classList.toggle('is-flipped');
+      });
+    });
+
+
+    if({{my_curr | safe}}.length == 0){
+      var center = document.getElementById("middle");
+      var h3 = document.createElement("h3");
+      h3.setAttribute('class', 'center');
+      h3.appendChild(document.createTextNode("No Current Listings"));
+      center.appendChild(h3);
+    }
+     populate_page(my_curr_list);
+
+    
+    function deleteButton(button) {
+      console.log("delete button recognized as presesd in mylsiting.html");
+      const specific = '#card-title' + button.id;
+      // $('#popupr').text("Claimed \"" + $(specific).text() + "\" successfully. Don't forget to pick up!");
+      console.log($(specific).text());
+      var data_to_send = {
+        "type": "delete",
+        "delete_post": $(specific).text()
+      };
+      $.ajax({
+        type: "POST",
+        url: "/wasteless/" + $('#username').text() + "/profile/mylistings/",
+        data: JSON.stringify(data_to_send),
+        success: function (response) {
+          // prints the response from the server
+          console.log(response);
+        }
+      });
+      location.reload();
+    }
+
+	    function saveButton(button){
+      // change button color to filled in if wasn't previously
+      var bool_saved;
+      if(button.style.color == "white"){
+        // not saved prev, want to save now
+        button.style.color = 'gray';
+        bool_saved = "True";
+      }
+      else if(button.style.color == "gray"){
+        // not saved prev, want to save now
+        button.style.color = "white";
+        bool_saved = "False";
+      }
+      const specific = '#card-title' + button.id;
+      var data_to_send = {
+        "type": "save",
+        "bool_saved": bool_saved,
+        "saved_post": $(specific).text()
+      };
+      // console.log("DEBUG: index POST req data", data_to_send);
+      $.ajax({
+        type: "POST",
+        url: "/wasteless/" + $('#username').text() + "/",
+        data: JSON.stringify(data_to_send),
+        success: function (response) {
+          // prints the response from the server
+          console.log(response);
+        }
+      });
+    }
+
+
+  </script>
    </body>
 </html>
