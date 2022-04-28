@@ -40,6 +40,7 @@ def get_user_by_name(name):
     user.save()
 
   return user
+  
 @csrf_exempt
 def index(request, authorname="DefaultAuthor", username =""):
 
@@ -253,6 +254,7 @@ def friends(request, username =""):
       }
      
     return render(request, 'coloring/friends.html', data)
+    
 @csrf_exempt
 def profile(request, username =""):
   user = get_user_by_name(username)
