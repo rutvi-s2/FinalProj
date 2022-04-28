@@ -465,7 +465,7 @@ def saved(request, username =""):
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
     return HttpResponse(True)
-  else:
+  else:  
     if User.objects.filter(username = username).exists():
       
       data = {
