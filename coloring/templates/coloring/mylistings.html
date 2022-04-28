@@ -352,7 +352,7 @@
       <div>
         <div class="name">${item_name}</div>
   			<p>${description}</p>
-        <p> <button onclick="claimButton(this)" id="${num}">claim</button></p>
+        <p> <button onclick="deleteButton(this)" id="${num}">delete</button></p>
         <p> <button onclick="chatButton()">chat</button></p>
         
   			<div class="card__face card__face--back">
@@ -485,17 +485,14 @@
       
     //   });
     
-    function claimButton(button) {
+    function deleteButton(button) {
 
-      console.log("ayoo");
-      // console.log("claimed");
-      console.log($("#card-title").text());
       const specific = '#card-title' + button.id;
-      $('#popupr').text("Claimed \"" + $(specific).text() + "\" successfully. Don't forget to pick up!");
+      // $('#popupr').text("Claimed \"" + $(specific).text() + "\" successfully. Don't forget to pick up!");
       console.log($(specific).text());
       var data_to_send = {
-        "type": "claim",
-        "claimed_post": $(specific).text()
+        "type": "delete",
+        "delete_post": $(specific).text()
       };
       console.log("DEBUG: index POST req data", data_to_send);
       $.ajax({
@@ -507,17 +504,7 @@
           console.log(response);
         }
       });
-      var modal = document.getElementById('myModal');
-      // Get the main container and the body
-      var body = document.getElementsByTagName('body');
-      var container = document.getElementById('myContainer');
-      modal.className = "Modal is-visuallyHidden";
-      setTimeout(function () {
-        container.className = "MainContainer is-blurred";
-        modal.className = "Modal";
-      }, 100);
-      container.parentElement.className = "ModalOpen";
-      // location.reload();
+      location.reload();
     }
 
     function chatButton() {
