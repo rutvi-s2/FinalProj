@@ -305,6 +305,28 @@ def mylistings(request, username =""):
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
+    
+    if(data['type'] == 'save'):
+      bool_saved = data['bool_saved']
+      saved_post = Posting.objects.filter(item_name = data['saved_post'])
+      #need to update user's claimed list 
+        # add to saved
+      print(user.saved)
+      current_saved = user.saved
+      if(bool_saved == 'True'):
+        if current_saved == None:
+          current_saved = []
+        current_saved.append(str(saved_post[0].item_name))
+      if(bool_saved == 'False'):
+        if current_saved == None:
+          current_saved = []
+        else: 
+          current_saved.remove(str(saved_post[0].item_name))
+      user.saved = current_saved
+      user.save()
+    if(data['type']=='delete'):
+      # do this
+      print("do later")
     return HttpResponse(True)
 
   else:  #GET
@@ -312,6 +334,7 @@ def mylistings(request, username =""):
     my_pickup = []
     my_archive = []
     my_postings = Posting.objects.filter(listing_user=user)
+    print("in get request in mylistings")
     for post in my_postings:
        post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
       #post_info = [post.item_name, post.description]
@@ -324,15 +347,15 @@ def mylistings(request, username =""):
        else: 
         # add to archive
         my_archive.append(post_info)
-    print("my acrhive!!!!!!!!!!!!", my_archive)
-    print("my curr!!!!!!!!!!!!!!", my_curr)
-    print("my pickup!!!!!!!!!!!!!!", my_pickup)
     if User.objects.filter(username = username).exists():
+      print("this is mny_curr")
+      print(my_curr)
       data = {
         "user": user,
-        "my_archive": my_archive,
         "my_curr": my_curr,
-        "my_pickup": my_pickup
+        # "my_archive": my_archive,
+        # "my_curr": my_curr,
+        # "my_pickup": my_pickup
       }
     else:
       print("DEBUG: user doesnt yet exist")
