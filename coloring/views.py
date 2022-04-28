@@ -458,25 +458,74 @@ def claimed(request, username =""):
 
     
 def saved(request, username =""):
+  # author = get_author_by_name(authorname)
   user = get_user_by_name(username)
-
+  
   if request.POST: 
+    # POST request received
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
+    if(data['type'] == 'claim'):
+    #need to update listing as claimed
+      claimed_post = Posting.objects.filter(item_name = data['claimed_post'])
+      print("DEBUG: views post request, the claimed post is ", claimed_post)
+
+      for object in claimed_post:
+        object.claimed = True
+        object.save()
+      print("DEBUG view post req, claimed = ", claimed_post[0].claimed)
+      #need to update user's claimed list 
+      print(user.claimed)
+      current_claimed = user.claimed
+      if current_claimed == None:
+        current_claimed = []
+      current_claimed.append(str(claimed_post[0].item_name))
+      user.claimed = current_claimed
+      user.save()
+    if(data['type'] == 'save'):
+      bool_saved = data['bool_saved']
+      saved_post = Posting.objects.filter(item_name = data['saved_post'])
+      #need to update user's claimed list 
+        # add to saved
+      print(user.saved)
+      current_saved = user.saved
+      if(bool_saved == 'True'):
+        if current_saved == None:
+          current_saved = []
+        current_saved.append(str(saved_post[0].item_name))
+      if(bool_saved == 'False'):
+        if current_saved == None:
+          current_saved = []
+        else: 
+          current_saved.remove(str(saved_post[0].item_name))
+      user.saved = current_saved
+      user.save()
     return HttpResponse(True)
-  else:  
-    if User.objects.filter(username = username).exists():
+
+  else:  #GET Request
+    saved_postings = []
+    
+    postings = Posting.objects.filter(active = True,claimed = False)
+    for post in postings:
       
+      post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
+      if user.saved == None:
+        user.saved = []
+      if post.item_name in user.saved:
+        saved_postings.append(post_info)
+    print(saved_postings)
+    if User.objects.filter(username = username).exists():
       data = {
-        "user": user
+        "user": user,
+        "saved_postings": saved_postings
       }
     else:
       print("DEBUG: user doesnt yet exist")
       data = {
-        "user": user
+        "user": user,
+        "saved_postings": saved_postings
       }
-  
     return render(request, 'coloring/saved.html', data)
 
 def startchat(request, username="", listinguser=""):
