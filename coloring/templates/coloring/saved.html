@@ -460,7 +460,7 @@
       // console.log("claimed");
       console.log($("#card-title").text());
       const specific = '#card-title' + button.id;
-      $('#popupr').text("Claimed \"" + $(specific).text() + "\" successfully. Don't forget to pick up!");
+      // $('#popupr').text("Claimed \"" + $(specific).text() + "\" successfully. Don't forget to pick up!");
       console.log($(specific).text());
       var data_to_send = {
         "type": "claim",
@@ -476,17 +476,17 @@
           console.log(response);
         }
       });
-      var modal = document.getElementById('myModal');
-      // Get the main container and the body
-      var body = document.getElementsByTagName('body');
-      var container = document.getElementById('myContainer');
-      modal.className = "Modal is-visuallyHidden";
-      setTimeout(function () {
-        container.className = "MainContainer is-blurred";
-        modal.className = "Modal";
-      }, 100);
-      container.parentElement.className = "ModalOpen";
-      // location.reload();
+      // var modal = document.getElementById('myModal');
+      // // Get the main container and the body
+      // var body = document.getElementsByTagName('body');
+      // var container = document.getElementById('myContainer');
+      // modal.className = "Modal is-visuallyHidden";
+      // setTimeout(function () {
+      //   container.className = "MainContainer is-blurred";
+      //   modal.className = "Modal";
+      // }, 100);
+      // container.parentElement.className = "ModalOpen";
+      location.reload();
     }
 
     function chatButton() {
