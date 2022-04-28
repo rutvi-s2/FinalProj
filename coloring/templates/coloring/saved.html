@@ -371,10 +371,8 @@
     function populate_page(card_list){
     for (var i = 0; i < card_list.length; i++) {
       var post = card_list[i];
-      console.log("post[0] is thisssss");
-      console.log(post[0]);
     var item1 = [post[0], post[1], post[2], post[3], post[4]];
-    console.log(post[9]);
+
     if (post[5] == 'true') {
       item1.push("unopened");
       item1.push("tag");
@@ -422,8 +420,6 @@
       item1.push('white');
     }
     // End save stuff
-    console.log("this is item 1 in populate page");
-    console.log(item1);
     createCard(item1);
 
   }
@@ -451,7 +447,7 @@
       var center = document.getElementById("middle");
       var h3 = document.createElement("h3");
       h3.setAttribute('class', 'center');
-      h3.appendChild(document.createTextNode("No Current Listings"));
+      h3.appendChild(document.createTextNode("No Saved Listings"));
       center.appendChild(h3);
     }
     console.log("Savedpost_list is this");
@@ -460,7 +456,7 @@
     
     function claimButton(button) {
 
-      console.log("ayoo");
+      console.log("bowermannnnn");
       // console.log("claimed");
       console.log($("#card-title").text());
       const specific = '#card-title' + button.id;
