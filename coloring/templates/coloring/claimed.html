@@ -372,7 +372,7 @@
          <div>
          <div class="name">${item_name}</div>
          <p>${description}</p>
-         
+         <p> <button onclick="unclaimButton(this)" id ="${num}">unclaim</button></p>
          <p> <button onclick="pickUpButton(this)" id ="${num}">picked up</button></p>
          <div class="card__face card__face--back">
          <div class="card__content">
@@ -541,6 +541,29 @@
                 }, 100);
                 container.parentElement.className = "ModalOpen";
                 
+           }
+        function unclaimButton(button) {
+                console.log("unclaim clicked");
+              
+                // console.log($("#card-title").text());
+                const specific = '#card-title' + button.id;
+                card_num = button.id;
+              console.log($(specific).text());
+                var data_to_send = {
+                    "type": "unclaimed",
+                     "unclaimed_post": $(specific).text()
+                   };
+                
+                $.ajax({
+                 type: "POST",
+                 url: "/wasteless/" + $('#username').text() + "/profile/claimed/",
+                 data: JSON.stringify(data_to_send),
+                 success: function (response) {
+                   // prints the response from the server
+                   console.log(response); 
+                 }
+               });
+                location.reload();
            }
         function saveButton(button){
       // change button color to filled in if wasn't previously

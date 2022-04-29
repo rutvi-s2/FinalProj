@@ -379,7 +379,17 @@ def claimed(request, username =""):
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
-
+    if(data['type']=='unclaimed'):
+      print("in views registered as unclaimed")
+      unclaimed_post =Posting.objects.filter(item_name=data["unclaimed_post"])
+      for object in unclaimed_post:
+        object.active = True 
+        object.claimed = False
+        object.save()
+      #remove from user's claimed list
+      user.claimed.remove(unclaimed_post[0].item_name)
+      user.save()
+    
     if(data['type']=="pickedup"):
       print("in views registered as pickup")
       pickedup_post =Posting.objects.filter(item_name=data["pickup_post"])
