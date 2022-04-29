@@ -463,15 +463,32 @@
 
   
   <center id="middle"></center>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
   <script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBhBv4cn6h9N_i3k_t_qf67C04tc91cfiQ",
+    authDomain: "wastelesshci.firebaseapp.com",
+    databaseURL: "https://wastelesshci.firebaseio.com",
+    projectId: "wastelesshci",
+    storageBucket: "wastelesshci.appspot.com",
+    messagingSenderId: "968325271077",
+    appId: "1:968325271077:web:03675baee54762d81ff9cc"
+  };
 
+  // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    console.log(firebase);
+
+    
     var allpost_list = {{all_postings | safe}};
     var friendpost_list = {{friend_postings | safe}};
     console.log("post list", allpost_list);
     console.log("friendlist", friendpost_list);
     const all_cards = document.querySelector(".row");
     function createCard([item_name, qty, qty_units, description, username, unopened, unopenedtag, og, ogtag, store, storetag, homemade, homemadetag, verified, num, save_color]) {
-
+      
       let code = `
   <div class="col-md-4">
 <div>
@@ -481,7 +498,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">    
 </head>
 <span class='bi bi-bookmark-fill' style ="font-size: 40px; color: ${save_color}; text-shadow: 0 0 3px #000; position:absolute; right:5px; top:2px;" id="${num}" onclick="saveButton(this)"></span>
-<img src="{% static 'coloring/images/cookies-image.jpeg'%}">
+<img src="{% static 'coloring/images/cookies-image.jpeg'%}"; id="food_image${num}" alt="food_image${num}">
   		<div class="card__details">
       <div id="all_tags">
   			<span class="${homemadetag}">${homemade}</span>
@@ -511,17 +528,19 @@
   	</div>
   </div>
   `;
+    var storageRef = firebase.storage().ref();
+    const food_image = "food_image" + num;
+    storageRef.child(item_name).getDownloadURL().then(function(url) {
+      var test = url;
+      console.log(item_name);
+      console.log(url);
+      document.getElementById(food_image).src = test;
+        
+     }).catch(function(error) {
+       console.log("error!!!!");
+       console.log(item_name);
+     });
       all_cards.innerHTML += code;
-
-      //this is code i tried that didn't work (appended to first card not specific one)
-      //     if(unopened.length > 0){
-      //       console.log("printing");
-      //   var all_tag = document.getElementById("all_tags");
-      //   var tag = document.createElement("span");
-      //   tag.setAttribute('class', 'tag');
-      //   tag.appendChild(document.createTextNode('unopened'));
-      //   all_tag.appendChild(tag);
-      // }
     }
     //[item_name, qty, qty_units, description, username, unopened, og, store, homemade, verified]
     function populate_page(card_list){

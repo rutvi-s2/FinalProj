@@ -141,10 +141,14 @@
             </div>
             <hr>
             </hr>
-            <h5><label for="description">Description</label></h5>
+            <h4><label for="description">Description</label></h4>
             <textarea id="description" style="width:95%; height: 110px"></textarea>
             <hr>
             </hr>
+           <h4>Upload Image</h4>
+           <input type="file" id="photo">
+           <hr>
+         </hr>
             <h4>Tags</h4>
             <div class="container" style="margin-left:-80px;">
                <div class="col">
@@ -189,6 +193,24 @@
             </button>
          </div>
       </div>
+       <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+  <script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBhBv4cn6h9N_i3k_t_qf67C04tc91cfiQ",
+    authDomain: "wastelesshci.firebaseapp.com",
+    databaseURL: "https://wastelesshci.firebaseio.com",
+    projectId: "wastelesshci",
+    storageBucket: "wastelesshci.appspot.com",
+    messagingSenderId: "968325271077",
+    appId: "1:968325271077:web:03675baee54762d81ff9cc"
+  };
+
+  // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    console.log(firebase);
+</script>
       <script>
          window.onload = function(){
            // Get the modal
@@ -210,6 +232,16 @@
            // End pop up
            console.log($("#username").val());
            $('#post').on("click", function(){
+              const ref = firebase.storage().ref();
+              const file = document.querySelector("#photo").files[0];
+              const name = $("#item_name").val();
+              // const name = new Date() + '-' + file.name;
+              const metadata = {
+                contentType:file.type
+              }
+              const task = ref.child(name).put(file, metadata);
+              task
+                .then(snapshot => snapshot.ref.getDownloadURL())
              // send everything needed to make a listing
              var data_to_send = {
                "item": $("#item_name").val(),
