@@ -325,6 +325,11 @@
             </div>
          </nav>
          <span hidden id="username">{{ user.username }}</span>
+         <nav style="background-color: #D3D3D3;">
+         <b>
+            <h id="subheading" style="margin:9px;">Claimed Listings<span hidden id="username">{{ user.username }}</span> </h>
+         </b>
+           </nav>
          <div class="row"></div>
       </div>
       <!--      Start of popup stuff -->
@@ -350,11 +355,9 @@
             </button>
          </div>
       </div>
-     <nav style="background-color: #D3D3D3;">
-         <b>
-            <h id="subheading" style="margin:9px;">Claimed Listings<span hidden id="username">{{ user.username }}</span> </h>
-         </b>
-</nav>
+
+       
+
       <script>
          var my_claimed_list = {{my_claimed | safe}};
          const claim_cards = document.querySelector(".row");
