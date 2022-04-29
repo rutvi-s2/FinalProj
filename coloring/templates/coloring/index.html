@@ -530,6 +530,7 @@
   `;
     var storageRef = firebase.storage().ref();
     const food_image = "food_image" + num;
+    console.log(food_image);
     storageRef.child(item_name).getDownloadURL().then(function(url) {
       var test = url;
       console.log(item_name);
