@@ -1,0 +1,110 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Chat Tool</title>
+  <script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+  <link href="{% static 'coloring/vendors/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+
+
+  <style type="text/css">
+    body {
+      background-color: lightgray;
+    }
+
+    #title {
+      color: white;
+      font-size: 44px;
+      font-family: 'Shrikhand', cursive;
+    }
+
+    #nav-items {
+      color: white;
+      font-size: 24px;
+      font-family: 'Lora', serif;
+    }
+
+    #chat-msg {
+      background-color: #c2dbb6;
+      font-size: 24px;
+      font-family: 'Lora', serif;
+      margin-top: 2%;
+      margin-bottom: 2%;
+      word-break: break-all;
+      padding: 5px;
+    }
+
+    #chat-area {
+      width: 100%;
+      height: 60vh;
+      padding-left: 10%;
+      padding-right: 10%;
+      overflow: scroll;
+      background: white;
+    }
+
+    #typeText {
+      padding-top: 30px;
+      padding-left: 35%;
+      background-color: white;
+    }
+  </style>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
+    <div class="mx-auto order-0">
+      <a id="title" class="navbar-brand mx-auto" href="#">Wasteless</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a id="nav-items" class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a id="nav-items" class="nav-link" href="#">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a id="nav-items" class="nav-link" href="/newlisting">New Listing</a>
+        </li>
+        <li class="nav-item">
+          <a id="nav-items" class="nav-link" href="/chat-index">Chat</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+   
+  <div id="chat_preview_list" class="container">
+    
+  </div>
+  
+  <script type="application/javascript">
+    function create_chatbox(other_user, last_sender, msg) {
+      var elt = $("<div>", {
+        class: 'chat_preview',
+        append: '<a href="/wasteless/{{user}}/startchat/' + other_user + '"><span>(' + other_user + ')</span></a> <span>'+ msg +'</span></div>'
+      });
+      elt.appendTo($("#chat_preview_list"));
+
+      $("<hr>").appendTo($("#chat_preview_list"));
+    }
+
+    window.onload = () => {
+      var entries = JSON.parse('{{entries|safe}}');
+      entries.forEach((e) => {
+        create_chatbox(e["other_user"], e["recent_msg_sender"], e["recent_msg"]);
+      });
+    };
+    
+  </script>
+  
+</body>
+</html>

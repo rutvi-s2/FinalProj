@@ -2,6 +2,7 @@ from django.shortcuts import render
 from coloring.models import *
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 import json
 
 def get_author_by_name(authorname): 
@@ -40,10 +41,11 @@ def get_user_by_name(name):
     user.save()
 
   return user
+  
 @csrf_exempt
 def index(request, authorname="DefaultAuthor", username =""):
 
-  author = get_author_by_name(authorname)
+  # author = get_author_by_name(authorname)
   user = get_user_by_name(username)
  
   
@@ -52,47 +54,71 @@ def index(request, authorname="DefaultAuthor", username =""):
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
-
+    if(data['type'] == 'claim'):
     #need to update listing as claimed
-    claimed_post = Posting.objects.filter(item_name = data['claimed_post'])
-    print("DEBUG: views post request, the claimed post is ", claimed_post)
+      claimed_post = Posting.objects.filter(item_name = data['claimed_post'])
+      print("DEBUG: views post request, the claimed post is ", claimed_post)
 
-    for object in claimed_post:
-      object.claimed = True
-      object.save()
-    #claimed_post.claimed = True
-    #claimed_post.save()
-    
-    print("DEBUG view post req, claimed = ", claimed_post[0].claimed)
-    #need to update user's claimed list 
-    print(user.claimed)
-    current_claimed = user.claimed
-    if current_claimed == None:
-      current_claimed = []
-    current_claimed.append(str(claimed_post[0].item_name))
-    user.claimed = current_claimed
-    user.save()
-    
+      for object in claimed_post:
+        object.claimed = True
+        object.save()
+      print("DEBUG view post req, claimed = ", claimed_post[0].claimed)
+      #need to update user's claimed list 
+      print(user.claimed)
+      current_claimed = user.claimed
+      if current_claimed == None:
+        current_claimed = []
+      current_claimed.append(str(claimed_post[0].item_name))
+      user.claimed = current_claimed
+      user.save()
+    if(data['type'] == 'save'):
+      bool_saved = data['bool_saved']
+      saved_post = Posting.objects.filter(item_name = data['saved_post'])
+      #need to update user's claimed list 
+        # add to saved
+      print(user.saved)
+      current_saved = user.saved
+      if(bool_saved == 'True'):
+        if current_saved == None:
+          current_saved = []
+        current_saved.append(str(saved_post[0].item_name))
+      if(bool_saved == 'False'):
+        if current_saved == None:
+          current_saved = []
+        else: 
+          current_saved.remove(str(saved_post[0].item_name))
+      user.saved = current_saved
+      user.save()
     return HttpResponse(True)
 
   else:  #GET Request
     all_postings = []
+    friend_postings = []
+    
     postings = Posting.objects.filter(active = True,claimed = False)
     for post in postings:
+      
       post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
-      all_postings.append(post_info)
+      if user.friends == None:
+        user.friends = []
+      if post.listing_user.username in user.friends:
+        friend_postings.append(post_info)
+      if post.listing_user.username != user.username:
+        all_postings.append(post_info)
     print(all_postings)
     if User.objects.filter(username = username).exists():
       data = {
         "user": user,
-        "all_postings": all_postings
+        "all_postings": all_postings,
+        "friend_postings": friend_postings
       }
     else:
       print("DEBUG: user doesnt yet exist")
       data = {
         "user": user,
         "friends": [],
-        "all_postings": all_postings
+        "all_postings": all_postings,
+        "friend_postings": friend_postings
       }
     
     return render(request, 'coloring/index.html', data)
@@ -229,6 +255,7 @@ def friends(request, username =""):
       }
      
     return render(request, 'coloring/friends.html', data)
+    
 @csrf_exempt
 def profile(request, username =""):
   user = get_user_by_name(username)
@@ -247,16 +274,24 @@ def profile(request, username =""):
         total_points = 0
       else:
         total_points = user.total
+        
+      if user.rating == None:
+        rating = 0
+      else:
+        rating = user.rating
       data = {
         "user": user,
         "friends": user.friends,
-        "points": total_points
+        "points": total_points,
+        "rating": rating
       }
     else:
       print("DEBUG: user doesnt yet exist")
       data = {
         "user": user,
-        "friends": []
+        "friends": [],
+        "points": total_points,
+        "rating": rating
       }
   
     return render(request, 'coloring/profile.html', data)
@@ -266,13 +301,35 @@ def profile(request, username =""):
 @csrf_exempt  
 def mylistings(request, username =""):
   user = get_user_by_name(username)
- 
   
   if request.POST: 
+    
     # POST request received
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
+    
+    if(data['type'] == 'save'):
+      bool_saved = data['bool_saved']
+      saved_post = Posting.objects.filter(item_name = data['saved_post'])
+      #need to update user's claimed list 
+        # add to saved
+      print(user.saved)
+      current_saved = user.saved
+      if(bool_saved == 'True'):
+        if current_saved == None:
+          current_saved = []
+        current_saved.append(str(saved_post[0].item_name))
+      if(bool_saved == 'False'):
+        if current_saved == None:
+          current_saved = []
+        else: 
+          current_saved.remove(str(saved_post[0].item_name))
+      user.saved = current_saved
+      user.save()
+    if(data['type']=='delete'):
+      delete_post = Posting.objects.get(item_name = data['delete_post'])
+      delete_post.delete()
     return HttpResponse(True)
 
   else:  #GET
@@ -280,6 +337,7 @@ def mylistings(request, username =""):
     my_pickup = []
     my_archive = []
     my_postings = Posting.objects.filter(listing_user=user)
+    # print("in get request in mylistings")
     for post in my_postings:
        post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
       #post_info = [post.item_name, post.description]
@@ -292,15 +350,15 @@ def mylistings(request, username =""):
        else: 
         # add to archive
         my_archive.append(post_info)
-    print("my acrhive!!!!!!!!!!!!", my_archive)
-    print("my curr!!!!!!!!!!!!!!", my_curr)
-    print("my pickup!!!!!!!!!!!!!!", my_pickup)
     if User.objects.filter(username = username).exists():
+      # print("this is my_curr")
+      # print(my_curr)
       data = {
         "user": user,
-        "my_archive": my_archive,
         "my_curr": my_curr,
-        "my_pickup": my_pickup
+        # "my_archive": my_archive,
+        # "my_curr": my_curr,
+        # "my_pickup": my_pickup
       }
     else:
       print("DEBUG: user doesnt yet exist")
@@ -340,7 +398,7 @@ def claimed(request, username =""):
       user.save()
       print("updated user claim list,", user.claimed)
       listing_user = pickedup_post[0].listing_user
-
+      
       if(listing_user.total == None):
         listing_user.total = 0
       listing_user.total = listing_user.total + 1 
@@ -348,6 +406,8 @@ def claimed(request, username =""):
     else: #type is rated
       # get listing user
       pickedup_post =Posting.objects.filter(item_name=data["rated_post"])
+      print("here")
+      print(pickedup_post)
       listing_user = pickedup_post[0].listing_user
       old_num = listing_user.rating_numer
       old_den = listing_user.rating_denom
@@ -359,6 +419,10 @@ def claimed(request, username =""):
       listing_user.rating = new_rating
       listing_user.rating_numer = this_num + old_num
       listing_user.rating_denom = old_den + 5
+      if listing_user.total_ratings == None:
+        listing_user.total_ratings = 1
+      else:
+        listing_user.total_ratings += 1
       listing_user.save()
       # add to their rating in data base
       print("in views registered as rated")
@@ -393,47 +457,146 @@ def claimed(request, username =""):
   
     return render(request, 'coloring/claimed.html', data)
 
-    
+@csrf_exempt
 def saved(request, username =""):
+  # author = get_author_by_name(authorname)
   user = get_user_by_name(username)
-
+  print("getting into def saved in views")
   if request.POST: 
+    print("getting into post in def saved");
+    # POST request received
     print("Received POST request with data:")
     data = json.loads(request.body.decode('UTF-8'))
     print(data)
+    if(data['type'] == 'claim'):
+    #need to update listing as claimed
+      claimed_post = Posting.objects.filter(item_name = data['claimed_post'])
+      print("DEBUG: views post request, the claimed post is ", claimed_post)
+
+      for object in claimed_post:
+        object.claimed = True
+        object.save()
+      print("DEBUG view post req, claimed = ", claimed_post[0].claimed)
+      #need to update user's claimed list 
+      print(user.claimed)
+      current_claimed = user.claimed
+      if current_claimed == None:
+        current_claimed = []
+      current_claimed.append(str(claimed_post[0].item_name))
+      user.claimed = current_claimed
+      user.save()
+    if(data['type'] == 'save'):
+      bool_saved = data['bool_saved']
+      saved_post = Posting.objects.filter(item_name = data['saved_post'])
+      #need to update user's claimed list 
+        # add to saved
+      print(user.saved)
+      current_saved = user.saved
+      if(bool_saved == 'True'):
+        if current_saved == None:
+          current_saved = []
+        current_saved.append(str(saved_post[0].item_name))
+      if(bool_saved == 'False'):
+        if current_saved == None:
+          current_saved = []
+        else: 
+          current_saved.remove(str(saved_post[0].item_name))
+      user.saved = current_saved
+      user.save()
     return HttpResponse(True)
-  else:
-    if User.objects.filter(username = username).exists():
+
+  else:  #GET Request
+    # print("getting inside get in def saved")
+    saved_postings = []
+    postings = Posting.objects.filter(active = True,claimed = False)
+    for post in postings:
       
+      post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
+      if user.saved == None:
+        user.saved = []
+      if post.item_name in user.saved:
+        saved_postings.append(post_info)
+    if User.objects.filter(username = username).exists():
       data = {
-        "user": user
+        "user": user,
+        "saved_postings": saved_postings
       }
     else:
       print("DEBUG: user doesnt yet exist")
       data = {
-        "user": user
+        "user": user,
+        "saved_postings": saved_postings
       }
-  
     return render(request, 'coloring/saved.html', data)
 
-def startchat(request, username="", listinguser=""):
-  if request.GET:
-    # Start a new chat between us and the new guy
-    data = json.loads(request.body.decode('UTF-8'))
-    chat_storage = None
-    if ChatStorage.objects.filter(user_one = username, user_two = listinguser).exists():
-      chat_storage = ChatStorage.objects.get(user_one = username, user_two = listinguser)
-    elif ChatStorage.objects.filter(user_one = listinguser, user_two = username).exists():
-      chat_storage = ChatStorage.objects.get(user_one = listinguser, user_two = username)
-    else:
-      chat_storage = ChatStorage(user_one = username, user_two = listinguser)
-      chat_storage.save()
+def listchats(request, username=""):
+  if request.method == 'GET':
 
-  data = {
+    data = {
+      "user": username,
+      "entries": []
+    }
+    
+    for storage in ChatStorage.objects.filter(Q(user_one=username) | Q(user_two=username)):
+      elt = {
+        "other_user": "",
+        "recent_msg": "",
+        "recent_msg_sender": "",
+      }
+      if storage.user_one == username:
+        elt["other_user"] = storage.user_two
+      else:
+        elt["other_user"] = storage.user_one
+
+      msgs = Message.objects.filter(chat_storage=storage).order_by("-id")
+      for msg in msgs:
+        elt["recent_msg"] = msg.text
+        elt["recent_msg_sender"] = msg.from_user
+        break
+      data["entries"].append(elt)
+      
+    data["entries"] = json.dumps(data["entries"]);
+
+    return render(request, 'coloring/chat-listing.html', data)
+
+      
+      
+
+
+def startchat(request, username="", listinguser=""):
+  print(request)
+  if request.method == 'GET':
+    # Start a new chat between us and the new guy
+    #data = json.loads(request.body.decode('UTF-8'))
+    # chat_storage = None
+    # if ChatStorage.objects.filter(user_one = username, user_two = listinguser).exists():
+    #   chat_storage = ChatStorage.objects.get(user_one = username, user_two = listinguser)
+    # elif ChatStorage.objects.filter(user_one = listinguser, user_two = username).exists():
+    #   chat_storage = ChatStorage.objects.get(user_one = listinguser, user_two = username)
+    # else:
+    #   chat_storage = ChatStorage(user_one = username, user_two = listinguser)
+    #   chat_storage.save()
+    user_one_temp = username if username > listinguser else listinguser
+    user_two_temp = listinguser if username > listinguser else username
+    messages = []
+    if ChatStorage.objects.filter(user_one = user_one_temp, user_two = user_two_temp).exists():
+      storage = ChatStorage.objects.get(user_one = user_one_temp, user_two = user_two_temp)
+      msgs = Message.objects.filter(chat_storage=storage)
+      for msg_o in msgs:
+        msg = {
+          "text": msg_o.text,
+          "from_user": msg_o.from_user,
+          "to_user": msg_o.to_user
+        }
+        messages.append(msg)
+
+    data = {
         "user": username,
         "listinguser": listinguser,
+        "messages": json.dumps(messages),
         "friends": [],
       }
-  print(listinguser)
-  return render(request, 'coloring/chat-index.html', data)
-  #return chatindex(request, username)
+    print(listinguser)
+    return render(request, 'coloring/chat-index.html', data)
+  return HttpResponse(True)
+

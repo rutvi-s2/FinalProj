@@ -76,7 +76,8 @@
           display: block;
           margin-left: auto;
           margin-right: auto;
-          width: 50%;
+          width: 10%;
+          height: 10%;
         }
         .checked {
           color: orange;
@@ -190,9 +191,10 @@
 
 <div class='top'>
   <div class="profile-pic">
-    <img src="/static/coloring/images/women-icon.png" alt="profilepic" style="width:200px" class="center">
+    <img src="/static/coloring/images/women-icon.png" alt="myprofile" id="myprofile" class="center">
   </div>
   <h4><center><span id="username">@{{ user.username }}</span></center></h4>
+  <h3><center><span id="stars"></span></center></h3>
   <h3><center id="location"></center></h3>
     <div class="impact-text">
   <center>My Impact</center>
@@ -230,74 +232,89 @@
           </button>
        
         </div>
+  <input type="file" id="photo">
+  <button onclick="uploadImage()">Upload Image</button>
 </div>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+  <script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBhBv4cn6h9N_i3k_t_qf67C04tc91cfiQ",
+    authDomain: "wastelesshci.firebaseapp.com",
+    databaseURL: "https://wastelesshci.firebaseio.com",
+    projectId: "wastelesshci",
+    storageBucket: "wastelesshci.appspot.com",
+    messagingSenderId: "968325271077",
+    appId: "1:968325271077:web:03675baee54762d81ff9cc"
+  };
 
-     
-<!--      Profile page begins here 
-      <nav style="background-color: #D3D3D3;">
-         <b>
-            <h id="subheading" style="margin:9px;">Profile</h>
-         </b>
-      </nav>
-<!--      <!-- testing location things
-      <h3><center>your impact!</center></h3>
-<!--       <h3><center>impact bar here</center></h3> 
-     
-     <p><button onclick="getLocation()">Get My Location</button></p>
-<p id="demo"></p>
-<script src="https://maps.google.com/maps/api/js?key=AIzaSyCotBuEQ9RiD3kJg6II8gpONO37vLJThqQ"></script>
-    <div class="impact-text">
-  <center>My Impact</center>
-</div>
-     <div id="myProgress">
-      <div id="myBar"></div>
-    </div>
-     <div class="impact-text">
-     <center>
-        {{ points }} points!
-       </center>
-     </div>
-      <img src="/static/coloring/images/profilepic.jpg" alt="profilepic" style="width:250px" class="center">
-     
-      <h4><center><span id="username">@{{ user.username }}</span></center></h4>
-     
-      <h5><center><img src="/static/coloring/images/location.png" alt="location" style="width:50px">Austin, Texas 78705</center></h5>
-     <button class="btn btn-large" style="background-color: #3e8369;" id="add">Edit Location</button>
-     
-    <div class="row">
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
-      <p>(31)</p>
-    </div>
-      <hr>
-      </hr>
-      
-        <div class="row" >
-          <button onclick="window.location.href='mylistings';" class="btn btn-primary btn-large" id="post" style="float: left; background-color:#EEEEEE;width:30%; ">
-            <h3 style="color:black;">My Listings </h3>
-          </button>
-          <button onclick="window.location.href='claimed';" class="btn btn-primary btn-large" id="post" style="float: right; background-color:#EEEEEE;width:30%; ">
-            <h3 style="color:black;">Claimed Listings </h3>
-          </button>
-        </div>
-      
-        <div class="row">
-          <button onclick="window.location.href='saved';" class="btn btn-primary btn-large" id="post" style="float: left; background-color:#EEEEEE;width:30%;">
-            <h3 style="color:black;">Saved Listings </h3>
-          </button>
+  // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    console.log(firebase);
+
+    function uploadImage() {
+      const ref = firebase.storage().ref();
+      const file = document.querySelector("#photo").files[0];
+      const name = "{{user.username}}";
+      // const name = new Date() + '-' + file.name;
+      const metadata = {
+        contentType:file.type
+      }
+      const task = ref.child(name).put(file, metadata);
+      task
+        .then(snapshot => snapshot.ref.getDownloadURL())
+    }
+</script>
+<script>
+ var storageRef = firebase.storage().ref();
+ var spaceRef = storageRef.child("{{user.username}}");
+ storageRef.child("{{user.username}}").getDownloadURL().then(function(url) {
+     var test = url;
+     document.getElementById("myprofile").src = test;
+    
+ }).catch(function(error) {
+
+ });
+
+</script>
+<script>
+const rating = {{rating}};
+
+
+console.log("the rating is", rating);
+function addStars(rating){
+  var total_stars = 0;
+  console.log(rating);
+  var elem = document.getElementById("stars");
+  
+  for(var i = rating; i > 0; i--){
+    console.log("i is", i);
+    var span = document.createElement("span");
+    if(i >= 1){
+    span.setAttribute('class', 'fa fa-star');
+    console.log('add full star');
+    total_stars += 1;
+    elem.append(span);
+    }
+    else if (i >= 0.5){
+      span.setAttribute('class', 'fas fa-star-half-alt');
+      console.log('add half star');
+      total_stars += 1;
+      elem.append(span);
+    
+  }
+  }
+  for(var i = 0; i < 5 - total_stars; i++){
+ 
+    var span = document.createElement("span");
+    span.setAttribute('class', 'far fa-star');
+    console.log('add empty star');
+    elem.append(span);
+  }
+  elem.append("(",{{user.total_ratings}},")");
+}
         
-      
-          <button onclick="window.location.href='../friends/';" class="btn btn-primary btn-large" id="post" style="float: right; background-color:#EEEEEE;width:30%; ">
-            <h3 style="color:black;">Friends </h3>
-          </button>
-        </div> -->
-
-              
-
-      <script>
         var x=document.getElementById("location");
         console.log("x", x);
           function getLocation(){
@@ -388,6 +405,7 @@ function move() {
          window.onload = function(){   
             move(); 
            getLocation();
+           addStars(rating);
          }
       </script>
    </body>

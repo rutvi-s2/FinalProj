@@ -13,6 +13,7 @@ class User(models.Model):
   rating_denom = models.IntegerField(default=0)
   rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
   total = models.IntegerField(null=True)
+  total_ratings = models.IntegerField(null=True)
   verified = models.BooleanField(default = False)
 
 class Posting(models.Model):
@@ -55,3 +56,5 @@ class Message(models.Model):
     on_delete=models.CASCADE,
   )
   text = models.CharField(max_length=1000)
+  from_user = models.CharField(max_length=40)
+  to_user = models.CharField(max_length=40)
