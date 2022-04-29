@@ -11,6 +11,7 @@ urlpatterns = [
   path('wasteless/<slug:username>/profile/', views.profile),
   path('wasteless/<slug:username>/', views.index),
   path('wasteless/<slug:username>/startchat/<slug:listinguser>/', views.startchat),
+  path('wasteless/<slug:username>/listchats/', views.listchats),
   # path('wasteless/', views.index),
   path('', views.index)
 ]

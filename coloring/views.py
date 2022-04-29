@@ -2,6 +2,7 @@ from django.shortcuts import render
 from coloring.models import *
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 import json
 
 def get_author_by_name(authorname): 
@@ -528,24 +529,74 @@ def saved(request, username =""):
       }
     return render(request, 'coloring/saved.html', data)
 
-def startchat(request, username="", listinguser=""):
-  if request.GET:
-    # Start a new chat between us and the new guy
-    data = json.loads(request.body.decode('UTF-8'))
-    chat_storage = None
-    if ChatStorage.objects.filter(user_one = username, user_two = listinguser).exists():
-      chat_storage = ChatStorage.objects.get(user_one = username, user_two = listinguser)
-    elif ChatStorage.objects.filter(user_one = listinguser, user_two = username).exists():
-      chat_storage = ChatStorage.objects.get(user_one = listinguser, user_two = username)
-    else:
-      chat_storage = ChatStorage(user_one = username, user_two = listinguser)
-      chat_storage.save()
+def listchats(request, username=""):
+  if request.method == 'GET':
 
-  data = {
+    data = {
+      "user": username,
+      "entries": []
+    }
+    
+    for storage in ChatStorage.objects.filter(Q(user_one=username) | Q(user_two=username)):
+      elt = {
+        "other_user": "",
+        "recent_msg": "",
+        "recent_msg_sender": "",
+      }
+      if storage.user_one == username:
+        elt["other_user"] = storage.user_two
+      else:
+        elt["other_user"] = storage.user_one
+
+      msgs = Message.objects.filter(chat_storage=storage).order_by("-id")
+      for msg in msgs:
+        elt["recent_msg"] = msg.text
+        elt["recent_msg_sender"] = msg.from_user
+        break
+      data["entries"].append(elt)
+      
+    data["entries"] = json.dumps(data["entries"]);
+
+    return render(request, 'coloring/chat-listing.html', data)
+
+      
+      
+
+
+def startchat(request, username="", listinguser=""):
+  print(request)
+  if request.method == 'GET':
+    # Start a new chat between us and the new guy
+    #data = json.loads(request.body.decode('UTF-8'))
+    # chat_storage = None
+    # if ChatStorage.objects.filter(user_one = username, user_two = listinguser).exists():
+    #   chat_storage = ChatStorage.objects.get(user_one = username, user_two = listinguser)
+    # elif ChatStorage.objects.filter(user_one = listinguser, user_two = username).exists():
+    #   chat_storage = ChatStorage.objects.get(user_one = listinguser, user_two = username)
+    # else:
+    #   chat_storage = ChatStorage(user_one = username, user_two = listinguser)
+    #   chat_storage.save()
+    user_one_temp = username if username > listinguser else listinguser
+    user_two_temp = listinguser if username > listinguser else username
+    messages = []
+    if ChatStorage.objects.filter(user_one = user_one_temp, user_two = user_two_temp).exists():
+      storage = ChatStorage.objects.get(user_one = user_one_temp, user_two = user_two_temp)
+      msgs = Message.objects.filter(chat_storage=storage)
+      for msg_o in msgs:
+        msg = {
+          "text": msg_o.text,
+          "from_user": msg_o.from_user,
+          "to_user": msg_o.to_user
+        }
+        messages.append(msg)
+
+    data = {
         "user": username,
         "listinguser": listinguser,
+        "messages": json.dumps(messages),
         "friends": [],
       }
-  print(listinguser)
-  return render(request, 'coloring/chat-index.html', data)
-  #return chatindex(request, username)
+    print(listinguser)
+    return render(request, 'coloring/chat-index.html', data)
+  return HttpResponse(True)
+
