@@ -2,6 +2,7 @@ from django.shortcuts import render
 from coloring.models import *
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 import json
 
 def get_author_by_name(authorname): 
@@ -415,6 +416,40 @@ def saved(request, username =""):
       }
   
     return render(request, 'coloring/saved.html', data)
+
+def listchats(request, username=""):
+  if request.method == 'GET':
+
+    data = {
+      "user": username,
+      "entries": []
+    }
+    
+    for storage in ChatStorage.objects.filter(Q(user_one=username) | Q(user_two=username)):
+      elt = {
+        "other_user": "",
+        "recent_msg": "",
+        "recent_msg_sender": "",
+      }
+      if storage.user_one == username:
+        elt["other_user"] = storage.user_two
+      else:
+        elt["other_user"] = storage.user_one
+
+      msgs = Message.objects.filter(chat_storage=storage).order_by("-id")
+      for msg in msgs:
+        elt["recent_msg"] = msg.text
+        elt["recent_msg_sender"] = msg.from_user
+        break
+      data["entries"].append(elt)
+      
+    data["entries"] = json.dumps(data["entries"]);
+
+    return render(request, 'coloring/chat-listing.html', data)
+
+      
+      
+
 
 def startchat(request, username="", listinguser=""):
   print(request)
