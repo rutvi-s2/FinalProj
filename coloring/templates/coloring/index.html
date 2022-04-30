@@ -531,7 +531,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">    
 </head>
 <span class='bi bi-bookmark-fill' style ="font-size: 40px; color: ${save_color}; text-shadow: 0 0 3px #000; position:absolute; right:5px; top:2px;" id="${num}" onclick="saveButton(this)"></span>
-<img src="{% static 'coloring/images/cookies-image.jpeg'%}"; id="food_image${num}" alt="food_image${num}">
+<img src="" id="food_image${num}" alt="food_image${num}">
   		<div class="card__details">
       <div id="all_tags">
   			<span class="${homemadetag}">${homemade}</span>
@@ -571,8 +571,7 @@
       document.getElementById(food_image).src = test;
         
      }).catch(function(error) {
-       console.log("error!!!!");
-       console.log(item_name);
+      document.getElementById(food_image).src = "{% static 'coloring/images/cookies-image.jpeg'%}";
      });
       all_cards.innerHTML += code;
     }
