@@ -389,7 +389,24 @@ def claimed(request, username =""):
       #remove from user's claimed list
       user.claimed.remove(unclaimed_post[0].item_name)
       user.save()
-    
+    if(data['type'] == 'save'):
+      bool_saved = data['bool_saved']
+      saved_post = Posting.objects.filter(item_name = data['saved_post'])
+      #need to update user's claimed list 
+        # add to saved
+      print(user.saved)
+      current_saved = user.saved
+      if(bool_saved == 'True'):
+        if current_saved == None:
+          current_saved = []
+        current_saved.append(str(saved_post[0].item_name))
+      if(bool_saved == 'False'):
+        if current_saved == None:
+          current_saved = []
+        else: 
+          current_saved.remove(str(saved_post[0].item_name))
+      user.saved = current_saved
+      user.save()
     if(data['type']=="pickedup"):
       print("in views registered as pickup")
       pickedup_post =Posting.objects.filter(item_name=data["pickup_post"])
