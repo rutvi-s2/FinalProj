@@ -443,7 +443,10 @@
          function populate_page(card_list){
     for (var i = 0; i < card_list.length; i++) {
       var post = card_list[i];
-    var item1 = [post[0], post[1], post[2], post[3], post[4]];
+      if(post[2] == "UN"){
+        post[2] = "Unit(s)"
+      }
+    var item1 = [post[0], post[1], post[2], post[3], post[4], post[10]];
     console.log(post[9]);
     if (post[5] == 'true') {
       item1.push("unopened");
