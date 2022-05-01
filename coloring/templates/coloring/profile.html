@@ -62,6 +62,7 @@
          -webkit-box-sizing: border-box;
          box-sizing: border-box;
          }
+        
          .checkbox-wrapper {
          white-space: nowrap
          }
@@ -118,6 +119,11 @@
   height: 65vh;
   background-color: rgb(221,210,192);
 }
+        .image-center{
+          display:flex;
+          align-item:center;
+          justify-content:center;
+        }
 
 .bottom {
   height: 35vh;
@@ -161,11 +167,37 @@
           background-color: #115c26; /* Green */
           color: white;
         }
+        /*         Stuff for pop up */
+         .Modal {
+         display: block;
+         position: fixed;
+         border: 5px solid #a9a9a9;
+         top:50%;
+         left:50%;
+         width:800px;  /* adjust as per your needs */
+         height:500px;   /* adjust as per your needs */
+         margin-left:-400px;   /* negative half of width above */
+         margin-top:-250px;   /* negative half of height above */
+         max-width: 800px;
+         z-index: 9999;
+         padding-top: 100px;
+         background-color: white;
+         -webkit-transition: 0.5s;
+         overflow: auto;
+         transition: all 0.3s linear;
+         }
+         .ModalOpen { overflow: hidden; }
+         .is-hidden { display: none; }
+         .is-visuallyHidden { opacity: 0; }
+         .is-blurred {
+         filter: blur(3px);
+         -webkit-filter: blur(3px);
+         }
       
       </style>
   
    <body>
-
+<div id=myContainer>
      <nav class="navbar navbar-expand-md navbar-light " style="background-color: #3e8369;">
  
     <div class="mx-auto order-0">
@@ -213,7 +245,9 @@
         {{ points }} points!
        </center>
      </div>
-  
+  <button class="fa fa-pencil" style="float:right;" id="edit" ">
+<!--             <h3 style="color:black;">Edit </h3> -->
+          </button>
 </div>
 <div class='bottom'>
           <div class="row" >
@@ -238,9 +272,17 @@
           </button>
        
         </div>
-  <input type="file" id="photo">
-  <button onclick="uploadImage()">Upload Image</button>
+  
 </div>
+  </div>
+     <!--      Start of popup stuff -->
+      <div id="myModal" class="Modal is-hidden is-visuallyHidden">
+         <h1 style = "text-align:center; padding-top:5%; padding-bottom:10%;">Update profile picture</h1>
+        <div class="image-center">
+         <input type="file" id="photo">
+  <button onclick="uploadImage()">Upload Image</button>
+        </div>
+      </div>
   <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
   <script>
@@ -270,6 +312,8 @@
       const task = ref.child(name).put(file, metadata);
       task
         .then(snapshot => snapshot.ref.getDownloadURL())
+      location.reload();
+      
     }
 </script>
 <script>
@@ -290,6 +334,11 @@ const rating = {{rating}};
 
 console.log("the rating is", rating);
 function addStars(rating){
+  var total_ratings = 0;
+  if(rating != 0){
+    total_ratings = {{user.rating_denom}};
+    total_ratings = total_ratings/5; 
+  }
   var total_stars = 0;
   console.log(rating);
   var elem = document.getElementById("stars");
@@ -318,7 +367,7 @@ function addStars(rating){
     console.log('add empty star');
     elem.append(span);
   }
-  elem.append("(",{{user.total_ratings}},")");
+  elem.append("(",total_ratings,")");
 }
         
         var x=document.getElementById("location");
@@ -411,7 +460,25 @@ function move() {
          window.onload = function(){   
             move(); 
            getLocation();
+           var rating = {{rating}};
+  console.log(rating);
            addStars(rating);
+           var modal = document.getElementById('myModal');
+         // Get the main container and the body
+         var body = document.getElementsByTagName('body');
+         var container = document.getElementById('myContainer');
+           // Get the open button
+         var btnOpen = document.getElementById("edit"); // CHANGE TO EDIT BUTTON
+         // Open the modal
+         btnOpen.onclick = function() {
+           console.log("acked as edit cllicked");
+         modal.className = "Modal is-visuallyHidden";
+         setTimeout(function() {
+         container.className = "MainContainer is-blurred";
+         modal.className = "Modal";
+         }, 100);
+         container.parentElement.className = "ModalOpen";
+         }
          }
       </script>
    </body>

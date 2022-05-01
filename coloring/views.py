@@ -286,6 +286,8 @@ def profile(request, username =""):
         "rating": rating
       }
     else:
+      if user.rating == None:
+        rating = 0
       print("DEBUG: user doesnt yet exist")
       data = {
         "user": user,
