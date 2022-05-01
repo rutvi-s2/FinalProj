@@ -91,9 +91,19 @@
   
   <script type="application/javascript">
     function create_chatbox(other_user, last_sender, msg) {
+      text = '<div class="card" style="display:inline-block; padding:10px; width:30vw; text-align:center;"><div><a href="/wasteless/{{user}}/startchat/' + other_user + '"></div><div><b>' + other_user + '</b></div></a>';
+      if (msg === "") {
+        text += "<i>No messages sent yet</i>";
+      } else {
+        text += '<span>' + (last_sender === other_user ? other_user : "You") + ': ' + msg +'</span>';
+      }
+      text += "</div>";
+      
+      
       var elt = $("<div>", {
         class: 'chat_preview',
-        append: '<a href="/wasteless/{{user}}/startchat/' + other_user + '"><span>(' + other_user + ')</span></a> <span>'+ msg +'</span></div>'
+        append: text,
+        style: 'text-align:center;'
       });
       elt.appendTo($("#chat_preview_list"));
 
