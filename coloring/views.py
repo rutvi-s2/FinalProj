@@ -470,7 +470,7 @@ def claimed(request, username =""):
       print("post is", post)
       new_post = post[0]
       print("new post is", new_post)
-      post_info = [new_post.item_name, new_post.qty, new_post.qty_units, new_post.description, new_post.listing_user.username, json.dumps(new_post.unopened), json.dumps(new_post.og_packaging), json.dumps(new_post.store_bought), json.dumps(new_post.homemade),json.dumps(new_post.listing_user.verified)]
+      post_info = [new_post.item_name, new_post.qty, new_post.qty_units, new_post.description, new_post.listing_user.username, json.dumps(new_post.unopened), json.dumps(new_post.og_packaging), json.dumps(new_post.store_bought), json.dumps(new_post.homemade),json.dumps(new_post.listing_user.verified),json.dumps(post.best_by, indent=4, sort_keys=True, default=str)]
       my_claimed.append(post_info)
       
       data = {
