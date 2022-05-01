@@ -425,6 +425,17 @@
       cursor: auto;
 
     }
+    .hiddenbutton{
+      padding: 15px;
+
+      background-color:white;
+      color:white;
+      cursor: auto;
+
+    }
+    .margin-buttons{
+      margin: 10 10 10 10;
+    }
   </style>
 
 </head>
@@ -483,14 +494,19 @@
   <!--      Start of popup stuff -->
   <div id="myModal" class="Modal is-hidden is-visuallyHidden">
     <h1 id="popupr" style="text-align:center; padding-top:5%;">Temp</h1>
-    <div id='wrapper' style='text-align: center;padding-top:12%;'>
-      <button onclick="window.location.href='';" class="btn btn-primary btn-large">
+   <div id='wrapper' style='text-align: center;padding-top:12%;'>
+     <button class="hiddenbutton"">
+       this button.....
+      </button>
+      <button onclick="window.location.href='';"  class="btn btn-primary btn-large margin-buttons">
         <h4>Continue browsing</h4>
       </button>
-      <button onclick="window.location.href='profile/claimed';" class="btn btn-primary btn-large">
+    
+      <button onclick="window.location.href='profile/claimed';"  class="btn btn-primary btn-large margin-buttons">
         <h4>View Claimed Listings</h4>
       </button>
-    </div>
+   </div>
+    
   </div>
 
 
