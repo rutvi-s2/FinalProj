@@ -98,7 +98,7 @@ def index(request, authorname="DefaultAuthor", username =""):
     postings = Posting.objects.filter(active = True,claimed = False)
     for post in postings:
       
-      post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
+      post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified), json.dumps(post.best_by, indent=4, sort_keys=True, default=str)]
       if user.friends == None:
         user.friends = []
       if post.listing_user.username in user.friends:
@@ -341,7 +341,7 @@ def mylistings(request, username =""):
     my_postings = Posting.objects.filter(listing_user=user)
     # print("in get request in mylistings")
     for post in my_postings:
-       post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
+       post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified),json.dumps(post.best_by, indent=4, sort_keys=True, default=str)]
       #post_info = [post.item_name, post.description]
        if(post.active == True):
         # add to my_curr or my_pickup
@@ -540,7 +540,7 @@ def saved(request, username =""):
     postings = Posting.objects.filter(active = True,claimed = False)
     for post in postings:
       
-      post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified)]
+      post_info = [post.item_name, post.qty, post.qty_units, post.description, post.listing_user.username, json.dumps(post.unopened), json.dumps(post.og_packaging), json.dumps(post.store_bought), json.dumps(post.homemade),json.dumps(post.listing_user.verified), json.dumps(post.best_by, indent=4, sort_keys=True, default=str)]
       if user.saved == None:
         user.saved = []
       if post.item_name in user.saved:
